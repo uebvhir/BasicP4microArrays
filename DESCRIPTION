@@ -1,6 +1,6 @@
 Package: BasicPipe4mArrays
 Type: Package
-Title: Functions to crete and run a basic microarray analysis pipeline
+Title: Functions to crete and run simple-to-complex microarray analysis pipeline
 Version: 0.1.1
 Author: Alex Sanchez, Josep Lluis Mosquera, Israel Ortega, Ferran Brianso, Ricardo Gonzalo, Mercedes Guerrero
 Maintainer: Alex Sanchez <alex.sanchez@vhir.org>
