@@ -1,0 +1,17 @@
+Package: BasicPipe4mArrays
+Type: Package
+Title: Functions to crete and run a basic microarray analysis pipeline
+Version: 0.1.1
+Author: Alex Sanchez, Josep Lluis Mosquera, Israel Ortega, Ferran Brianso, Ricardo Gonzalo, Mercedes Guerrero
+Maintainer: Alex Sanchez <alex.sanchez@vhir.org>
+Description: This package is intended to create and run microarray data analysis projects using a two steps approach: 
+    (1) The project is defined by setting an extensive set of parameters
+    (2) The project is run based on those parameters in a completely automatic way.
+Imports: affy, oligo, annotate, AnnotationDbi, GO.db, reactome.db, GOstats, gplots, rgl, SortableHTMLTables, VennDiagram, grDevices, grid, limma, stats, org.Hs.eg.db, BiocParallel
+License: GPL 2
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
