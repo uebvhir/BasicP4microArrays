@@ -176,7 +176,7 @@ KEGGEnrAn <- function(EntrezIDs,
 #' @importFrom GOstats hyperGTest
 #' @importFrom SortableHTMLTables sortable.html.table
 #' @importFrom DBI dbGetQuery
-#' @examples  
+#' @examples
 #' \dontrun{
 #' load("./ResultsDir/fit.Rda")
 #' wCont <- 1:3
@@ -191,12 +191,12 @@ KEGGEnrAn <- function(EntrezIDs,
 #' pval <- 0.05
 #' minNumGens <-0
 #' runMulticore <- 0
-#' 
-#' KEGGResult <- BasicP::KEGGAnalysis(fitMain = fit.main, whichContrasts = wCont, 
-#' comparison.Name = comparison.Name, outputDir = outputDir, anotPackage = orgPackage, 
-#' organisme = organisme, my.IDs = entrezTable, addGeneNames = addGeneNames, 
-#' fileOfLinks = linksFileName, cutoffMethod = cutoffMethod, 
-#' P.Value.cutoff = rep(0.05, length(wCont)), pval = pval,thrLogFC = 1, 
+#'
+#' KEGGResult <- BasicP::KEGGAnalysis(fitMain = fit.main, whichContrasts = wCont,
+#' comparison.Name = comparison.Name, outputDir = outputDir, anotPackage = orgPackage,
+#' organisme = organisme, my.IDs = entrezTable, addGeneNames = addGeneNames,
+#' fileOfLinks = linksFileName, cutoffMethod = cutoffMethod,
+#' P.Value.cutoff = rep(0.05, length(wCont)), pval = pval,thrLogFC = 1,
 #' minNumGens = minNumGens)
 #' }
 #' @export
@@ -216,7 +216,8 @@ KEGGAnalysis <- function(fitMain,
                          thrLogFC = NULL,
                          minNumGens = 0)
 {
-  stopifnot(require(old2db(anotPackage), character.only = TRUE))
+  ### ModAlba
+  # stopifnot(require(old2db(anotPackage), character.only = TRUE))
 
   categLabel <- "KEGG"
 

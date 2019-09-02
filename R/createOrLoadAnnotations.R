@@ -16,11 +16,12 @@ old2db <- function(anot){paste(anot, "db", sep = ".")}
 creaAnotFromChipPackage <- function (chipPackage, field="ENTREZ", cleanNAs=T,
                                      isControl= FALSE, ctlCode=NA, removeControls=FALSE)
 {
-  if (!require(old2db (chipPackage), character.only=T)){
-    stop(paste("Required annotation package", chipPackage," is missing"))
-  }else{
-    require(old2db (chipPackage), character.only=T) # No deu caldre
-  }
+  ### ModAlba
+  # if (!require(old2db (chipPackage), character.only=T)){
+  #   stop(paste("Required annotation package", chipPackage," is missing"))
+  # }else{
+  #   require(old2db (chipPackage), character.only=T) # No deu caldre
+  # }
   if (isControl){
     cleanNAs<- FALSE
     field <- "ACCNUM"
@@ -58,11 +59,12 @@ creaAnotFromPDPackage <- function (dbPackage, field, fieldName=NULL, cleanNAs=T,
                                    multipleIDsSymbol=" /// ", removeMultipleIDs=T,
                                    removeControls=TRUE)
 {
-  if (!require(dbPackage, character.only=T)){
-    stop(paste("Required Platfform design package", dbPackage," is missing"))
-  }else{
-    require(dbPackage, character.only=T) # No deu caldre
-  }
+  ### ModAlba
+  # if (!require(dbPackage, character.only=T)){
+  #   stop(paste("Required Platfform design package", dbPackage," is missing"))
+  # }else{
+  #   require(dbPackage, character.only=T) # No deu caldre
+  # }
   conn<- db(eval(parse(text=dbPackage)))
   fSetType <- dbGetQuery(conn,
                          paste("SELECT DISTINCT meta_fsetid as transcript_id, type_id",
@@ -111,7 +113,8 @@ creaAnotFromPDPackage <- function (dbPackage, field, fieldName=NULL, cleanNAs=T,
   myAnotTable <-geneNames
   names (myAnotTable)<-transcriptIds
 
-  stopifnot(require(gdata))
+  ### ModAlba
+  # stopifnot(require(gdata))
   for (i in 1:length(transcriptIds)){
     if (!is.na(geneNames[i])){
       l1<- strsplit(geneNames[i],"///")

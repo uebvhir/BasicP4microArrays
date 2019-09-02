@@ -262,7 +262,8 @@ GOAnalysis <- function(fitMain,
   {
     if (is.null(my.IDs))
     {
-      stopifnot(require(old2db (anotPackage), character.only=T))
+      ### ModAlba
+      # stopifnot(require(old2db (anotPackage), character.only=T))
       myenvirENTREZID <- eval(parse(text = paste(anotPackage, "ENTREZID", sep = "")))
       geneUniverse <- unlist(mget(unique( fitMain$genes[,1]), env = myenvirENTREZID, ifnotfound = NA))
     }else{
@@ -307,9 +308,10 @@ GOAnalysis <- function(fitMain,
         selectedEntrezIds.down <- unlist(my.IDs[gNames.down])
         selectedEntrezIds.down <- unique(selectedEntrezIds.down[selectedEntrezIds.down != "---"])
 
-      }else{
+      } else {
 
-        stopifnot(require(old2db (anotPackage), character.only=T))
+        ### ModAlba
+        # stopifnot(require(old2db (anotPackage), character.only=T))
 
         myenvirENTREZID <- eval(parse(text = paste(anotPackage, "ENTREZID", sep = "")))
 

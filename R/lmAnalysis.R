@@ -110,7 +110,8 @@ annotateTopTable2 <- function (topTab,
                                anotFilename = "annotations"
 )
 {
-  require("annotate",  character.only = TRUE)
+  ### ModAlba
+  # require("annotate",  character.only = TRUE)
   if (!is.null(topTab$ID)){
     gNames <- as.character(as.integer(topTab$ID))
   }else{
@@ -400,7 +401,8 @@ lmAnalysis <- function(exprs.filtered,
 
   if (use.dupCorr && (!is.null(block)))
   {
-    stopifnot(require(statmod))
+    ### ModAlba
+    # stopifnot(require(statmod))
 
     corfit <- duplicateCorrelation(exprs.filtered, ndups = nDups, block = blocs, design = design)
     fit < -lmFit(exprs.filtered, design = design, block = blocs, cor = corfit$consensus)
@@ -415,7 +417,8 @@ lmAnalysis <- function(exprs.filtered,
 
   numGenesChanged <- genesSelected(NULL)
   if ( (is.null(ENTREZIDs)) & (!is.null(anotPackage))){
-    stopifnot(require(old2db (anotPackage), character.only = T))
+    ### ModAlba
+    # stopifnot(require(old2db (anotPackage), character.only = T))
     envirName <- paste(anotPackage, "ENTREZID", sep = "")
     myenvirENTREZID <- eval(parse(text = envirName))
     ENTREZIDs <- unlist(AnnotationDbi::mget(rownames(exprs.filtered), myenvirENTREZID, ifnotfound = NA))
@@ -423,7 +426,8 @@ lmAnalysis <- function(exprs.filtered,
 
   if ( (is.null(SYMBOLIDs))  & (!is.null(anotPackage)))
   {
-    stopifnot(require(old2db (anotPackage), character.only = T))
+    ### ModAlba
+    # stopifnot(require(old2db (anotPackage), character.only = T))
     myenvirSYMBOL <- eval(parse(text = paste(anotPackage, "SYMBOL", sep = "")))
     SYMBOLIDs <- unlist(AnnotationDbi::mget(rownames(exprs.filtered), env = myenvirSYMBOL, ifnotfound = NA))
   }

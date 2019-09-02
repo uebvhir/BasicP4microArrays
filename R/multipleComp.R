@@ -195,7 +195,8 @@ multipleComp <- function(fitMain,
       }else{
         if (!is.null(anotPackage))
         {
-          stopifnot(require(old2db(anotPackage), character.only = T))
+          ### ModAlba
+          # stopifnot(require(old2db(anotPackage), character.only = T))
           myenvirSYMBOL <- eval(parse(text = paste(anotPackage, "SYMBOL", sep = "")))
           symbols.selected <- unlist(mget(rownames(res.selected), env = myenvirSYMBOL, ifnotfound = NA))
           res.selected2 <- cbind(SYMBOLS=symbols.selected, res.selected)

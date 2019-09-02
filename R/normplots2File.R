@@ -1,7 +1,8 @@
 ##########################################################################
 plotPCA2D <- function(my.data, pc.importance, my.names, my.colors, comp = c(1, 2), posText = 4)
 {
-  stopifnot(require(rgl))
+  ### ModAlba
+  # stopifnot(require(rgl))
 
   scores <- my.data$x
   rownames(scores) <- my.names
@@ -29,7 +30,8 @@ plotPCA2D <- function(my.data, pc.importance, my.names, my.colors, comp = c(1, 2
 ##########################################################################
 plotPCA3D <- function(my.data, pc.importance, my.names, my.colors, comp=c(1, 2, 3))
 {
-  stopifnot(require(rgl))
+  ### ModAlba
+  # stopifnot(require(rgl))
 
   scores <- my.data$x
   rownames(scores) <- my.names
