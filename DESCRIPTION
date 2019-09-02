@@ -8,7 +8,7 @@ Description: This package is intended to create and run microarray data analysis
     (1) The project is defined by setting an extensive set of parameters
     (2) The project is run based on those parameters in a completely automatic way.
 Imports: affy, oligo, annotate, AnnotationDbi, GO.db, reactome.db, GOstats, gplots, rgl, SortableHTMLTables, VennDiagram, grDevices, grid, limma, stats, org.Hs.eg.db, BiocParallel
-License: GPL 2
+License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
