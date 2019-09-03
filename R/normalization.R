@@ -3,7 +3,7 @@ normalitza <- function(my.data, method) {
   switch(method,
          RMA =  affy::rma(my.data),                # S'hauria de canviar per 'oligo::rma'
          GCRMA = gcrma(my.data),
-         MAS5 = mas5 (my.data))
+         MAS5 = mas5(my.data))
 }
 ###########################################################
 #' normalization

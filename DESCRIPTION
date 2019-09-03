@@ -2,12 +2,12 @@ Package: BasicP4microArrays
 Type: Package
 Title: Functions to create and run simple-to-complex microarray analysis pipeline
 Version: 0.1.1
-Author: Alex Sanchez, Josep Lluis Mosquera, Israel Ortega, Ferran Brianso, Ricardo Gonzalo, Mercedes Guerrero
+Author: Alex Sanchez, Josep Lluis Mosquera, Israel Ortega, Ferran Brianso, Ricardo Gonzalo, Mercedes Guerrero, Alba Serrano
 Maintainer: Alex Sanchez <alex.sanchez@vhir.org>
 Description: This package is intended to create and run microarray data analysis projects using a two steps approach: 
     (1) The project is defined by setting an extensive set of parameters
     (2) The project is run based on those parameters in a completely automatic way.
-Imports: affy, oligo, annotate, AnnotationDbi, GO.db, reactome.db, GOstats, gplots, rgl, SortableHTMLTables, VennDiagram, grDevices, grid, limma, stats, org.Hs.eg.db, BiocParallel
+Imports: affy, oligo, annotate, Biobase, AnnotationDbi, oligoClasses, utils, gcrma, graphics, methods, links2File, dendextend, GO.db, reactome.db, GOstats, gplots, rgl, SortableHTMLTables, VennDiagram, DBI, grDevices, grid, limma, stats, org.Hs.eg.db, parallel, BiocParallel
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true

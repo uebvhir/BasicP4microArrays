@@ -23,12 +23,12 @@ creaAnotFromChipPackage <- function (chipPackage, field = "ENTREZ", cleanNAs = T
   # }                                                                         ### ModAlba
 
   if(isControl) {
-    cleanNAs<- FALSE
+    cleanNAs <- FALSE
     field <- "ACCNUM"
   }
 
   name2extract <- paste0(chipPackage, field)
-  x<- eval(parse(text = name2extract))
+  x <- eval(parse(text = name2extract))
   myAnot <- toTable(x) # Aqui hauria de venir un control d'error
   # per si se li ha donat el nom malament
   myAnotTable <- myAnot[, 2]

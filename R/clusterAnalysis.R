@@ -10,7 +10,8 @@ plotClust <- function(mydata, ind.cut, i, scal = FALSE, ...)
   usr <- par("usr")
   rect(usr[1], usr[3], usr[2], usr[4], border = "black")
   axis(2, las = 2, cex.axis = 0.7)
-  axis(1, at = 1:my.col, lab = colnames(mydata), las = 2, cex.axis = 0.5)
+  # axis(1, at = 1:my.col, lab = colnames(mydata), las = 2, cex.axis = 0.5)     ### ModAlba
+  axis(1, at = 1:my.col, labels = colnames(mydata), las = 2, cex.axis = 0.5)    ### ModAlba
 }
 ########################################################
 write2csv <- function(my.data, fileName, csv = c("csv2", "csv", "txt", "xls"), outputDir) {
