@@ -23,13 +23,13 @@ loadFromFile <- function(fileName, pos = 1) {
 #' minLogFoldChange <- c(1, 1)
 #' for(i in 1:length(compName))
 #' {
+#'   pvalType <- ifelse(adjMethod[i] == "none", "p-values", "adj. p-values")
 #'   mci <- list(fitMain = fitMain,
 #'               fitFileName = fitFileName,
 #'               whichContrasts = wCont[[i]],
 #'               comparisonName = compName[i],
-#'               titleText = paste("for",ifelse(adjMethod[i]=="none",
-#'                                              "p-values","adj. p-values"), "<", pValCutOff[i], "and |logFC| >",
-#'                                 minLogFoldChange[i], sep = " "),
+#'               titleText = paste("for", pvalType, "<", pValCutOff[i],
+#'                                 "and |logFC| >", minLogFoldChange[i]),
 #'               anotPackage = "org.Hs.eg",
 #'               my.symbols = symbolsTable,
 #'               outputDir = outputDir,
@@ -40,11 +40,10 @@ loadFromFile <- function(fileName, pos = 1) {
 #'               P.Value.cutoff = pValCutOff[i],
 #'               plotVenn = TRUE,
 #'               colsVenn = NULL,
-#'               vennColors= c("red","yellow","green","blue","pink"),
+#'               vennColors= c("red", "yellow", "green", "blue", "pink"),
 #'               cexVenn = 1,
-#'               geneListFName = paste("geneList",compName[i],
-#'                                     ifelse(adjMethod[i]=="none","pvalues","adj-pvalues"),
-#'                                     "LT",pValCutOff[i],"Rda",sep = "."),
+#'               geneListFName = paste("geneList", compName[i], pvalType,
+#'                                     "LT", pValCutOff[i], "Rda", sep = "."),
 #'               minLogFC = minLogFoldChange[i],
 #'               csvType = csvType)
 #'

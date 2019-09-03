@@ -150,13 +150,20 @@ plotVennDiagram <- function(res.selected,
 #' adjMethod <- c("none")
 #' minLogFoldChange <- c(1)
 #' load("./ResultsDir/Symbols.Rda")
-#' titleText = paste("for", ifelse(adjMethod=="none","p-values","adj. p-values"), "<", pValCutOff, "and |logFC| >", minLogFoldChange, sep = " ")
-#' geneListFName = paste("geneList",compName,ifelse(adjMethod=="none","pvalues","adj-pvalues"),"LT",pValCutOff,"Rda",sep = ".")
+#' pvalType <- ifelse(adjMethod == "none", "p-values", "adj. p-values")
+#' titleText <- paste("for", pvalType, "<", pValCutOff, "and |logFC| >", minLogFoldChange)
+#' geneListFName <- paste("geneList", compName, pvalType ,"LT", pValCutOff, "Rda", sep = ".")
 #'
-#' geneList <-  BasicP::multipleComp(fitMain = fitMain, whichContrasts = wCont, comparisonName = compName, titleText = titleText,
-#' outputDir = outputDir,  anotPackage = "org.Hs.eg", my.symbols = symbolsTable, linksFile = linksFile, multCompMethod = "separate",
-#' adjustMethod = adjMethod, selectionType = "any", P.Value.cutoff = pValCutOff, plotVenn = TRUE, colsVenn = NULL,
-#' vennColors = c("red","yellow","green","blue","pink") , cexVenn = 1, geneListFName=geneListFName, csvType=csvType, minLFC=minLogFoldChange)
+#' geneList <- BasicP::multipleComp(fitMain = fitMain, whichContrasts = wCont,
+#'                                  comparisonName = compName, titleText = titleText,
+#'                                  outputDir = outputDir, anotPackage = "org.Hs.eg",
+#'                                  my.symbols = symbolsTable, linksFile = linksFile,
+#'                                  multCompMethod = "separate",
+#'                                  adjustMethod = adjMethod, selectionType = "any",
+#'                                  P.Value.cutoff = pValCutOff, plotVenn = TRUE, colsVenn = NULL,
+#'                                  vennColors = c("red", "yellow", "green", "blue", "pink"),
+#'                                  cexVenn = 1, geneListFName = geneListFName, csvType = csvType,
+#'                                  minLFC = minLogFoldChange)
 #' }
 #' @export
 

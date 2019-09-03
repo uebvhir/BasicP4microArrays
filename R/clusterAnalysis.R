@@ -54,35 +54,39 @@ write2csv <- function(my.data, fileName, csv = c("csv2", "csv", "txt", "xls"), o
 #' @importFrom links2File addToLinksFile
 #' @examples
 #'  \dontrun{
-#' s2clust <-  which(as.logical(apply(design[,as.logical(apply(abs(as.matrix(cont.matrix[,wCont[[i]]])),1,sum))],1,sum)))
-#' geneListFName = paste("geneList",  compName[i],     ifelse(adjMethod[i]=="none","pvalues","adj-pvalues"), "LT", pValCutOff[i], "Rda", sep = ".")
-#' pal <- colorpanel(n = 32, low = "green", mid = "white", high = "magenta")
-#' load("./ResultsDir/geneList.Group1.pvalues.LT.0.01.Rda")
-#' clust <- BasicP::clusterAnalysis(expres = exprs.filtered,
-#'                                  genes = geneList,
-#'                                  samples = s2clust,
-#'                                  sampleNames =       as.character(targets$ShortName)[s2clust],
-#'                                  comparisonName = "Compar 1",
-#'                                  anotPackage = "org.Hs.eg",
-#'                                  my.symbols = symbolsTable,
-#'                                 outputDir = outputDir,
-#'                                  fileOfLinks = linksFile,
-#'                                  numClusters = 2,
-#'                                  rowDistance = NULL,
-#'                                  colDistance = NULL,
-#'                                  RowVals = TRUE,
-#'                                  ColVals = FALSE,
-#'                                  escala = "row",
-#'                                  colorsSet = pal,
-#'                                  densityInfo = "density",
-#'                                  colsForGroups =    c("pink","pink","pink","pink","pink","blue","blue","blue","blue","blue"),
-#'                                  cexForColumns = 0.8,
-#'                                  cexForRows = 0.8,
-#'                                  Title = paste("Compar 1 with",
-#'                                                ifelse(adjMethod[i]=="none","pvalues","adj-pvalues"),
-#'                                                "<",
-#'                                                pValCutOff[i], ifelse(minLogFoldChange[i]==0, "", paste("\n and |logFC|>=", minLogFoldChange[i], sep=""))),
-#'                                  csvType = "csv2")
+#' for(i in 1:length(compName)) {
+#'  matrices <- as.logical(apply(abs(as.matrix(cont.matrix[, wCont[[i]]])), 1, sum))
+#'  s2clust <-  which(as.logical(apply(design[, matrices], 1, sum)))
+#'  pvalType <- ifelse(adjMethod[i] == "none", "pvalues", "adj-pvalues")
+#'  geneListFName <- paste("geneList", compName[i], pvalType, "LT", pValCutOff[i], "Rda", sep = ".")
+#'  pal <- colorpanel(n = 32, low = "green", mid = "white", high = "magenta")
+#'  load("./ResultsDir/geneList.Group1.pvalues.LT.0.01.Rda")
+#'  clust <- BasicP::clusterAnalysis(expres = exprs.filtered,
+#'                                   genes = geneList,
+#'                                   samples = s2clust,
+#'                                   sampleNames = as.character(targets$ShortName)[s2clust],
+#'                                   comparisonName = "Compar 1",
+#'                                   anotPackage = "org.Hs.eg",
+#'                                   my.symbols = symbolsTable,
+#'                                  outputDir = outputDir,
+#'                                   fileOfLinks = linksFile,
+#'                                   numClusters = 2,
+#'                                   rowDistance = NULL,
+#'                                   colDistance = NULL,
+#'                                   RowVals = TRUE,
+#'                                   ColVals = FALSE,
+#'                                   escala = "row",
+#'                                   colorsSet = pal,
+#'                                   densityInfo = "density",
+#'                                   colsForGroups = c(rep("pink", 5), rep("blue", 5)),
+#'                                   cexForColumns = 0.8,
+#'                                   cexForRows = 0.8,
+#'                                   Title = paste("Compar 1 with", pvalType, "<", pValCutOff[i],
+#'                                                 ifelse(minLogFoldChange[i] == 0, "",
+#'                                                        paste0("\n and |logFC|>=",
+#'                                                               minLogFoldChange[i]))),
+#'                                   csvType = "csv2")
+#' }
 #'}
 #' @export
 

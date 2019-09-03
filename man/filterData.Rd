@@ -36,6 +36,8 @@ filterData(expres, controls = NULL, removeNAs = FALSE,
 
 \item{varFun.Name}{????????}
 
+\item{varThr.as.perc}{Threshold variability as percentage}
+
 \item{pairingFun.Name}{Name of the function to be imported to pair data}
 
 \item{targets}{Name of the targets file.}
@@ -55,8 +57,8 @@ Function that filter data and create a report file.
 \examples{
 \dontrun{
 load("./ResultsDir/normalizedData.Rda")
-repes <- duplicated(exprs(my.norm), MARGIN=1)
-exprs(my.norm) <- exprs(my.norm)[!repes,]
+repes <- duplicated(exprs(my.norm), MARGIN = 1)
+exprs(my.norm) <- exprs(my.norm)[!repes, ]
 eset_norm <- my.norm
 load("./ResultsDir/controls.Rda")
 removeNAs <- TRUE
@@ -66,7 +68,7 @@ SignalFilter <- TRUE
 signalThreshold <- 50
 signalFilter.Function <- "filt.by.Signal"
 signalThreshold.as.percentage <- TRUE
-VarFilter <- TRUE 
+VarFilter <- TRUE
 variabilityThreshold <- 50
 variability.Function <- "sdf"
 variabilityThreshold.as.percentage <- TRUE
@@ -75,11 +77,17 @@ my.targets <-read.AnnotatedDataFrame("./celfiles/targets.txt", header = TRUE, ro
 doReport <- TRUE
 outputDir <- "./ResultsDir"
 FilteringReportFileName <- "FilteringReport.txt"
-exprs.filtered <- filterData(expres = exprs(eset_norm),controls = names(controlsTable),
-removeNAs = TRUE, entrezs = entrezs ,bySignal = SignalFilter,signalThr = signalThreshold,
-grups = pData(eset_norm)$grupo, sigFun.Name = signalFilter.Function, 
-sigThr.as.perc = signalThreshold.as.percentage, byVar = VarFilter, variabilityThr = variabilityThreshold,
-varFun.Name = variability.Function, varThr.as.perc = variabilityThreshold.as.percentage,
-pairingFun.Name = pairing.Function, targets = my.targets, doReport = doReport, outputDir = outputDir, 
-filteringReportFName = FilteringReportFileName)}
+
+exprs.filtered <- filterData(expres = exprs(eset_norm) ,controls = names(controlsTable),
+                             removeNAs = TRUE, entrezs = entrezs, bySignal = SignalFilter,
+                             signalThr = signalThreshold, grups = pData(eset_norm)$grupo,
+                             sigFun.Name = signalFilter.Function,
+                             sigThr.as.perc = signalThreshold.as.percentage, byVar = VarFilter,
+                             variabilityThr = variabilityThreshold,
+                             varFun.Name = variability.Function,
+                             varThr.as.perc = variabilityThreshold.as.percentage,
+                             pairingFun.Name = pairing.Function,
+                             targets = my.targets, doReport = doReport, outputDir = outputDir,
+                             filteringReportFName = FilteringReportFileName)
+}
 }

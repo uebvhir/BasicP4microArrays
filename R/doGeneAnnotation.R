@@ -14,18 +14,20 @@ loadFromFile <- function(fileName, pos = 1) {
 #'
 #' Function that annotates a data set.
 #'
-#' @param anotList List object that contains the parameters needed to carry out the analysis.
+#' @param AnotList List object that contains the parameters needed to carry out the analysis.
 #' @export
 #' @examples
 #' \dontrun{
-#' organisme = "hsa"
-#' anotList <- list(fitMain = NULL, fitFileName = fitFileName, my.IDs = "entrezTable",
-#' anotPackage = "org.Hs.eg", toHTML = TRUE, outputDir = outputDir, anotFilename = "Annotations",
-#' titleAnotations = "Annotations for all genes analyzed", specie = "homo sapiens",
-#' info2show = c( "Affymetrix", "EntrezGene", "GeneSymbol", "GeneName", "KEGG", "GO"),
-#' linksFile = linksFile, numGenesPerPage = NULL)
+#' organisme <- "hsa"
+#' AnotList <- list(fitMain = NULL, fitFileName = fitFileName, my.IDs = "entrezTable",
+#'                  anotPackage = "org.Hs.eg", toHTML = TRUE, outputDir = outputDir,
+#'                  anotFilename = "Annotations",
+#'                  titleAnotations = "Annotations for all genes analyzed", specie = "homo sapiens",
+#'                  info2show = c("Affymetrix", "EntrezGene", "GeneSymbol",
+#'                                "GeneName", "KEGG", "GO"),
+#'                  linksFile = linksFile, numGenesPerPage = NULL)
 #'
-#' BasicP::doGeneAnnotation(anotList)}
+#' BasicP::doGeneAnnotation(AnotList)}
 
 doGeneAnnotation <- function(AnotList) {
   p <- AnotList

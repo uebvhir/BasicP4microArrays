@@ -16,23 +16,22 @@ KEGGResult
 Function to interate with KEGGAnalysis
 }
 \examples{
- 
 \dontrun{
 KEGGParsList <- list()
 KEGGPar <- list(fitFileName = "fit.Rda",
                whichContrasts = 1:3,
                 comparisonName = "Estudi",
                 outputDir = "./ResultsDir",
-                anotPackage = "org.Hs.eg", 
-                organisme = "mmu",    
+                anotPackage = "org.Hs.eg",
+                organisme = "mmu",
                 my.IDs = "entrezTable",
                 addGeneNames = TRUE,
                 fileOfLinks = linksFileName,
                 fitMain = NULL,
                 cutoffMethod = "unadjusted",
-                P.Value.cutoff = rep(0.01, length(wCont)), 
-                pvalKEGGterms = 0.05, 
-                minNumGens = 0) 
+                P.Value.cutoff = rep(0.01, length(wCont)),
+                pvalKEGGterms = 0.05,
+                minNumGens = 0)
 
 KEGGParsList <- add2parsList (KEGGParsList, KEGGPar)
 

@@ -34,16 +34,18 @@ midSinonims <- function(my.IDs) {
 #'
 #'Function to interate with GOAnalysis
 #'
-#'@param GOParsList List object that contains the parameters needed to carry out the analysis.
+#'@param GOPar List object that contains the parameters needed to carry out the analysis.
 #'@return GOResult
 #'@examples
 #' \dontrun{
 #' GOResult<-BasicP::GOAnalysis(fitMain = fitMain, whichContrasts = wCont,
-#' comparison.Name = "Estudi", outputDir = outputDir, anotPackage = "org.Hs.eg",
-#' my.IDs = entrezTable, addGeneNames = TRUE, fileOfLinks = linksFile, thrLogFC = 1,
-#' cutoffMethod = "adjusted", P.Value.cutoff = rep(0.05, length(wCont)), pval = 0.01,
-#' min.count = 3, ontologias = c("MF", "BP", "CC"), testDirections = c("over", "under"),
-#' minNumGens = 0)
+#'                              comparison.Name = "Estudi", outputDir = outputDir,
+#'                              anotPackage = "org.Hs.eg", my.IDs = entrezTable,
+#'                              addGeneNames = TRUE, fileOfLinks = linksFile, thrLogFC = 1,
+#'                              cutoffMethod = "adjusted",
+#'                              P.Value.cutoff = rep(0.05, length(wCont)), pval = 0.01,
+#'                              min.count = 3, ontologias = c("MF", "BP", "CC"),
+#'                              testDirections = c("over", "under"), minNumGens = 0)
 #'}
 #'@export
 

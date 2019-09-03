@@ -19,9 +19,11 @@ loadFromFile <- function (fileName, pos = 1) {
 #' clustParsList <- list()
 #' for(i in 1:length(compName))
 #' {
+#'   pvalType <- ifelse(adjMethod[i] == "none", "pvalues", "adj-pvalues")
 #'   clustPar <- list(expres = NULL,
 #'                    expresFileName = "exprs.filtered.Rda",
-#'                    geneListFName = paste("geneList",  compName[i],     ifelse(adjMethod[i]=="none","pvalues","adj-pvalues"), "LT", pValCutOff[i], "Rda", sep = "."),
+#'                    geneListFName = paste("geneList",  compName[i],
+#'                                          pvalType, "LT", pValCutOff[i], "Rda", sep = "."),
 #'                    genes2cluster = NULL,
 #'                    samples2cluster = s2clust,
 #'                    sampleNames = as.character(targets$ShortName)[s2clust],
@@ -38,15 +40,16 @@ loadFromFile <- function (fileName, pos = 1) {
 #'                    escala = "row",
 #'                    colorsSet = pal,
 #'                    densityInfo = "density",
-#'                    colsForGroups = c("pink","pink","pink","pink","pink","blue","blue","blue","blue","blue"),
+#'                    colsForGroups = c(rep("pink", 5), rep("blue", 5)),
 #'                    cexForColumns = 0.8,
 #'                    cexForRows = 0.8,
 #'                    Title = paste(compName[i],
 #'                                  "with",
-#'                                  ifelse(adjMethod[i]=="none","pvalues","adj-pvalues"),
-#'                                  "<",
-#'                                  pValCutOff[i], ifelse(minLogFoldChange[i]==0, "", paste("\n and |logFC|>=", minLogFoldChange[i], sep=""))),
-#'                    paste("Comparison:", compName[i], sep=" "),
+#'                                  ifelse(adjMethod[i] == "none", "pvalues", "adj-pvalues"),
+#'                                  "<", pValCutOff[i],
+#'                                  ifelse(minLogFoldChange[i]==0, "",
+#'                                         paste0("\n and |logFC|>=", minLogFoldChange[i]))),
+#'                    paste("Comparison:", compName[i]),
 #'                    csvType = csvType)
 #'
 #'   clustParsList <- add2parsList(clustParsList, clustPar)

@@ -85,6 +85,7 @@ filteringReport <- function(n.exprs = c(NA, NA),
 #' @param byVar If TRUE the data is filtered by ?????
 #' @param variabilityThr Threshold for filter the data.
 #' @param varFun.Name ????????
+#' @param varThr.as.perc Threshold variability as percentage
 #' @param pairingFun.Name Name of the function to be imported to pair data
 #' @param targets Name of the targets file.
 #' @param doReport If TRUE a report is created.
@@ -94,8 +95,8 @@ filteringReport <- function(n.exprs = c(NA, NA),
 #' @examples
 #' \dontrun{
 #' load("./ResultsDir/normalizedData.Rda")
-#' repes <- duplicated(exprs(my.norm), MARGIN=1)
-#' exprs(my.norm) <- exprs(my.norm)[!repes,]
+#' repes <- duplicated(exprs(my.norm), MARGIN = 1)
+#' exprs(my.norm) <- exprs(my.norm)[!repes, ]
 #' eset_norm <- my.norm
 #' load("./ResultsDir/controls.Rda")
 #' removeNAs <- TRUE
@@ -114,14 +115,19 @@ filteringReport <- function(n.exprs = c(NA, NA),
 #' doReport <- TRUE
 #' outputDir <- "./ResultsDir"
 #' FilteringReportFileName <- "FilteringReport.txt"
-
-#' exprs.filtered <- filterData(expres = exprs(eset_norm),controls = names(controlsTable),
-#' removeNAs = TRUE, entrezs = entrezs ,bySignal = SignalFilter,signalThr = signalThreshold,
-#' grups = pData(eset_norm)$grupo, sigFun.Name = signalFilter.Function,
-#' sigThr.as.perc = signalThreshold.as.percentage, byVar = VarFilter, variabilityThr = variabilityThreshold,
-#' varFun.Name = variability.Function, varThr.as.perc = variabilityThreshold.as.percentage,
-#' pairingFun.Name = pairing.Function, targets = my.targets, doReport = doReport, outputDir = outputDir,
-#' filteringReportFName = FilteringReportFileName)}
+#'
+#' exprs.filtered <- filterData(expres = exprs(eset_norm) ,controls = names(controlsTable),
+#'                              removeNAs = TRUE, entrezs = entrezs, bySignal = SignalFilter,
+#'                              signalThr = signalThreshold, grups = pData(eset_norm)$grupo,
+#'                              sigFun.Name = signalFilter.Function,
+#'                              sigThr.as.perc = signalThreshold.as.percentage, byVar = VarFilter,
+#'                              variabilityThr = variabilityThreshold,
+#'                              varFun.Name = variability.Function,
+#'                              varThr.as.perc = variabilityThreshold.as.percentage,
+#'                              pairingFun.Name = pairing.Function,
+#'                              targets = my.targets, doReport = doReport, outputDir = outputDir,
+#'                              filteringReportFName = FilteringReportFileName)
+#'}
 #' @export
 
 filterData <- function(expres,

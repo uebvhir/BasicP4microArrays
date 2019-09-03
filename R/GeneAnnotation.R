@@ -104,10 +104,13 @@ translateIDs <- function(geneIDs,
 #' \dontrun{
 #' genes2annotate <- entrezs[unique(rownames(fitMain$p.value))]
 #' genesAnnotated <-BasicP::GeneAnnotation(egIDs = genes2annotate, anotPackage = "org.Hs.eg",
-#' toHTML = TRUE, outputDir = outputDir, filename = "Annotations",
-#' myTitle = "Annotations for all genes analyzed", specie = "homo sapiens",
-#' info2show = c( "Affymetrix", "EntrezGene", "GeneSymbol", "GeneName", "KEGG", "GO"),
-#' linksFile = linksFile, maxGenes = NULL)
+#'                                         toHTML = TRUE, outputDir = outputDir,
+#'                                         filename = "Annotations",
+#'                                         myTitle = "Annotations for all genes analyzed",
+#'                                         specie = "homo sapiens",
+#'                                         info2show = c("Affymetrix", "EntrezGene", "GeneSymbol",
+#'                                         "GeneName", "KEGG", "GO"),
+#'                                         linksFile = linksFile, maxGenes = NULL)
 #' }
 #' @export
 
@@ -120,8 +123,7 @@ GeneAnnotation <- function(egIDs,
                            specie = "Homo_sapiens",
                            info2show =  c("Affymetrix", "EntrezGene"),
                            linksFile,
-                           maxGenes = NULL,
-                           ...) {
+                           maxGenes = NULL) {
   ptm <- proc.time()
   NAs <- egIDs[is.na(egIDs)]
   eg <- na.omit(egIDs)

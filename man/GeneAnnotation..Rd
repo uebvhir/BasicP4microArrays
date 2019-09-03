@@ -9,7 +9,7 @@ GeneAnnotation(egIDs, anotPackage, toHTML = TRUE, outputDir,
   filename = "annotations",
   myTitle = "Annotations for all genes analyzed",
   specie = "Homo_sapiens", info2show = c("Affymetrix", "EntrezGene"),
-  linksFile, maxGenes = NULL, ...)
+  linksFile, maxGenes = NULL)
 }
 \arguments{
 \item{egIDs}{Entrez gene identifiers.}
@@ -42,9 +42,12 @@ Function to create a table with annotations to provide information about elected
 \dontrun{
 genes2annotate <- entrezs[unique(rownames(fitMain$p.value))]
 genesAnnotated <-BasicP::GeneAnnotation(egIDs = genes2annotate, anotPackage = "org.Hs.eg",
-toHTML = TRUE, outputDir = outputDir, filename = "Annotations",
-myTitle = "Annotations for all genes analyzed", specie = "homo sapiens",
-info2show = c( "Affymetrix", "EntrezGene", "GeneSymbol", "GeneName", "KEGG", "GO"),
-linksFile = linksFile, maxGenes = NULL)
+                                        toHTML = TRUE, outputDir = outputDir,
+                                        filename = "Annotations",
+                                        myTitle = "Annotations for all genes analyzed",
+                                        specie = "homo sapiens",
+                                        info2show = c("Affymetrix", "EntrezGene", "GeneSymbol",
+                                        "GeneName", "KEGG", "GO"),
+                                        linksFile = linksFile, maxGenes = NULL)
 }
 }

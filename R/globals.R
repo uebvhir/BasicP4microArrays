@@ -1,0 +1,10 @@
+utils::globalVariables(c("runMulticore",
+                         "top.Diff.selected.up",
+                         "toTIFF",
+                         "orgPackage",
+                         "organisme",
+                         "symbolsTable",
+                         "notControls",
+                         "blocs",
+                         "PCAFFile",
+                         "comp"))

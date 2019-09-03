@@ -43,7 +43,6 @@ KEGGAnalysis(fitMain, whichContrasts, comparison.Name, outputDir,
 Function to make KEGG analysis.
 }
 \examples{
- 
 \dontrun{
 load("./ResultsDir/fit.Rda")
 wCont <- 1:3
@@ -59,11 +58,11 @@ pval <- 0.05
 minNumGens <-0
 runMulticore <- 0
 
-KEGGResult <- BasicP::KEGGAnalysis(fitMain = fit.main, whichContrasts = wCont, 
-comparison.Name = comparison.Name, outputDir = outputDir, anotPackage = orgPackage, 
-organisme = organisme, my.IDs = entrezTable, addGeneNames = addGeneNames, 
-fileOfLinks = linksFileName, cutoffMethod = cutoffMethod, 
-P.Value.cutoff = rep(0.05, length(wCont)), pval = pval,thrLogFC = 1, 
+KEGGResult <- BasicP::KEGGAnalysis(fitMain = fit.main, whichContrasts = wCont,
+comparison.Name = comparison.Name, outputDir = outputDir, anotPackage = orgPackage,
+organisme = organisme, my.IDs = entrezTable, addGeneNames = addGeneNames,
+fileOfLinks = linksFileName, cutoffMethod = cutoffMethod,
+P.Value.cutoff = rep(0.05, length(wCont)), pval = pval,thrLogFC = 1,
 minNumGens = minNumGens)
 }
 }

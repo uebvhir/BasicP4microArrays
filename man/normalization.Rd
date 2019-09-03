@@ -38,12 +38,12 @@ rawData <- my.raw
 normMethod <- "RMA"
 my.targets <- read.AnnotatedDataFrame("./celfiles/targets.txt", header = TRUE, row.names = 1)
 celFilesDir <-"./celfiles"
-loadFile <- FALSE 
-normalized.eset.FileName <-  "normalizedData.Rda"   
+loadFile <- FALSE
+normalized.eset.FileName <-  "normalizedData.Rda"
 outputDir <- "./ResultsDir"
 exonStudy <- FALSE
-eset_norm <- normalization(my.data = rawData, method = normMethod, 
-targetsinfo = my.targets, inputDir = celFilesDir, loadFile = loadFile , 
-normalizedFName = normalized.eset.FileName, outputDir = outputDir, 
+eset_norm <- normalization(my.data = rawData, method = normMethod,
+targetsinfo = my.targets, inputDir = celFilesDir, loadFile = loadFile ,
+normalizedFName = normalized.eset.FileName, outputDir = outputDir,
 exonSt = exonStudy)}
 }

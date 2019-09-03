@@ -30,7 +30,6 @@ Function that reads the raw data or if the eset is already created it is loaded.
 }
 \examples{
 \dontrun{
-require(BasicP)
 require(affy)
 require(oligo) #ExonStudy
 readCELS <- TRUE
