@@ -1,23 +1,20 @@
 ##########################################################################
-plotPCA2D <- function(my.data, pc.importance, my.names, my.colors, comp = c(1, 2), posText = 4)
-{
-  ### ModAlba
-  # stopifnot(require(rgl))
+plotPCA2D <- function(my.data, pc.importance, my.names, my.colors, comp = c(1, 2), posText = 4) {
+  # stopifnot(require(rgl))               ### ModAlba
 
   scores <- my.data$x
   rownames(scores) <- my.names
 
-  Xlims = c(min(scores[, comp[1]]) - ((max(scores[, comp[1]])-min(scores[, comp[1]]))/6), max(scores[, comp[1]]))
-  Ylims = c(min(scores[, comp[2]]), max(scores[, comp[2]]))
+  Xlims <- c(min(scores[, comp[1]]) - ((max(scores[, comp[1]]) - min(scores[, comp[1]]))/6), max(scores[, comp[1]]))
+  Ylims <- c(min(scores[, comp[2]]), max(scores[, comp[2]]))
 
   plot(scores,
        main = "Principal Components 2D Plot",
-       xlab = paste("PC", comp[1], " ", round(pc.importance[2, comp[1]]*100, 1), "%", sep = ""),
-       ylab = paste("PC", comp[2], " ", round(pc.importance[2, comp[2]]*100, 1), "%", sep = ""),
+       xlab = paste0("PC", comp[1], " ", round(pc.importance[2, comp[1]]*100, 1), "%"),
+       ylab = paste0("PC", comp[2], " ", round(pc.importance[2, comp[2]]*100, 1), "%"),
        xlim = Xlims, ylim = Ylims, type = "n")
 
-  for(i in 1:dim(scores)[1])
-  {
+  for(i in 1:dim(scores)[1]) {
     points(scores[i, comp[1]],
            scores[i, comp[2]],
            pch = 19, col = my.colors[i])
@@ -28,28 +25,24 @@ plotPCA2D <- function(my.data, pc.importance, my.names, my.colors, comp = c(1, 2
        my.names, cex = 0.6, pos = posText)
 }
 ##########################################################################
-plotPCA3D <- function(my.data, pc.importance, my.names, my.colors, comp=c(1, 2, 3))
-{
-  ### ModAlba
-  # stopifnot(require(rgl))
+plotPCA3D <- function(my.data, pc.importance, my.names, my.colors, comp = c(1, 2, 3)) {
+  # stopifnot(require(rgl))               ### ModAlba
 
   scores <- my.data$x
   rownames(scores) <- my.names
 
-  Xlims = c(min(scores[, comp[1]]), max(scores[, comp[1]]))
-  Ylims = c(min(scores[, comp[2]]), max(scores[, comp[2]]))
-  Zlims = c(min(scores[, comp[3]]), max(scores[, comp[3]]))
+  Xlims <- c(min(scores[, comp[1]]), max(scores[, comp[1]]))
+  Ylims <- c(min(scores[, comp[2]]), max(scores[, comp[2]]))
+  Zlims <- c(min(scores[, comp[3]]), max(scores[, comp[3]]))
 
   plot3d(scores,
-         main="Principal Components 3D Plot",
-         xlab=paste("PC", comp[1], " ", round(pc.importance[2, comp[1]]*100, 1), "%", sep = ""),
-         ylab=paste("PC", comp[2], " ", round(pc.importance[2, comp[2]]*100, 1), "%", sep = ""),
-         zlab=paste("PC", comp[3], " ", round(pc.importance[2, comp[3]]*100, 1), "%", sep = ""),
-         xlim = Xlims, ylim = Ylims, zlim = Zlims,
-         type = "n", size = 4)
+         main = "Principal Components 3D Plot",
+         xlab = paste0("PC", comp[1], " ", round(pc.importance[2, comp[1]]*100, 1), "%"),
+         ylab = paste0("PC", comp[2], " ", round(pc.importance[2, comp[2]]*100, 1), "%"),
+         zlab = paste0("PC", comp[3], " ", round(pc.importance[2, comp[3]]*100, 1), "%"),
+         xlim = Xlims, ylim = Ylims, zlim = Zlims, type = "n", size = 4)
 
-  for(i in 1:dim(scores)[1])
-  {
+  for(i in 1:dim(scores)[1]) {
     points3d(scores[i, comp[1]],
              scores[i, comp[2]],
              scores[i, comp[3]],
@@ -77,46 +70,40 @@ doPCAplot <- function(my.data,
                       my.PCAplot = TRUE,
                       x.coord = -100,
                       y.coord = 100,
-                      pch = 19)
-{
-  if (my.PCAplot)
-  {
+                      pch = 19) {
+  if(my.PCAplot) {
     pc.my.norm <- prcomp(t(exprs(my.data)))
     pc.importance <- summary(pc.my.norm)$importance
     print(round(pc.importance, 3))
-
     comp <- c(1, 2)
+
     plotPCA2D(pc.my.norm, pc.importance, sampleNames, my.colors, comp, posText)
 
-    if (dim3)
-    {
+    if(dim3) {
       comp <- c(1, 2, 3)
       plotPCA3D(pc.my.norm, pc.importance, sampleNames, my.colors, comp)
     }
-  }}
+  }
+}
 
 
 ##########################################################################
-normplots <- function(my.data, sampleNames, my.colors, my.groups, my.method = "average", my.cex = 0.7, posText = 4, dim3 = FALSE, PCAPlots=TRUE, outputDir, csv=csv)
-{
-
+normplots <- function(my.data, sampleNames, my.colors, my.groups, my.method = "average",
+                      my.cex = 0.7, posText = 4, dim3 = FALSE, PCAPlots = TRUE, outputDir, csv = csv) {
   ### Boxplots
-
-  opt <- par(las=2, cex.axis = my.cex)
+  opt <- par(las = 2, cex.axis = my.cex)
   boxplot(exprs(my.data), col = my.colors, names = sampleNames, las = 2 , main = "Normalized (RMA) data", cex.axis = my.cex)
   par(opt)
 
   ### Dendrograma
-
-  opt <- par(las=2, cex = my.cex)
+  opt <- par(las = 2, cex = my.cex)
   clust.euclid.average <- hclust(dist(t(exprs(my.data))), method = my.method)
-  plot(clust.euclid.average, main = "Hierarchical clustering of samples",  labels = sampleNames, hang = -1, xlab = " ", sub = " ")
+  plot(clust.euclid.average, main = "Hierarchical clustering of samples", labels = sampleNames, hang = -1, xlab = " ", sub = " ")
   par(opt)
 
   ### PCA
-
-  doPCAplot(my.data, sampleNames, my.colors, my.groups, my.cex, PCAFFile, outputDir=outputDir, cor, comp, posText=posText,
-            dim3=dim3, csv=csv, my.PCAplot=PCAPlots, x.coord = -100, y.coord = 100, pch = 19)
+  doPCAplot(my.data, sampleNames, my.colors, my.groups, my.cex, PCAFFile, outputDir = outputDir, cor, comp, posText = posText,
+            dim3 = dim3, csv = csv, my.PCAplot = PCAPlots, x.coord = -100, y.coord = 100, pch = 19)
 
 }
 #########################################################
@@ -170,16 +157,16 @@ normplots2File <- function(my.data,
                            dim3 = FALSE,
                            fileName,
                            outputDir,
-                           PCAPlots=TRUE,
+                           PCAPlots = TRUE,
                            csv,
-                           lFile = NULL)
-{
-  if(!is.null(fileName)) pdf(file.path(outputDir,fileName))
+                           lFile = NULL) {
+  if(!is.null(fileName)) pdf(file.path(outputDir, fileName))
 
-  normplots (my.data=my.data, sampleNames= sampleNames,my.colors= my.colors,
-             my.groups= my.groups, my.method = my.method, my.cex = my.cex, posText = posText, dim3 = dim3, PCAPlots=PCAPlots, outputDir=outputDir)
+  normplots(my.data = my.data, sampleNames = sampleNames, my.colors = my.colors,
+            my.groups = my.groups, my.method = my.method, my.cex = my.cex, posText = posText,
+            dim3 = dim3, PCAPlots = PCAPlots, outputDir = outputDir)
 
-  if(!is.null(fileName)) dev.off() # No entiendo este if.
+  if(!is.null(fileName)) dev.off()
 
-  addToLinksFile(linksFile=lFile, fileName, categ = 'QC', desc = "Plots of normalized data")
+  addToLinksFile(linksFile = lFile, fileName, categ = 'QC', desc = "Plots of normalized data")
 }

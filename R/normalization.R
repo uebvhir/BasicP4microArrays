@@ -1,8 +1,7 @@
 ###########################################################
-normalitza <- function (my.data, method)
-{
+normalitza <- function(my.data, method) {
   switch(method,
-         RMA =  affy::rma(my.data),
+         RMA =  affy::rma(my.data),                # S'hauria de canviar per 'oligo::rma'
          GCRMA = gcrma(my.data),
          MAS5 = mas5 (my.data))
 }
@@ -21,21 +20,21 @@ normalitza <- function (my.data, method)
 #' @param exonSt Default value FALSE. If TRUE the raw data is exon array.
 #' @importFrom affy rma
 #' @return A data set called my.norm with the raw data normalized.
-#' @examples 
+#' @examples
 #' \dontrun{
 #' load("rawData.Rda")
 #' rawData <- my.raw
 #' normMethod <- "RMA"
 #' my.targets <- read.AnnotatedDataFrame("./celfiles/targets.txt", header = TRUE, row.names = 1)
 #' celFilesDir <-"./celfiles"
-#' loadFile <- FALSE 
-#' normalized.eset.FileName <-  "normalizedData.Rda"   
+#' loadFile <- FALSE
+#' normalized.eset.FileName <-  "normalizedData.Rda"
 #' outputDir <- "./ResultsDir"
 #' exonStudy <- FALSE
 
-#' eset_norm <- normalization(my.data = rawData, method = normMethod, 
-#' targetsinfo = my.targets, inputDir = celFilesDir, loadFile = loadFile , 
-#' normalizedFName = normalized.eset.FileName, outputDir = outputDir, 
+#' eset_norm <- normalization(my.data = rawData, method = normMethod,
+#' targetsinfo = my.targets, inputDir = celFilesDir, loadFile = loadFile ,
+#' normalizedFName = normalized.eset.FileName, outputDir = outputDir,
 #' exonSt = exonStudy)}
 #' @export
 
@@ -46,18 +45,14 @@ normalization <- function(my.data = NULL,
                           loadFile = FALSE,
                           normalizedFName = "normalized.Rda",
                           outputDir,
-                          exonSt=FALSE)
-{
-  if (!loadFile)
-  {
-    if(exonSt)
-    {
-      my.norm <- affy::rma(my.data, target = ifelse(is.null(method), "core", method))
-    }else{
-        my.norm <- normalitza(my.data, method)
-    }
+                          exonSt = FALSE) {
+  if(!loadFile) {
+    ifelse(exonSt,
+           my.norm <- affy::rma(my.data, target = ifelse(is.null(method), "core", method)),
+           my.norm <- normalitza(my.data, method))
+
     save(my.norm, file = file.path(outputDir, normalizedFName))
-  }else{
+  } else {
     load(file = file.path(outputDir, normalizedFName))
   }
   return(my.norm)

@@ -1,34 +1,30 @@
 #################################################################
-expresAndgeneSymbols <- function(expres, expresNames=colnames(expres),
-                                 anotPackage = NULL, SYMBOL="SYMBOL",
-                                 symbolsVector = NULL)
-{
-  if (!is.null(anotPackage))
-  {
-    my_SYMBOL_env <- eval(parse(text = paste(anotPackage, SYMBOL, sep="")))
-    geneSymbols <- unlist(mget(rownames(expres), my_SYMBOL_env, ifnotfound=NA))
+expresAndgeneSymbols <- function(expres, expresNames = colnames(expres),
+                                 anotPackage = NULL, SYMBOL = "SYMBOL",
+                                 symbolsVector = NULL) {
+  if(!is.null(anotPackage)) {
+    my_SYMBOL_env <- eval(parse(text = paste0(anotPackage, SYMBOL)))
+    geneSymbols <- unlist(mget(rownames(expres), my_SYMBOL_env, ifnotfound = NA))
     expresWithSymbols <- data.frame(geneSymbols, expres)
     colnames(expresWithSymbols) <- c("Symbol", expresNames)
-  }else{
-    if (!is.null(symbolsVector)){
+  } else {
+    if(!is.null(symbolsVector)) {
       geneSymbols <- symbolsVector[rownames(expres)]
       expresWithSymbols <- data.frame(geneSymbols, expres)
       colnames(expresWithSymbols) <- c("Symbol", expresNames)
-    }else{
+    } else {
       expresWithSymbols <- expres
     }
   }
   return(expresWithSymbols)
 }
 ###############################################################
-write2csv <- function(my.data, fileName, csv = c("csv2", "csv", "txt", "xls"), outputDir)
-{
-  fileName<- file.path(outputDir, paste(fileName, substr(csv[1], 1, 3) , sep = "."))
-  switch (csv[1],
-          "csv" = write.csv(my.data, file = fileName, quote = F),
-          "csv2" = write.csv2(my.data, file = fileName, quote = F),
-          "txt" = write.table(my.data, file = fileName, quote = F))
-  # }
+write2csv <- function(my.data, fileName, csv = c("csv2", "csv", "txt", "xls"), outputDir) {
+  fileName <- file.path(outputDir, paste(fileName, substr(csv[1], 1, 3) , sep = "."))
+  switch(csv[1],
+         "csv" = write.csv(my.data, file = fileName, quote = F),
+         "csv2" = write.csv2(my.data, file = fileName, quote = F),
+         "txt" = write.table(my.data, file = fileName, quote = F))
 }
 ##################################################################
 
@@ -67,21 +63,17 @@ write2csv <- function(my.data, fileName, csv = c("csv2", "csv", "txt", "xls"), o
 #' linksFile = linksFileName, outputDir = outputDir)}
 #' @export
 
-saveData <- function (expres, expresNames=colnames(expres),
-                      expres.csv.FileName, csvType, description="Normalized Values",
-                      anotPackage, SYMBOL="SYMBOL", symbolsVector = NULL,
-                      expres.bin.FileName,
-                      linksFile, outputDir )
-{
-  if (!(is.null(expres.csv.FileName))){
-    expres.all <- expresAndgeneSymbols(expres=expres, expresNames=expresNames,
-                                       anotPackage=anotPackage, SYMBOL=SYMBOL, symbolsVector=symbolsVector)
+saveData <- function(expres, expresNames = colnames(expres),
+                     expres.csv.FileName, csvType, description = "Normalized Values",
+                     anotPackage, SYMBOL = "SYMBOL", symbolsVector = NULL,
+                     expres.bin.FileName, linksFile, outputDir) {
+  if(!(is.null(expres.csv.FileName))) {
+    expres.all <- expresAndgeneSymbols(expres = expres, expresNames = expresNames,
+                                       anotPackage = anotPackage, SYMBOL = SYMBOL, symbolsVector = symbolsVector)
     write2csv(expres.all, fileName = expres.csv.FileName, csv = csvType, outputDir = outputDir)
-    addToLinksFile(linksFile, paste(expres.csv.FileName, substr(csvType, 1, 3), sep="."), categ = 'DATA', desc= description)
+    addToLinksFile(linksFile, paste(expres.csv.FileName, substr(csvType, 1, 3), sep = "."), categ = 'DATA', desc= description)
   }
 
-  if (!(is.null(expres.bin.FileName))){
-    save(expres, file=file.path(outputDir, expres.bin.FileName))
-  }
+  if(!(is.null(expres.bin.FileName))) save(expres, file = file.path(outputDir, expres.bin.FileName))
 }
 

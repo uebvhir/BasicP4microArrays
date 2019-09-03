@@ -1,21 +1,20 @@
 ##############################################################
-loadFromFile <-function (fileName, pos=1){
-  tempEnv =new("environment")
-  load (fileName, tempEnv)
+loadFromFile <- function(fileName, pos = 1) {
+  tempEnv <- new("environment")
+  load(fileName, tempEnv)
   varNames <-ls(tempEnv)
   myVarName <- varNames[pos]
-  load (fileName)
-  myVar <- eval(parse(text=myVarName))
+  load(fileName)
+  myVar <- eval(parse(text = myVarName))
   return(myVar)
 }
 ##############################################################
-write2csv <- function(my.data, fileName, csv = c("csv2", "csv", "txt", "xls"), outputDir)
-{
+write2csv <- function(my.data, fileName, csv = c("csv2", "csv", "txt", "xls"), outputDir) {
   fileName<- file.path(outputDir, paste(fileName, substr(csv[1], 1, 3) , sep = "."))
-  switch (csv[1],
-          "csv" = write.csv(my.data, file = fileName, quote = F),
-          "csv2" = write.csv2(my.data, file = fileName, quote = F),
-          "txt" = write.table(my.data, file = fileName, quote = F))
+  switch(csv[1],
+         "csv" = write.csv(my.data, file = fileName, quote = F),
+         "csv2" = write.csv2(my.data, file = fileName, quote = F),
+         "txt" = write.table(my.data, file = fileName, quote = F))
 }
 ##############################################################
 
@@ -59,34 +58,23 @@ write2csv <- function(my.data, fileName, csv = c("csv2", "csv", "txt", "xls"), o
 #'
 #' @export
 
-doLmAnalysis <- function (lmPar)
-{
+doLmAnalysis <- function(lmPar) {
   p <- lmPar[[1]]
-  if(!is.null(p$ENTREZIDs)){
-    EntrezIDs <-  eval(parse(text = p$ENTREZIDs))
-  }
 
-  if(!is.null(p$SYMBOLIDs)){
-    SymbolIDs <-  eval(parse(text = p$SYMBOLIDs))
-  }
+  if(!is.null(p$ENTREZIDs)) EntrezIDs <-  eval(parse(text = p$ENTREZIDs))
+  if(!is.null(p$SYMBOLIDs)) SymbolIDs <-  eval(parse(text = p$SYMBOLIDs))
 
-  if (!is.null(p$expresFileName)){
+  if(!is.null(p$expresFileName)) {
     expres <- loadFromFile (file.path(p$outputDir, p$expresFileName))
-  }else{
-    if (!is.null(p$dades))
-    {
-      expres <- eval(parse(text = p$dades)) # Posar-hi un tryCatch per poder sortir si d error!!!
-    }else{
-      stop("Error, Cal definir o les dades o el nom de l'arxiu")
-    }
+  } else {
+    ifelse(!is.null(p$dades),
+           expres <- eval(parse(text = p$dades)), # Posar-hi un tryCatch per poder sortir si d error!!!
+           stop("Error, Cal definir o les dades o el nom de l'arxiu"))
   }
 
-  if (is.null(p$whichContrasts))
-  {
-    contrasts2test <- 1:ncol(p$contMat)
-  }else{
-    contrasts2test <- p$whichContrasts
-  }
+  ifelse(is.null(p$whichContrasts),
+    contrasts2test <- 1:ncol(p$contMat),
+    contrasts2test <- p$whichContrasts)
 
   fitMain <- lmAnalysis(exprs.filtered = expres,
                         design = p$designMat,
@@ -104,23 +92,21 @@ doLmAnalysis <- function (lmPar)
                         SYMBOLIDs = SymbolIDs,
                         linksFile = p$fileOfLinks,
                         fitFileName = p$fitFileName,
-                        csvType=p$csvType,
+                        csvType = p$csvType,
                         rows2HTML = p$rows2HTML,
-                        anotFileName = p$anotFilename
-  )
+                        anotFileName = p$anotFilename)
 
-
-  designMatrixName = paste("designMatrix",p$comparisonName, sep=".")
-  contrastMatrixName = paste("contrastMatrix",p$comparisonName, sep=".")
+  designMatrixName <- paste("designMatrix", p$comparisonName, sep = ".")
+  contrastMatrixName <- paste("contrastMatrix", p$comparisonName, sep = ".")
 
   write2csv(p$designMat, fileName = designMatrixName, csv = p$csvType, outputDir = p$outputDir)
   write2csv(p$contMat, fileName = contrastMatrixName, csv = p$csvType, outputDir = p$outputDir)
 
   csvType <- ifelse(is.null(p$csvType), "csv2", p$csvType)
-  addToLinksFile(p$fileOfLinks, paste(designMatrixName, substr(csvType, 1, 3),  sep="."), categ = "ANALYSIS",
-                 desc = paste("Design Matrix for comparison ", p$comparisonName, sep=""))
-  addToLinksFile(p$fileOfLinks, paste(contrastMatrixName, substr(csvType, 1, 3),  sep="."), categ = "ANALYSIS",
-                 desc = paste("Contrast Matrix for comparison ", p$comparisonName, sep=""))
+  addToLinksFile(p$fileOfLinks, paste(designMatrixName, substr(csvType, 1, 3),  sep = "."), categ = "ANALYSIS",
+                 desc = paste("Design Matrix for comparison", p$comparisonName))
+  addToLinksFile(p$fileOfLinks, paste(contrastMatrixName, substr(csvType, 1, 3),  sep = "."), categ = "ANALYSIS",
+                 desc = paste("Contrast Matrix for comparison", p$comparisonName))
 
   return (fitMain)
 }

@@ -1,80 +1,79 @@
 ####################################################
 old2db <- function(anot){paste(anot, "db", sep = ".")}
 #####################################################
-write.htmltable <- function (x, filename, title = "", sortby = NULL, decreasing = TRUE,
-                             open = "wt", formatNumeric = function(x) paste(signif(x,
-                                                                                   3)))
-{
-  if (!is.null(sortby)) {
-    if (!sortby %in% colnames(x))
-      stop(paste("Invalid argument \"sortby\": could not find a column in data frame x with name",
-                 sortby))
-    soby = x[, sortby]
+write.htmltable <- function(x, filename, title = "", sortby = NULL, decreasing = TRUE,
+                            open = "wt", formatNumeric = function(x) paste(signif(x, 3))) {
+  if(!is.null(sortby)) {
+    if(!sortby %in% colnames(x))
+      stop(paste("Invalid argument \"sortby\": could not find a column in data frame x with name", sortby))
+
+    soby <- x[, sortby]
+
     if (!is.numeric(soby))
       stop("Invalid argument \"sortby\": column is not numeric")
-    x = x[order(soby, decreasing = decreasing), ]
+
+    x <- x[order(soby, decreasing = decreasing), ]
   }
-  outfile <- file(paste(filename, ".html", sep = ""), open = open)
+
+  outfile <- file(paste0(filename, ".html"), open = open)
   cat("<html>", "<STYLE>", "<!--TD { FONT-FAMILY: Helvetica,Arial; FONT-SIZE: 14px;}-->",
       "<!--H1 { FONT-FAMILY: Helvetica,Arial; FONT-SIZE: 22px;}-->",
-      "</STYLE>", "<head>", paste("<TITLE>", title, "</TITLE>",
-                                  sep = ""), "</head>", "<body bgcolor=#ffffff>", file = outfile,
-      sep = "\n")
-  if (title != "")
-    cat("<CENTER><H1 ALIGN=\"CENTER\">", title, " </H1></CENTER>\n",
-        file = outfile, sep = "\n")
+      "</STYLE>", "<head>", paste0("<TITLE>", title, "</TITLE>"), "</head>", "<body bgcolor=#ffffff>",
+      file = outfile, sep = "\n")
+
+  if(title != "")
+    cat("<CENTER><H1 ALIGN=\"CENTER\">", title, " </H1></CENTER>\n", file = outfile, sep = "\n")
+
   cat("<CENTER> \n", file = outfile)
   cat("<TABLE BORDER=0>", file = outfile, sep = "\n")
   cat("<TR>", file = outfile)
-  for (j in 1:ncol(x)) cat("<TD BGCOLOR=\"", c("#e0e0ff", "#d0d0f0")[j%%2 +
-                                                                       1], "\"><B>", colnames(x)[j], "</B></TD>\n", sep = "",
-                           file = outfile)
+
+  for(j in 1:ncol(x)) cat("<TD BGCOLOR=\"", c("#e0e0ff", "#d0d0f0")[j%%2 + 1], "\"><B>",
+                          colnames(x)[j], "</B></TD>\n", sep = "", file = outfile)
+
   cat("</TR>", file = outfile)
-  for (i in 1:nrow(x)) {
+
+  for(i in 1:nrow(x)) {
     cat("<TR>", file = outfile)
-    for (j in 1:ncol(x)) {
-      txt = switch(class(x[[j]]), numeric = formatNumeric(x[i,
-                                                            j]), as.character(x[i, j]))
-      if (length(grep("^http:", txt)) > 0) {
+    for(j in 1:ncol(x)) {
+      txt <- switch(class(x[[j]]), numeric = formatNumeric(x[i, j]), as.character(x[i, j]))
+
+      if(length(grep("^http:", txt)) > 0) {
         txt <- sub(";$", "", txt)
         s <- unlist(strsplit(txt, "[/?=]"))
-        txt <- paste("<A HREF=\"", txt, "\" TARGET=\"z\">",
-                     s[length(s)], "</A>", sep = "")
+        txt <- paste0("<A HREF=\"", txt, "\" TARGET=\"z\">", s[length(s)], "</A>")
       }
-      cat("<TD BGCOLOR=\"", c("#e0e0ff", "#d0d0f0", "#f0f0ff",
-                              "#e0e0f0")[i%%2 * 2 + j%%2 + 1], "\">", txt,
-          "</TD>\n", sep = "", file = outfile)
+
+      cat("<TD BGCOLOR=\"", c("#e0e0ff", "#d0d0f0", "#f0f0ff", "#e0e0f0")[i%%2 * 2 + j%%2 + 1], "\">",
+          txt, "</TD>\n", sep = "", file = outfile)
     }
+
     cat("</TR>", file = outfile)
   }
-  cat("</TABLE></CENTER>", "</body>", "</html>", sep = "\n",
-      file = outfile)
+  cat("</TABLE></CENTER>", "</body>", "</html>", sep = "\n", file = outfile)
   close(outfile)
 }
 #####################################################
 
-GOTerms2Genes.sql <- function(hgResult, anotPackage)
-{
+GOTerms2Genes.sql <- function(hgResult, anotPackage) {
   selectedGOTerms <- intersect(names(geneIdUniverse(hgResult)), summary(hgResult)[, 1])
   selectedGO<- geneIdUniverse(hgResult)[selectedGOTerms]
-  if (runMulticore ==1 || runMulticore ==3) {
-    selectedGenes <- mclapply(selectedGO, function(x) {intersect(geneIds(hgResult),x)})
+
+  if(runMulticore == 1 || runMulticore == 3) {
+    selectedGenes <- mclapply(selectedGO, function(x) {intersect(geneIds(hgResult), x)})
   } else {
-    selectedGenes <- lapply(selectedGO, function(x) {intersect(geneIds(hgResult),x)})
+    selectedGenes <- lapply(selectedGO, function(x) {intersect(geneIds(hgResult), x)})
   }
 
   sql.ENTREZSYMBOL <- "SELECT gene_id, symbol
                        FROM genes, gene_info
                        WHERE genes._id=gene_info._id"
 
-  if (regexpr(".db", anotPackage) < 0)
-  {
-    genesAnnot <- dbGetQuery(eval(parse(text = paste(anotPackage, "_dbconn()", sep = ""))), sql.ENTREZSYMBOL)
-  }else{
-    genesAnnot <- dbGetQuery(eval(parse(text = paste(substr(anotPackage, 1, nchar(anotPackage) - 3), "_dbconn()", sep = ""))), sql.ENTREZSYMBOL)
-  }
+  ifelse(regexpr(".db", anotPackage) < 0,
+    genesAnnot <- dbGetQuery(eval(parse(text = paste0(anotPackage, "_dbconn()"))), sql.ENTREZSYMBOL),
+    genesAnnot <- dbGetQuery(eval(parse(text = paste0(substr(anotPackage, 1, nchar(anotPackage) - 3), "_dbconn()"))), sql.ENTREZSYMBOL))
 
-  if (runMulticore ==1 || runMulticore ==3) {
+  if(runMulticore == 1 || runMulticore == 3) {
     selectedSymb <- mclapply(selectedGenes, function(x) {genesAnnot[which(unlist(genesAnnot) %in% x), ]})
     selectedSymb <- mclapply(selectedSymb, function(x) {x <- x[, -1]})
   } else {
@@ -95,8 +94,7 @@ KEGGEnrAn <- function(EntrezIDs,
                       pval,
                       min.count,
                       addGeneNames,
-                      contrast.Name)
-{
+                      contrast.Name) {
   universe <- unique(universe)
   EntrezIDs <- unique(EntrezIDs)
 
@@ -108,45 +106,40 @@ KEGGEnrAn <- function(EntrezIDs,
 
   anotPack <- annotation(param)
 
-  getSymbol <- function (x)
-  {
-    if (length(x)>0)
-    {
-      simbols <- getSYMBOL(x, anotPack)
-    }else{
-      simbols <- NULL
-    }
+  getSymbol <- function(x) {
+    ifelse(length(x) > 0,
+           simbols <- getSYMBOL(x, anotPack),
+           simbols <- NULL)
 
     return(simbols)
   }
 
   hyperRes <- hyperGTest(param)
-  sumari <- summary(hyperRes, p=param@pvalueCutoff)
-  fName <- paste("KEGG Enrichment Analysis", contrast.Name, sep = " ") # Informe en HTML
+  sumari <- summary(hyperRes, p = param@pvalueCutoff)
+  fName <- paste("KEGG Enrichment Analysis", contrast.Name) # Informe en HTML
 
-  if (addGeneNames)
-  {
+  if(addGeneNames) {
     EnrichedKEGGTerms <- as.character(sumari[, 1])
 
-    if (length(EnrichedKEGGTerms) > 0)
-    {
+    if(length(EnrichedKEGGTerms) > 0) {
       selectedSymbols <- GOTerms2Genes.sql(hyperRes, anotPackage)
       genesInHg <- sapply(selectedSymbols, function(x) paste(x, collapse = ", "))
       Report <- cbind(sumari, GeneNames = genesInHg)
-    }else{
+    } else {
       Report <- sumari
     }
-  }else{
+  } else {
     Report <- sumari
   }
 
-  Report[, 1] <- paste("<a href=\"http://www.genome.jp/dbget-bin/www_bget?path:", organisme, Report[, 1], "\">", Report[, 1], "</a>", sep="")
+  Report[, 1] <- paste0("<a href=\"http://www.genome.jp/dbget-bin/www_bget?path:", organisme, Report[, 1], "\">", Report[, 1], "</a>")
 
-  ReportSig <- Report[1:nrow(sumari),]
+  ReportSig <- Report[1:nrow(sumari), ]
 
-  write.htmltable(x = Report[1:nrow(sumari),],
-                  file = file.path(outputDir, anotFName),
-                  title =  paste("KEGG Enrichment Analysis", contrast.Name, sep = " "),)
+  write.htmltable(x = Report[1:nrow(sumari), ],                                               ### ModAlba
+                  # file = file.path(outputDir, anotFName),                                   ### ModAlba
+                  filename = file.path(outputDir, anotFName),                                 ### ModAlba
+                  title =  paste("KEGG Enrichment Analysis", contrast.Name), )                ### ModAlba
   sortable.html.table(df = Report[1:nrow(sumari),],
                       output.file = paste0(anotFName, "-sortable.html"),
                       output.directory = outputDir,
@@ -214,65 +207,54 @@ KEGGAnalysis <- function(fitMain,
                          P.Value.cutoff = rep(0.05, length(whichContrasts)),
                          pval = 0.05,
                          thrLogFC = NULL,
-                         minNumGens = 0)
-{
-  ### ModAlba
-  # stopifnot(require(old2db(anotPackage), character.only = TRUE))
+                         minNumGens = 0) {
+  # stopifnot(require(old2db(anotPackage), character.only = TRUE))            ### ModAlba
 
   categLabel <- "KEGG"
 
-  if ((!is.null(fitMain)) && (!is.null(fitMain$contrasts[, whichContrasts])))
-  {
-    if (is.null(my.IDs))
-    {
-      myenvirENTREZID <- eval(parse(text = paste(anotPackage, "ENTREZID", sep = "")))
-      geneUniverse <- unlist(mget(unique( fitMain$genes[,1]), env = myenvirENTREZID, ifnotfound = NA))
-    }else{
+  if((!is.null(fitMain)) && (!is.null(fitMain$contrasts[, whichContrasts]))) {
+    if(is.null(my.IDs)) {
+      myenvirENTREZID <- eval(parse(text = paste0(anotPackage, "ENTREZID")))
+
+      # geneUniverse <- unlist(mget(unique( fitMain$genes[,1]), env = myenvirENTREZID, ifnotfound = NA))    ### ModAlba
+      geneUniverse <- unlist(mget(unique( fitMain$genes[,1]), envir = myenvirENTREZID, ifnotfound = NA))    ### ModAlba
+    } else {
       geneUniverse <- unlist(my.IDs)
       geneUniverse <- unique(geneUniverse[geneUniverse != "---"])
     }
 
-    for (i in whichContrasts)
-    {
-      if(is.null(thrLogFC))
-      {
-        thrLogFC <- 0
-      }else{
-        thrLogFC <- abs(thrLogFC)
-      }
+    for(i in whichContrasts) {
+      ifelse(is.null(thrLogFC),
+             thrLogFC <- 0,
+             thrLogFC <- abs(thrLogFC))
 
-      top.Diff <- topTable(fitMain, coef = i, n = nrow(fitMain$t), adjust = "fdr", lfc = thrLogFC)
+      # top.Diff <- topTable(fitMain, coef = i, n = nrow(fitMain$t), adjust = "fdr", lfc = thrLogFC)              ### ModAlba
+      top.Diff <- topTable(fitMain, coef = i, number = nrow(fitMain$t), adjust.method = "fdr", lfc = thrLogFC)    ### ModAlba
 
-      if (cutoffMethod=="adjusted")
-      {
-        top.Diff.selected <- top.Diff[top.Diff$adj.P.Val < P.Value.cutoff[i], ]
-      }else{
-        top.Diff.selected <- top.Diff[top.Diff$P.Value < P.Value.cutoff[i], ]
-      }
+      ifelse(cutoffMethod == "adjusted",
+        top.Diff.selected <- top.Diff[top.Diff$adj.P.Val < P.Value.cutoff[i], ],
+        top.Diff.selected <- top.Diff[top.Diff$P.Value < P.Value.cutoff[i], ])
 
-      if (!is.null(top.Diff.selected$ID)){
-        gNames <- top.Diff.selected.up$ID
-      }else{
-        gNames <- rownames(top.Diff.selected)
-      }
+      ifelse(!is.null(top.Diff.selected$ID),
+        gNames <- top.Diff.selected.up$ID,
+        gNames <- rownames(top.Diff.selected))
 
-
-      if (!(is.null(my.IDs)))
-      {
+      if(!(is.null(my.IDs))) {
         selectedEntrezIds <- unlist(my.IDs[gNames])
         selectedEntrezIds <- unique(selectedEntrezIds[selectedEntrezIds != "---"])
-      }else{
-        myenvirENTREZID <- eval(parse(text = paste(anotPackage, "ENTREZID", sep = "")))
-        selectedEntrezIds <- unlist(mget(unique(gNames), env = myenvirENTREZID, ifnotfound = NA))
+      } else {
+        myenvirENTREZID <- eval(parse(text = paste0(anotPackage, "ENTREZID")))
+
+        # selectedEntrezIds <- unlist(mget(unique(gNames), env = myenvirENTREZID, ifnotfound = NA))       ### ModAlba
+        selectedEntrezIds <- unlist(mget(unique(gNames), envir = myenvirENTREZID, ifnotfound = NA))       ### ModAlba
       }
 
       contrast.Name <- colnames(fitMain$contrasts)[i]
 
-      if (is.null(selectedEntrezIds)|(length(selectedEntrezIds) <= minNumGens))
-      {
-        warning(paste("There are not enough genes for cutoff ", P.Value.cutoff[i], " in comparison", contrast.Name, sep = " "))
-        cat(paste("There are not enough genes for cutoff ", P.Value.cutoff[i], " in comparison", contrast.Name, "\n", sep = " "))
-      }else{
+      if(is.null(selectedEntrezIds) | (length(selectedEntrezIds) <= minNumGens)) {
+        warning(paste("There are not enough genes for cutoff ", P.Value.cutoff[i], " in comparison", contrast.Name))
+        cat(paste("There are not enough genes for cutoff ", P.Value.cutoff[i], " in comparison", contrast.Name, "\n"))
+      } else {
         eaFName <- paste("SignificantKEGG", comparison.Name, contrast.Name, sep = ".")
         eA <- KEGGEnrAn(EntrezIDs = selectedEntrezIds,
                         anotFName = eaFName,
@@ -286,7 +268,7 @@ KEGGAnalysis <- function(fitMain,
                         contrast.Name = paste("for regulated genes in comparison", contrast.Name, sep = ": "))
 
         addToLinksFile(fileOfLinks,
-                       paste(eaFName,"html", sep="."),
+                       paste(eaFName,"html", sep = "."),
                        categ = categLabel,
                        desc = paste("KEGG Enrichment Analysis regulated genes in comparison", contrast.Name, sep = ": "))
       }

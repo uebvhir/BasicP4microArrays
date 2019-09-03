@@ -1,21 +1,19 @@
 ############################################################
 
-loadFromFile <-function (fileName, pos=1){
-  tempEnv =new("environment")
-  load (fileName, tempEnv)
+loadFromFile <- function(fileName, pos = 1) {
+  tempEnv <- new("environment")
+  load(fileName, tempEnv)
   varNames <-ls(tempEnv)
   myVarName <- varNames[pos]
-  load (fileName)
-  myVar <- eval(parse(text=myVarName))
+  load(fileName)
+  myVar <- eval(parse(text = myVarName))
   return(myVar)
 }
 ############################################################
-extractSinonims <- function(my.strings)
-{
+extractSinonims <- function(my.strings) {
   my.sinonims <- list()
-  if (runMulticore ==1 || runMulticore ==3) {
+  if(runMulticore == 1 || runMulticore == 3) {
     my.sinonims <- mclapply(my.strings, function(x) unlist(strsplit(x, " /// ")))
-
   } else {
     my.sinonims <- lapply(my.strings, function(x) unlist(strsplit(x, " /// ")))
   }
@@ -23,11 +21,9 @@ extractSinonims <- function(my.strings)
   return(my.sinonims)
 }
 ###################################################
-midSinonims <- function(my.IDs)
-{
+midSinonims <- function(my.IDs) {
   my.indexes <- grep(" /// ", my.IDs)
   my.sinonimIDs <- my.IDs[my.indexes]
-
   my.IDs[my.indexes] <- extractSinonims(my.sinonimIDs)
   return(my.IDs)
 }
@@ -51,32 +47,20 @@ midSinonims <- function(my.IDs)
 #'}
 #'@export
 
-
-doGOAnalysis <- function(GOPar)
-{
-
+doGOAnalysis <- function(GOPar) {
   p <- GOPar[[1]]
 
-  if(!is.null(p$my.IDs)){
-    EntrezIDs <-  eval(parse(text = p$my.IDs)) #  Si se hace el eval solo guarda el ultimo id
-  }
+  if(!is.null(p$my.IDs)) EntrezIDs <-  eval(parse(text = p$my.IDs)) #  Si se hace el eval solo guarda el ultimo id
 
-  if (!is.null(p$fitFileName))
-  {
+  if(!is.null(p$fitFileName)) {
     fitMain <- loadFromFile(file.path(p$outputDir, p$fitFileName))
-  }else{
-    if (!is.null(p$fitMain))
-    {
-      fitMain <- eval(parse(text = p$fitMain)) # Posar-hi un tryCatch per poder sortir si d??na error!!!
-    }else{
-      stop("Error, Cal subministrar un nom d'arxiu o d'objecte 'fitMain'")
-    }
+  } else {
+    ifelse(!is.null(p$fitMain),
+           fitMain <- eval(parse(text = p$fitMain)), # Posar-hi un tryCatch per poder sortir si d??na error!!!
+           stop("Error, Cal subministrar un nom d'arxiu o d'objecte 'fitMain'"))
   }
 
-  if (!is.null(p$my.IDs))
-  {
-    my.IDs <- midSinonims(p$my.IDs)
-  }
+  if(!is.null(p$my.IDs)) my.IDs <- midSinonims(p$my.IDs)
 
   GOResult <- GOAnalysis(fitMain = fitMain,
                          whichContrasts = p$whichContrasts,

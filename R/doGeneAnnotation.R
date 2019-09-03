@@ -1,12 +1,12 @@
 ############################################################
 
-loadFromFile <-function (fileName, pos=1){
-  tempEnv =new("environment")
-  load (fileName, tempEnv)
+loadFromFile <- function(fileName, pos = 1) {
+  tempEnv <- new("environment")
+  load(fileName, tempEnv)
   varNames <-ls(tempEnv)
   myVarName <- varNames[pos]
-  load (fileName)
-  myVar <- eval(parse(text=myVarName))
+  load(fileName)
+  myVar <- eval(parse(text = myVarName))
   return(myVar)
 }
 ############################################################
@@ -27,26 +27,17 @@ loadFromFile <-function (fileName, pos=1){
 #'
 #' BasicP::doGeneAnnotation(anotList)}
 
-doGeneAnnotation <- function(AnotList)
-{
-
+doGeneAnnotation <- function(AnotList) {
   p <- AnotList
 
-  if(!is.null(p$my.IDs))
-  {
-    EntrezIDs <-  eval(parse(text = p$my.IDs))
-  }
+  if(!is.null(p$my.IDs)) EntrezIDs <-  eval(parse(text = p$my.IDs))
 
-  if (!is.null(p$fitFileName))
-  {
+  if(!is.null(p$fitFileName)) {
     fitMain <- loadFromFile(file.path(p$outputDir, p$fitFileName))
-  }else{
-    if (!is.null(p$fitMain))
-    {
-      fitMain <- eval(parse(text = p$fitMain)) # Posar-hi un tryCatch per poder sortir si dona error!!!
-    }else{
-      stop("Error, cal subministrar un nom d'arxiu o d'objecte 'fitMain'")
-    }
+  } else {
+    ifelse(!is.null(p$fitMain),
+           fitMain <- eval(parse(text = p$fitMain)), # Posar-hi un tryCatch per poder sortir si dona error!!!
+           stop("Error, cal subministrar un nom d'arxiu o d'objecte 'fitMain'"))
   }
 
   genes2annotate <- EntrezIDs[unique(rownames(fitMain$p.value))]
