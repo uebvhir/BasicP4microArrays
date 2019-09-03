@@ -1,0 +1,64 @@
+---
+title: "Examples of microarray analysis using `BasicP` functions"
+author: "Mercedes Guerrero and Alex Sanchez"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Examples of microarray analysis using `BasicP` functions}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+# Introduction
+
+The `BasicP` package has been developed to simplify the analysis of microarray data, especially in those cases where there may be many comparisons in a study or in cases where different subsets of the same dataset have to be analyzed in similar or distinct ways.
+
+In a simplified manner such a workflow consists of the following steps:
+
+1. Read the raw data
+2. [Optional]Check its quality
+3. Normalize the data
+4. Provide visualizations of normalized data
+    1. To check its quality
+    2. To detect potential batch effects
+5. Filter the normalized data
+6. Select differentially expressed genes using a linear model.
+7. Provide visualizations of 
+    1. differentially expressed genes ("volcanos")
+    2. common and distinct genes selected between comparisons ("venn diagrams")
+    3. groups of genes and samples "heatmaps")
+8. Do a biological significance analysis based on the Gene Ontology
+9. Generate a report/summary of analysis results.
+
+The `BasicP` package implement  a few "main" functions which together support a typical microarray analysis workflow. That is, ignoring the parameters of these functions the previous workflow could be implemented with several calls such as:
+
+```{r eval=FALSE}
+library(BasicP4microarrays)
+if (!(require(hgu133a2))) BiocManager::install("hgu133a2.db")
+rawData <- BasicPipe4mArrays::readOrLoad.RawData (...)
+anotacions <- BasicPipe4mArrays::createOrLoadAnnotations (...)
+eset_norm <- BasicPipe4mArrays::normalization(my.data = rawData, ...)
+BasicPipe4mArrays::normplots2File(my.data = eset_norm, ..)
+exprs.filtered <- BasicPipe4mArrays::filterData(expres = exprs(eset_norm),...)
+fitMain <- BasicPipe4mArrays::lmAnalysis(exprs.filtered = exprs.filtered, ...)
+genesAnnotated <-BasicPipe4mArrays::GeneAnnotation(egIDs = genes2annotate, ...)
+clust <- BasicPipe4mArrays::clusterAnalysis(expres = exprs.filtered,...)
+GOResult<-BasicPipe4mArrays::GOAnalysis(fitMain = fitMain, ...)
+```
+The tricky thing to use these functions is, indeed, to set the value of all parameters needed and this is illustrated in the examples below.
+
+Besides this, it is possible to do more complex analyses using iterator functions that can call repeteadly some of the analysis functions so that they can be applied to different subsets of the data or with distinct design or contrast matrices. 
+
+
+# Use case 1: Basic microarray analysis using 3'IVT microarrays
+
+
+# Use case 2: Basic microarray analysis using exon (`clariom-s`) microarrays
+
+
+# Use case 3: A complex analysis (1) using iterators and a single design matrix
+
+
+# Use case 4: A complex analysis(2) with paired and unpaired data
+
