@@ -7,9 +7,11 @@ filt.by.Signal <- function(x, grups, threshold) {
 
 #################################################################
 filterBySignal <- function(expres, groups, threshold, sigFun.Name = "filt.by.signal", thr.as.perc = TRUE) {
-  ifelse(thr.as.perc,
-    signalThr <- quantile(as.vector(expres), threshold / 100),
-    signalThr <- threshold)
+  if(thr.as.perc) {
+    signalThr <- quantile(as.vector(expres), threshold / 100)
+  } else {
+    signalThr <- threshold
+  }
 
   sigFun <- eval(parse(text = sigFun.Name))
   filtered.vals <- apply (expres, 1, sigFun, groups, signalThr)
@@ -173,7 +175,8 @@ filterData <- function(expres,
 
   ### Filtratge per senyal
   if(bySignal && (!is.null(grups))) {
-    exprs.filtered.1 <- filterBySignal(exprs.filtered.0, grups, threshold= signalThr, sigFun.Name=sigFun.Name, thr.as.perc = sigThr.as.perc)
+    exprs.filtered.1 <- filterBySignal(exprs.filtered.0, grups, threshold = signalThr,
+                                       sigFun.Name = sigFun.Name, thr.as.perc = sigThr.as.perc)
   } else {
     exprs.filtered.1 <- exprs.filtered.0
   }
@@ -181,14 +184,19 @@ filterData <- function(expres,
   ### Aparellament. MOLTES vegades aquest pas no es fa. ?????????????
   ### EL control de si es fa o no el basem en la funcio d'aparellament que es passa com parametre
   ### Si es deixa a NULL el pas s'omet
-  ifelse(!is.null(pairingFun.Name),
-         exprs.filtered.2 <- do.call(pairingFun.Name, list(exprs.filtered.1, targets)),
-         exprs.filtered.2 <- exprs.filtered.1)
+  if(!is.null(pairingFun.Name)){
+    exprs.filtered.2 <- do.call(pairingFun.Name, list(exprs.filtered.1, targets))
+  } else {
+    exprs.filtered.2 <- exprs.filtered.1
+  }
 
   ### Filtratge per variabilitat
-  ifelse(byVar,
-         exprs.filtered.3 <- filterByVar (exprs.filtered.2, threshold = variabilityThr, varFun.Name = varFun.Name, thr.as.perc = varThr.as.perc),
-         exprs.filtered.3 <- exprs.filtered.2)
+  if(byVar) {
+    exprs.filtered.3 <- filterByVar(exprs.filtered.2, threshold = variabilityThr,
+                                    varFun.Name = varFun.Name, thr.as.perc = varThr.as.perc)
+  } else {
+    exprs.filtered.3 <- exprs.filtered.2
+  }
 
   ### Report del proces de filtratge
   if(!is.null(doReport)) {

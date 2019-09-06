@@ -13,11 +13,13 @@ GOTerms2Genes.sql <- function(hgResult, anotPackage)
                        FROM genes, gene_info
                        WHERE genes._id=gene_info._id"
 
-  ifelse(regexpr(".db", anotPackage) < 0,
-    genesAnnot <- dbGetQuery(eval(parse(text = paste0(anotPackage, "_dbconn()"))), sql.ENTREZSYMBOL),
-    genesAnnot <- dbGetQuery(eval(parse(text = paste0(substr(anotPackage, 1, nchar(anotPackage) - 3), "_dbconn()"))), sql.ENTREZSYMBOL))
+  if(regexpr(".db", anotPackage) < 0) {
+    genesAnnot <- dbGetQuery(eval(parse(text = paste0(anotPackage, "_dbconn()"))), sql.ENTREZSYMBOL)
+  } else {
+    genesAnnot <- dbGetQuery(eval(parse(text = paste0(substr(anotPackage, 1, nchar(anotPackage) - 3), "_dbconn()"))), sql.ENTREZSYMBOL)
+  }
 
-  if(runMulticore ==1 || runMulticore ==3) {
+  if(runMulticore == 1 || runMulticore == 3) {
     selectedSymb <- mclapply(selectedGenes, function(x) {genesAnnot[which(unlist(genesAnnot) %in% x), ]})
     selectedSymb <- mclapply(selectedSymb, function(x) {x <- x[, -1]})
   } else {
@@ -148,23 +150,28 @@ enrichment_Analysis <- function(EntrezIDs,
       reshgTest[, 1] <- goLinksTest(reshgTest[, 1])
       colnames(reshgTest)[1] <- "GOID"
 
-      ifelse(dir.i == 1,
-             reshgTest2table <- reshgTest,
-             reshgTest2table <- rbind(reshgTest2table, reshgTest))
+      if(dir.i == 1) {
+        reshgTest2table <- reshgTest
+      } else {
+        reshgTest2table <- rbind(reshgTest2table, reshgTest)
+      }
 
       dir.i <- dir.i + 1
     }
 
-    if(dim(reshgTest2table)[1]!=0) {
-      reshgTest2table <- cbind(Ontology = paste0("<center>", onto, "</center>"), reshgTest2table)
+    if(dim(reshgTest2table)[1] != 0) {
+      reshgTest2table <- cbind(Ontology = paste0("<center>", onto, "</center>"),
+                               reshgTest2table)
       resum <- rbind(resum, reshgTest2table)
     }
   }
 
   if(!is.null(resum)) {
-    ifelse(addGeneNames,
-           my.table <- resum[, c(1, 2, 8, 9, 7, 6, 5, 4, 3, 10)],
-           my.table <- resum[, c(1, 2, 8, 7, 6, 5, 4, 3, 9)])
+    if(addGeneNames) {
+      my.table <- resum[, c(1, 2, 8, 9, 7, 6, 5, 4, 3, 10)]
+    } else {
+      my.table <- resum[, c(1, 2, 8, 7, 6, 5, 4, 3, 9)]
+    }
 
     write.htmltable(x = my.table,
                     # file = file.path(outputDir, anotFName),                              ### ModAlba
@@ -250,9 +257,11 @@ GOAnalysis <- function(fitMain,
     }
 
     for(i in whichContrasts) {
-      ifelse(is.null(thrLogFC),
-        thrLogFC <- 0,
-        thrLogFC <- abs(thrLogFC))
+      if(is.null(thrLogFC)) {
+        thrLogFC <- 0
+      } else {
+        thrLogFC <- abs(thrLogFC)
+      }
 
       # top.Diff <- topTable(fitMain, coef = i, n = nrow(fitMain$t), adjust = "fdr", lfc=thrLogFC)  # Seleccionem per FDR y mes                       ### ModAlba
       top.Diff <- topTable(fitMain, coef = i, number = nrow(fitMain$t), adjust.method = "fdr", lfc = thrLogFC)  # Seleccionem per FDR y mes           ### ModAlba

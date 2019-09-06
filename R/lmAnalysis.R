@@ -101,9 +101,11 @@ annotateTopTable2 <- function(topTab,
                               anotFilename = "annotations") {
   # require("annotate",  character.only = TRUE)                                           ### ModAlba
 
-  ifelse(!is.null(topTab$ID),
-    gNames <- as.character(as.integer(topTab$ID)),
-    gNames <- as.character(rownames(topTab)))
+  if(!is.null(topTab$ID)){
+    gNames <- as.character(as.integer(topTab$ID))
+  } else {
+    gNames <- as.character(rownames(topTab))
+  }
 
   linkedGeneNanes <- knowledge2gNames(gNames, knowledgeFile =  paste(anotFilename, "html", sep = "."))
 
@@ -197,9 +199,11 @@ escriuTop_i_Express <- function(expres,
     expresA <- expres
   }
 
-  ifelse(!is.null(topTab$ID),
-    topA.order <- as.character(as.integer(topTab$ID)),
-    topA.order <- rownames(topTab))
+  if(!is.null(topTab$ID)) {
+    topA.order <- as.character(as.integer(topTab$ID))
+  } else {
+    topA.order <- rownames(topTab)
+  }
 
   if(!is.null(meansA)) meansA.ord <- meansA[topA.order, ]
 
@@ -459,9 +463,11 @@ lmAnalysis <- function(exprs.filtered,
 
       opt <- par(cex.lab = 0.7)
 
-      ifelse(!is.null(SYMBOLIDs),
-        volcanoNames <- SYMBOLIDs[rownames(exprs.filtered)],
-        volcanoNames <- rownames(exprs.filtered))
+      if(!is.null(SYMBOLIDs)) {
+        volcanoNames <- SYMBOLIDs[rownames(exprs.filtered)]
+      } else {
+        volcanoNames <- rownames(exprs.filtered)
+      }
 
       volcanoplot(fit.main, coef = i, highlight = 10, names = volcanoNames,
                   main = paste("Differentially expressed genes", contrastTitle, sep = "\n"))

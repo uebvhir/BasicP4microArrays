@@ -44,8 +44,7 @@ loadFromFile <- function (fileName, pos = 1) {
 #'                    cexForColumns = 0.8,
 #'                    cexForRows = 0.8,
 #'                    Title = paste(compName[i],
-#'                                  "with",
-#'                                  ifelse(adjMethod[i] == "none", "pvalues", "adj-pvalues"),
+#'                                  "with", pvalType,
 #'                                  "<", pValCutOff[i],
 #'                                  ifelse(minLogFoldChange[i]==0, "",
 #'                                         paste0("\n and |logFC|>=", minLogFoldChange[i]))),
@@ -68,17 +67,21 @@ doClusterAnalysis <- function(clustPar) {
   if(!is.null(p$expresFileName)) {
     expres <- loadFromFile(file.path(p$outputDir, p$expresFileName))
   } else {
-    ifelse(!is.null(p$dades),
-           expres <- eval(parse(text = p$dades)), # Posar-hi un tryCatch per poder sortir si d??na error!!!
-           stop("Error, Cal definir o les dades o el nom de l'arxiu"))
+    if(!is.null(p$dades)) {
+      expres <- eval(parse(text = p$dades)) # Posar-hi un tryCatch per poder sortir si d??na error!!!
+    } else {
+      stop("Error, Cal definir o les dades o el nom de l'arxiu")
+    }
   }
 
   if(!is.null(p$geneListFName)) {
     genes2cluster <- loadFromFile(file.path(p$outputDir, p$geneListFName))
   } else {
-    ifelse(is.null(p$genes2cluster),
-           stop("Error, Cal definir l'arxiu que conte la llista de gens o passar una variable que la contingui"),
-           genes2cluster <- p$genes2cluster)
+    if(is.null(p$genes2cluster)) {
+      stop("Error, Cal definir l'arxiu que conte la llista de gens o passar una variable que la contingui")
+    } else {
+      genes2cluster <- p$genes2cluster
+    }
   }
 
   clust <- clusterAnalysis(expres = expres,

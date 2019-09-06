@@ -203,9 +203,11 @@ clusterAnalysis <- function(expres,
   if(RowVals) {
     cutN <- cutree(clustRow, numClusters)
 
-    ifelse(ColVals,
-           names.ord <- (clustCol$labels[clustCol$order]),
-           names.ord <- 1:ncol(exprs2Cluster))
+    if(ColVals) {
+      names.ord <- (clustCol$labels[clustCol$order])
+    } else {
+      names.ord <- 1:ncol(exprs2Cluster)
+    }
 
     if(plotProfiles) {
       plotClustFName <- paste("ProfilePlots", comparisonName, "pdf", sep = ".")
@@ -239,7 +241,7 @@ clusterAnalysis <- function(expres,
       }
     }
     genesInClustersFName <- paste("genesInClusters", comparisonName, sep = ".")
-    csvType<-ifelse(is.null(csvType), "csv2", csvType)
+    csvType <- ifelse(is.null(csvType), "csv2", csvType)
     write2csv(my.genes, fileName = genesInClustersFName, csv = csvType, outputDir = outputDir)
     addToLinksFile(fileOfLinks, paste(genesInClustersFName,  substr(csvType[1], 1, 3), sep = "."),
                    categ = categLabel, desc = "Assignment of each gene to a cluster of made from genes selected from multiple comparisons")

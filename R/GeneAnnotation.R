@@ -128,9 +128,11 @@ GeneAnnotation <- function(egIDs,
   NAs <- egIDs[is.na(egIDs)]
   eg <- na.omit(egIDs)
 
-  ifelse(toHTML,
-         l.ai <- paste0("<span id=\"", names(eg), "\">", names(eg), "</span>"),
-         l.ai <- names(eg))
+  if(toHTML) {
+    l.ai <- paste0("<span id=\"", names(eg), "\">", names(eg), "</span>")
+  } else {
+    l.ai <- names(eg)
+  }
 
   l.eg <- repofun(x = eg, y = "ENTREZ")
   a <- cbind(l.ai, l.eg)
@@ -240,7 +242,9 @@ GeneAnnotation <- function(egIDs,
                     row.names = FALSE, col.names = TRUE, quote = FALSE, sep = "\t")
       }
 
-      anotationsFName <- ifelse(toHTML, paste(outFileName, "html", sep="."), paste(outFileName, "txt", sep="."))
+      anotationsFName <- ifelse(toHTML,
+                                paste(outFileName, "html", sep = "."),
+                                paste(outFileName, "txt", sep = "."))
       addToLinksFile(linksFile = linksFile,
                      aFName = anotationsFName,
                      categ = 'ANNOT',
@@ -261,7 +265,9 @@ GeneAnnotation <- function(egIDs,
                   row.names = FALSE, col.names = TRUE, quote = FALSE, sep = "\t")
     }
 
-    anotationsFName <- ifelse(toHTML, paste(outFileName, "html", sep = "."), paste(outFileName, "txt", sep = "."))
+    anotationsFName <- ifelse(toHTML,
+                              paste(outFileName, "html", sep = "."),
+                              paste(outFileName, "txt", sep = "."))
     addToLinksFile(linksFile = linksFile,
                    aFName = anotationsFName,
                    categ = 'ANNOT',

@@ -47,9 +47,11 @@ normalization <- function(my.data = NULL,
                           outputDir,
                           exonSt = FALSE) {
   if(!loadFile) {
-    ifelse(exonSt,
-           my.norm <- affy::rma(my.data, target = ifelse(is.null(method), "core", method)),
-           my.norm <- normalitza(my.data, method))
+    if(exonSt) {
+      my.norm <- affy::rma(my.data, target = ifelse(is.null(method), "core", method))
+    } else {
+      my.norm <- normalitza(my.data, method)
+    }
 
     save(my.norm, file = file.path(outputDir, normalizedFName))
   } else {

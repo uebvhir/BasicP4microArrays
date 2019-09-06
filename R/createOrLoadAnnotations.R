@@ -48,10 +48,12 @@ creaAnotFromChipPackage <- function (chipPackage, field = "ENTREZ", cleanNAs = T
     if(is.na(ctlCode))
       stop("Control codes must be different from NA")
 
-    controls <-sapply(myAnotTable, function (x) ifelse(regexpr(ctlCode, x) > 0, TRUE, FALSE))
-    ifelse(!removeControls,
-           myAnotTable<- myAnotTable[controls],
-           myAnotTable<- myAnotTable[!controls])
+    controls <- sapply(myAnotTable, function (x) ifelse(regexpr(ctlCode, x) > 0, TRUE, FALSE))
+    if(!removeControls) {
+      myAnotTable <- myAnotTable[controls]
+    } else {
+      myAnotTable <- myAnotTable[!controls]
+    }
   }
   return(myAnotTable)
 }

@@ -69,9 +69,11 @@ GOTerms2Genes.sql <- function(hgResult, anotPackage) {
                        FROM genes, gene_info
                        WHERE genes._id=gene_info._id"
 
-  ifelse(regexpr(".db", anotPackage) < 0,
-    genesAnnot <- dbGetQuery(eval(parse(text = paste0(anotPackage, "_dbconn()"))), sql.ENTREZSYMBOL),
-    genesAnnot <- dbGetQuery(eval(parse(text = paste0(substr(anotPackage, 1, nchar(anotPackage) - 3), "_dbconn()"))), sql.ENTREZSYMBOL))
+  if(regexpr(".db", anotPackage) < 0) {
+    genesAnnot <- dbGetQuery(eval(parse(text = paste0(anotPackage, "_dbconn()"))), sql.ENTREZSYMBOL)
+  } else {
+    genesAnnot <- dbGetQuery(eval(parse(text = paste0(substr(anotPackage, 1, nchar(anotPackage) - 3), "_dbconn()"))), sql.ENTREZSYMBOL)
+  }
 
   if(runMulticore == 1 || runMulticore == 3) {
     selectedSymb <- mclapply(selectedGenes, function(x) {genesAnnot[which(unlist(genesAnnot) %in% x), ]})
@@ -107,9 +109,11 @@ KEGGEnrAn <- function(EntrezIDs,
   anotPack <- annotation(param)
 
   getSymbol <- function(x) {
-    ifelse(length(x) > 0,
-           simbols <- getSYMBOL(x, anotPack),
-           simbols <- NULL)
+    if(length(x) > 0) {
+      simbols <- getSYMBOL(x, anotPack)
+    } else {
+      simbols <- NULL
+    }
 
     return(simbols)
   }
@@ -224,20 +228,26 @@ KEGGAnalysis <- function(fitMain,
     }
 
     for(i in whichContrasts) {
-      ifelse(is.null(thrLogFC),
-             thrLogFC <- 0,
-             thrLogFC <- abs(thrLogFC))
+      if(is.null(thrLogFC)) {
+        thrLogFC <- 0
+      } else {
+        thrLogFC <- abs(thrLogFC)
+      }
 
       # top.Diff <- topTable(fitMain, coef = i, n = nrow(fitMain$t), adjust = "fdr", lfc = thrLogFC)              ### ModAlba
       top.Diff <- topTable(fitMain, coef = i, number = nrow(fitMain$t), adjust.method = "fdr", lfc = thrLogFC)    ### ModAlba
 
-      ifelse(cutoffMethod == "adjusted",
-        top.Diff.selected <- top.Diff[top.Diff$adj.P.Val < P.Value.cutoff[i], ],
-        top.Diff.selected <- top.Diff[top.Diff$P.Value < P.Value.cutoff[i], ])
+      if(cutoffMethod == "adjusted") {
+        top.Diff.selected <- top.Diff[top.Diff$adj.P.Val < P.Value.cutoff[i], ]
+      } else {
+        top.Diff.selected <- top.Diff[top.Diff$P.Value < P.Value.cutoff[i], ]
+      }
 
-      ifelse(!is.null(top.Diff.selected$ID),
-        gNames <- top.Diff.selected.up$ID,
-        gNames <- rownames(top.Diff.selected))
+      if(!is.null(top.Diff.selected$ID)) {
+        gNames <- top.Diff.selected.up$ID
+      } else {
+        gNames <- rownames(top.Diff.selected)
+      }
 
       if(!(is.null(my.IDs))) {
         selectedEntrezIds <- unlist(my.IDs[gNames])

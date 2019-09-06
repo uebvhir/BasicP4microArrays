@@ -52,9 +52,11 @@ doKEGGAnalysis <- function(KEGGPar) {
   if(!is.null(p$fitFileName)) {
     fitMain <- loadFromFile(file.path(p$outputDir, p$fitFileName))
   } else {
-    ifelse(!is.null(p$fitMain),
-           fitMain <- eval(parse(text = p$fitMain)), # Posar-hi un tryCatch per poder sortir si dona error!!!
-           stop("Error, cal subministrar un nom d'arxiu o d'objecte 'fitMain'"))
+    if(!is.null(p$fitMain)) {
+      fitMain <- eval(parse(text = p$fitMain)) # Posar-hi un tryCatch per poder sortir si dona error!!!
+    } else {
+      stop("Error, cal subministrar un nom d'arxiu o d'objecte 'fitMain'")
+    }
   }
 
   KEGGResult <- KEGGAnalysis(fitMain = fitMain,

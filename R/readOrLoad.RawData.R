@@ -32,10 +32,11 @@
 
 readOrLoad.RawData <- function(readCELS, phenoDat, fileNames, dataFName, outputDir, exonSt = FALSE, cdf = NULL) {
   if(readCELS) {
-    ifelse(exonSt,
-           my.raw <- read.celfiles(filenames = fileNames, verbose = TRUE),
-           my.raw <- ReadAffy(filenames = fileNames, phenoData = phenoDat, verbose = TRUE, cdfname = cdf))
-
+    if(exonSt) {
+      my.raw <- read.celfiles(filenames = fileNames, verbose = TRUE)
+    } else {
+      my.raw <- ReadAffy(filenames = fileNames, phenoData = phenoDat, verbose = TRUE, cdfname = cdf)
+    }
     save(my.raw, file = file.path(outputDir, dataFName))
   } else {
     load(file = file.path(outputDir, dataFName))

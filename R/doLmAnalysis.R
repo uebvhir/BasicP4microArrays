@@ -67,14 +67,18 @@ doLmAnalysis <- function(lmPar) {
   if(!is.null(p$expresFileName)) {
     expres <- loadFromFile (file.path(p$outputDir, p$expresFileName))
   } else {
-    ifelse(!is.null(p$dades),
-           expres <- eval(parse(text = p$dades)), # Posar-hi un tryCatch per poder sortir si d error!!!
-           stop("Error, Cal definir o les dades o el nom de l'arxiu"))
+    if(!is.null(p$dades)) {
+      expres <- eval(parse(text = p$dades)) # Posar-hi un tryCatch per poder sortir si d error!!!
+    } else {
+      stop("Error, Cal definir o les dades o el nom de l'arxiu")
+    }
   }
 
-  ifelse(is.null(p$whichContrasts),
-    contrasts2test <- 1:ncol(p$contMat),
-    contrasts2test <- p$whichContrasts)
+  if(is.null(p$whichContrasts)) {
+    contrasts2test <- 1:ncol(p$contMat)
+  } else {
+    contrasts2test <- p$whichContrasts
+  }
 
   fitMain <- lmAnalysis(exprs.filtered = expres,
                         design = p$designMat,

@@ -14,4 +14,8 @@ LazyData: true
 RoxygenNote: 6.1.1
 Suggests: knitr,
     rmarkdown
-VignetteBuilder: knitr
+Remotes:
+	protViz/bibliospec,
+	statOmics/MSqRob
+BiocViews:
+ VignetteBuilder: knitr

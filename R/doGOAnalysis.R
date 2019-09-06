@@ -57,9 +57,11 @@ doGOAnalysis <- function(GOPar) {
   if(!is.null(p$fitFileName)) {
     fitMain <- loadFromFile(file.path(p$outputDir, p$fitFileName))
   } else {
-    ifelse(!is.null(p$fitMain),
-           fitMain <- eval(parse(text = p$fitMain)), # Posar-hi un tryCatch per poder sortir si d??na error!!!
-           stop("Error, Cal subministrar un nom d'arxiu o d'objecte 'fitMain'"))
+    if(!is.null(p$fitMain)) {
+      fitMain <- eval(parse(text = p$fitMain)) # Posar-hi un tryCatch per poder sortir si d??na error!!!
+    } else {
+      stop("Error, Cal subministrar un nom d'arxiu o d'objecte 'fitMain'")
+    }
   }
 
   if(!is.null(p$my.IDs)) my.IDs <- midSinonims(p$my.IDs)

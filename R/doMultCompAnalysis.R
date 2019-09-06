@@ -63,9 +63,11 @@ doMultCompAnalysis <- function(mcPar) {
   if(!is.null(p$fitFileName)) {
     fitMain <- loadFromFile(file.path(p$outputDir, p$fitFileName))
   } else {
-    ifelse(!is.null(p$fitMain),
-           fitMain <- eval(parse(text = p$fitMain)),            # Posar-hi un tryCatch per poder sortir si dona error!!!
-           stop("Error, Cal subministrar un nom d'arxiu o d'objecte 'fitMain'"))
+    if(!is.null(p$fitMain)) {
+      fitMain <- eval(parse(text = p$fitMain))            # Posar-hi un tryCatch per poder sortir si dona error!!!
+    } else {
+      stop("Error, Cal subministrar un nom d'arxiu o d'objecte 'fitMain'")
+    }
   }
 
   geneList <-  multipleComp(fitMain = fitMain,
