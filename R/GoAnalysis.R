@@ -246,6 +246,7 @@ GOAnalysis <- function(fitMain,
   if((!is.null(fitMain)) && (!is.null(fitMain$contrasts[, whichContrasts]))) {
     if(is.null(my.IDs)) {
       # stopifnot(require(old2db (anotPackage), character.only=T))                                              ### ModAlba
+      stopifnot(requireNamespace(old2db(anotPackage), character.only = T))                                      ### ModAlba
 
       myenvirENTREZID <- eval(parse(text = paste0(anotPackage, "ENTREZID")))
 
@@ -291,6 +292,7 @@ GOAnalysis <- function(fitMain,
         selectedEntrezIds.down <- unique(selectedEntrezIds.down[selectedEntrezIds.down != "---"])
       } else {
         # stopifnot(require(old2db (anotPackage), character.only=T))                                                  ### ModAlba
+        stopifnot(requireNamespace(old2db(anotPackage), character.only = T))                                          ### ModAlba
 
         myenvirENTREZID <- eval(parse(text = paste0(anotPackage, "ENTREZID")))
 

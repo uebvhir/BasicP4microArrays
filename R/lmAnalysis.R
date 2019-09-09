@@ -401,6 +401,7 @@ lmAnalysis <- function(exprs.filtered,
   numGenesChanged <- genesSelected(NULL)
   if((is.null(ENTREZIDs)) & (!is.null(anotPackage))) {
     # stopifnot(require(old2db (anotPackage), character.only = T))                                  ### ModAlba
+    stopifnot(requireNamespace(old2db(anotPackage), character.only = T))                            ### ModAlba
     envirName <- paste0(anotPackage, "ENTREZID")
     myenvirENTREZID <- eval(parse(text = envirName))
     ENTREZIDs <- unlist(AnnotationDbi::mget(rownames(exprs.filtered), myenvirENTREZID, ifnotfound = NA))
@@ -408,6 +409,7 @@ lmAnalysis <- function(exprs.filtered,
 
   if((is.null(SYMBOLIDs)) & (!is.null(anotPackage))) {
     # stopifnot(require(old2db (anotPackage), character.only = T))                                  ### ModAlba
+    stopifnot(requireNamespace(old2db(anotPackage), character.only = T))                            ### ModAlba
     myenvirSYMBOL <- eval(parse(text = paste0(anotPackage, "SYMBOL")))
     SYMBOLIDs <- unlist(AnnotationDbi::mget(rownames(exprs.filtered), env = myenvirSYMBOL, ifnotfound = NA))
   }

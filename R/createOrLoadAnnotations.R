@@ -16,11 +16,16 @@ old2db <- function(anot){paste(anot, "db", sep = ".")}
 creaAnotFromChipPackage <- function (chipPackage, field = "ENTREZ", cleanNAs = T,
                                      isControl = FALSE, ctlCode = NA, removeControls = FALSE)
 {
-  # if (!require(old2db (chipPackage), character.only=T)){                    ### ModAlba
-  #   stop(paste("Required annotation package", chipPackage," is missing"))   ### ModAlba
-  # }else{                                                                    ### ModAlba
-  #   require(old2db (chipPackage), character.only=T) # No deu caldre         ### ModAlba
+  # if(!require(old2db(chipPackage), character.only = T)) {                   ### ModAlba
+  #   stop(paste("Required annotation package", chipPackage, " is missing"))  ### ModAlba
+  # } else {                                                                  ### ModAlba
+  #   require(old2db(chipPackage), character.only = T) # No deu caldre        ### ModAlba
   # }                                                                         ### ModAlba
+  if(!requireNamespace(old2db(chipPackage), character.only = T)) {            ### ModAlba
+    stop(paste("Required annotation package", chipPackage, " is missing"))    ### ModAlba
+  } else {                                                                    ### ModAlba
+    requireNamespace(old2db(chipPackage), character.only = T) # No deu caldre ### ModAlba
+  }                                                                           ### ModAlba
 
   if(isControl) {
     cleanNAs <- FALSE
@@ -67,6 +72,11 @@ creaAnotFromPDPackage <- function(dbPackage, field, fieldName = NULL, cleanNAs =
   # }else{                                                                          ### ModAlba
   #   require(dbPackage, character.only=T) # No deu caldre                          ### ModAlba
   # }                                                                               ### ModAlba
+  if(!requireNamespace(dbPackage, character.only = T)) {                            ### ModAlba
+    stop(paste("Required Platfform design package", dbPackage," is missing"))       ### ModAlba
+  }else{                                                                            ### ModAlba
+    requireNamespace(dbPackage, character.only = T) # No deu caldre                 ### ModAlba
+  }                                                                                 ### ModAlba
 
   conn <- db(eval(parse(text = dbPackage)))
   fSetType <- dbGetQuery(conn,
