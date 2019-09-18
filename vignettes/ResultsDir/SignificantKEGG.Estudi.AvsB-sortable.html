@@ -1,0 +1,383 @@
+<html lang="en">
+  <head>
+    <title>KEGG Enrichment Analysis</title>
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <script type="text/javascript" src="jquery-1.4.2.js"></script>
+    <script type="text/javascript" src="jquery.tablesorter.js"></script>
+    <script type="text/javascript">
+$(document).ready(function()
+  {
+    $("#myTable").tablesorter();
+  }
+);
+    </script>
+  </head>
+  <body>
+    <table id="myTable" class="tablesorter" border="0" cellspacing="1" cellpadding="0">
+      <thead>
+        <tr>
+                      <th>KEGGID</th>
+                      <th>Pvalue</th>
+                      <th>OddsRatio</th>
+                      <th>ExpCount</th>
+                      <th>Count</th>
+                      <th>Size</th>
+                      <th>Term</th>
+                      <th>GeneNames</th>
+                  </tr>
+      </thead>
+      <tbody>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa05219">05219</a></td>
+                      <td>8.93776998540484e-05</td>
+                      <td>5.38279596663762</td>
+                      <td>2.41228448275862</td>
+                      <td>10</td>
+                      <td>39</td>
+                      <td>Bladder cancer</td>
+                      <td>CDH1, CDKN2A, DAPK1, E2F3, EGF, ERBB2, FGFR3, CXCL8, MYC, NRAS</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa05213">05213</a></td>
+                      <td>0.000178209242825629</td>
+                      <td>4.40858416945373</td>
+                      <td>3.0926724137931</td>
+                      <td>11</td>
+                      <td>50</td>
+                      <td>Endometrial cancer</td>
+                      <td>CDH1, EGF, ERBB2, MYC, NRAS, PIK3CA, PIK3R1, TCF7L2, PIK3R3, AKT3, TCF7L1</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa05215">05215</a></td>
+                      <td>0.000179304201388493</td>
+                      <td>3.37421218487395</td>
+                      <td>5.25754310344828</td>
+                      <td>15</td>
+                      <td>85</td>
+                      <td>Prostate cancer</td>
+                      <td>AR, BCL2, CCNE1, E2F3, EGF, ERBB2, FGFR2, NRAS, PIK3CA, PIK3R1, TCF7L2, TGFA, PIK3R3, AKT3, TCF7L1</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa05223">05223</a></td>
+                      <td>0.0010853395753517</td>
+                      <td>3.7055183084064</td>
+                      <td>3.21637931034483</td>
+                      <td>10</td>
+                      <td>52</td>
+                      <td>Non-small cell lung cancer</td>
+                      <td>CDKN2A, E2F3, EGF, ERBB2, NRAS, PIK3CA, PIK3R1, TGFA, PIK3R3, AKT3</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa04062">04062</a></td>
+                      <td>0.00111287948236733</td>
+                      <td>2.30756578947368</td>
+                      <td>10.2058189655172</td>
+                      <td>21</td>
+                      <td>165</td>
+                      <td>Chemokine signaling pathway</td>
+                      <td>ADCY2, ADCY7, CCR1, GNAI3, CXCL1, CXCL2, CXCL8, LYN, NRAS, PIK3CA, PIK3R1, PRKACB, PRKX, CCL2, CCL8, CCL13, CCL18, CXCL5, PIK3R3, AKT3, VAV3</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa04012">04012</a></td>
+                      <td>0.0013778199543411</td>
+                      <td>2.94573151380514</td>
+                      <td>5.07198275862069</td>
+                      <td>13</td>
+                      <td>82</td>
+                      <td>ErbB signaling pathway</td>
+                      <td>EGF, ERBB2, ERBB3, ERBB4, MYC, NCK1, NRAS, PAK2, PIK3CA, PIK3R1, TGFA, PIK3R3, AKT3</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa05221">05221</a></td>
+                      <td>0.00170155291766657</td>
+                      <td>3.4560770156438</td>
+                      <td>3.40193965517241</td>
+                      <td>10</td>
+                      <td>55</td>
+                      <td>Acute myeloid leukemia</td>
+                      <td>KIT, MYC, NRAS, PIK3CA, PIK3R1, TCF7L2, ZBTB16, PIK3R3, AKT3, TCF7L1</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa01040">01040</a></td>
+                      <td>0.00291793807817556</td>
+                      <td>6.41400709219858</td>
+                      <td>1.05150862068966</td>
+                      <td>5</td>
+                      <td>17</td>
+                      <td>Biosynthesis of unsaturated fatty acids</td>
+                      <td>SCD, ACOX3, HACD1, ELOVL5, ELOVL6</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa04146">04146</a></td>
+                      <td>0.00341189855460648</td>
+                      <td>2.90063866371899</td>
+                      <td>4.32974137931035</td>
+                      <td>11</td>
+                      <td>70</td>
+                      <td>Peroxisome</td>
+                      <td>CRAT, ACSL1, ACSL4, IDH2, ACOX2, ACOX3, AGPS, PEX11A, ECI2, CROT, FAR2</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa03320">03320</a></td>
+                      <td>0.00426161074322251</td>
+                      <td>2.98597611774507</td>
+                      <td>3.83491379310345</td>
+                      <td>10</td>
+                      <td>62</td>
+                      <td>PPAR signaling pathway</td>
+                      <td>FABP5, FABP6, ACSL1, ACSL4, HMGCS2, LPL, PLTP, SCD, ACOX2, ACOX3</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa05216">05216</a></td>
+                      <td>0.00628845870640644</td>
+                      <td>4.20349401488192</td>
+                      <td>1.73189655172414</td>
+                      <td>6</td>
+                      <td>28</td>
+                      <td>Thyroid cancer</td>
+                      <td>CDH1, MYC, NRAS, RET, TCF7L2, TCF7L1</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa04666">04666</a></td>
+                      <td>0.00673878138226154</td>
+                      <td>2.48901818181818</td>
+                      <td>5.38125</td>
+                      <td>12</td>
+                      <td>87</td>
+                      <td>Fc gamma R-mediated phagocytosis</td>
+                      <td>FCGR2A, FCGR2B, LYN, PIK3CA, PIK3R1, PLA2G4A, PTPRC, PIK3R3, SPHK1, WASF1, AKT3, VAV3</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa05218">05218</a></td>
+                      <td>0.00748022462937725</td>
+                      <td>2.72088162644879</td>
+                      <td>4.14418103448276</td>
+                      <td>10</td>
+                      <td>67</td>
+                      <td>Melanoma</td>
+                      <td>CDH1, CDKN2A, E2F3, EGF, FGF9, NRAS, PIK3CA, PIK3R1, PIK3R3, AKT3</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa00350">00350</a></td>
+                      <td>0.00772728885620987</td>
+                      <td>3.48548387096774</td>
+                      <td>2.35043103448276</td>
+                      <td>7</td>
+                      <td>38</td>
+                      <td>Tyrosine metabolism</td>
+                      <td>ALDH3B2, DDC, FAH, GSTZ1, HGD, MAOA, TRMT11</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa05212">05212</a></td>
+                      <td>0.0083045580180964</td>
+                      <td>2.67334744180256</td>
+                      <td>4.20603448275862</td>
+                      <td>10</td>
+                      <td>68</td>
+                      <td>Pancreatic cancer</td>
+                      <td>CDKN2A, E2F3, EGF, ERBB2, PIK3CA, PIK3R1, TGFA, PIK3R3, ARHGEF6, AKT3</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa05214">05214</a></td>
+                      <td>0.00951314774368391</td>
+                      <td>2.78611510791367</td>
+                      <td>3.64935344827586</td>
+                      <td>9</td>
+                      <td>59</td>
+                      <td>Glioma</td>
+                      <td>CDKN2A, E2F3, EGF, NRAS, PIK3CA, PIK3R1, TGFA, PIK3R3, AKT3</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa04114">04114</a></td>
+                      <td>0.0104627292905686</td>
+                      <td>2.33072727272727</td>
+                      <td>5.69051724137931</td>
+                      <td>12</td>
+                      <td>92</td>
+                      <td>Oocyte meiosis</td>
+                      <td>ADCY2, ADCY7, AR, BUB1, CCNE1, CDC20, ITPR2, PRKACB, PRKX, SMC3, PTTG1, FBXO5</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa01100">01100</a></td>
+                      <td>0.0118434808428263</td>
+                      <td>1.40053156146179</td>
+                      <td>56.4103448275862</td>
+                      <td>72</td>
+                      <td>912</td>
+                      <td>Metabolic pathways</td>
+                      <td>ABAT, AK2, AK4, ALDH3B2, AKR1B1, ALOX15B, AMD1, ASNS, CES1, CYP2J2, DCK, DDC, DHCR24, ENO2, ACSL1, ACSL4, FAH, FASN, G6PD, GALE, GLS, GSTZ1, HGD, HMGCS2, HPRT1, IDH2, IDO1, LDHB, MAOA, ALDH6A1, NNMT, P4HA1, ENPP1, PLA2G4A, PON2, MSMO1, SC5D, SORD, AKR1D1, TM7SF2, TSTA3, TYMS, UGDH, TUSC3, ACOX2, ACOX3, AGPS, KMO, INPP4B, SPHK1, KYNU, PAPSS2, SPTLC2, AKR1A1, ST3GAL6, POLR3G, HPSE, GALNT6, SEPHS2, RPIA, QPRT, NNT, ACAD8, DCXR, GALNT7, UGT2B28, CSGALNACT2, GALNT10, AKR1B10, MCCC2, ACSS3, ST6GALNAC5</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa05130">05130</a></td>
+                      <td>0.0120481410672112</td>
+                      <td>2.87405184629491</td>
+                      <td>3.15452586206897</td>
+                      <td>8</td>
+                      <td>51</td>
+                      <td>Pathogenic Escherichia coli infection</td>
+                      <td>CD14, CDH1, FYN, HCLS1, KRT18, NCK1, LY96, TUBB6</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa04664">04664</a></td>
+                      <td>0.0123187684495869</td>
+                      <td>2.49854431116804</td>
+                      <td>4.45344827586207</td>
+                      <td>10</td>
+                      <td>72</td>
+                      <td>Fc epsilon RI signaling pathway</td>
+                      <td>FYN, LYN, NRAS, PIK3CA, PIK3R1, PLA2G4A, MAP2K6, PIK3R3, AKT3, VAV3</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa05200">05200</a></td>
+                      <td>0.0126557820260093</td>
+                      <td>1.65398930960177</td>
+                      <td>18.9271551724138</td>
+                      <td>29</td>
+                      <td>306</td>
+                      <td>Pathways in cancer</td>
+                      <td>BIRC3, AR, BCL2, CCNE1, CDH1, CDKN2A, COL4A5, DAPK1, E2F3, EGF, ERBB2, FGF9, FGFR3, FGFR2, CXCL8, KIT, MYC, NRAS, PIK3CA, PIK3R1, RET, SKP2, TCF7L2, TGFA, ZBTB16, FZD7, PIK3R3, AKT3, TCF7L1</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa00051">00051</a></td>
+                      <td>0.0142607620604426</td>
+                      <td>3.42111506524318</td>
+                      <td>2.04116379310345</td>
+                      <td>6</td>
+                      <td>33</td>
+                      <td>Fructose and mannose metabolism</td>
+                      <td>AKR1B1, SORD, TSTA3, MTMR1, MTMR2, AKR1B10</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa00040">00040</a></td>
+                      <td>0.0144228822617219</td>
+                      <td>5.113074204947</td>
+                      <td>0.989655172413793</td>
+                      <td>4</td>
+                      <td>16</td>
+                      <td>Pentose and glucuronate interconversions</td>
+                      <td>AKR1B1, UGDH, DCXR, UGT2B28</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa05222">05222</a></td>
+                      <td>0.0147671666455376</td>
+                      <td>2.30459263611438</td>
+                      <td>5.25754310344828</td>
+                      <td>11</td>
+                      <td>85</td>
+                      <td>Small cell lung cancer</td>
+                      <td>BIRC3, BCL2, CCNE1, COL4A5, E2F3, MYC, PIK3CA, PIK3R1, SKP2, PIK3R3, AKT3</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa04914">04914</a></td>
+                      <td>0.0148052251915329</td>
+                      <td>2.41933664259928</td>
+                      <td>4.57715517241379</td>
+                      <td>10</td>
+                      <td>74</td>
+                      <td>Progesterone-mediated oocyte maturation</td>
+                      <td>ADCY2, ADCY7, BUB1, GNAI3, PIK3CA, PIK3R1, PRKACB, PRKX, PIK3R3, AKT3</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa04916">04916</a></td>
+                      <td>0.0160326047048381</td>
+                      <td>2.27333333333333</td>
+                      <td>5.31939655172414</td>
+                      <td>11</td>
+                      <td>86</td>
+                      <td>Melanogenesis</td>
+                      <td>ADCY2, ADCY7, GNAI3, GNAS, KIT, NRAS, PRKACB, PRKX, TCF7L2, FZD7, TCF7L1</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa00760">00760</a></td>
+                      <td>0.0179628650874285</td>
+                      <td>4.71867355259581</td>
+                      <td>1.05150862068966</td>
+                      <td>4</td>
+                      <td>17</td>
+                      <td>Nicotinate and nicotinamide metabolism</td>
+                      <td>NNMT, ENPP1, QPRT, NNT</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa00100">00100</a></td>
+                      <td>0.0219982770475136</td>
+                      <td>4.38061585058052</td>
+                      <td>1.11336206896552</td>
+                      <td>4</td>
+                      <td>18</td>
+                      <td>Steroid biosynthesis</td>
+                      <td>DHCR24, MSMO1, SC5D, TM7SF2</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa04110">04110</a></td>
+                      <td>0.022696569894325</td>
+                      <td>1.99739827997398</td>
+                      <td>7.05129310344828</td>
+                      <td>13</td>
+                      <td>114</td>
+                      <td>Cell cycle</td>
+                      <td>BUB1, BUB1B, CCNE1, CDC20, CDKN2A, E2F3, SFN, MYC, SKP2, TFDP1, TTK, SMC3, PTTG1</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa04660">04660</a></td>
+                      <td>0.0275671892346382</td>
+                      <td>1.99882697947214</td>
+                      <td>6.49461206896552</td>
+                      <td>12</td>
+                      <td>105</td>
+                      <td>T cell receptor signaling pathway</td>
+                      <td>MAP3K8, FYN, NCK1, NRAS, PAK2, PIK3CA, PIK3R1, PTPRC, PIK3R3, AKT3, RASGRP1, VAV3</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa05210">05210</a></td>
+                      <td>0.0300040070743843</td>
+                      <td>2.37165701681831</td>
+                      <td>3.71120689655172</td>
+                      <td>8</td>
+                      <td>60</td>
+                      <td>Colorectal cancer</td>
+                      <td>BCL2, MYC, PIK3CA, PIK3R1, TCF7L2, PIK3R3, AKT3, TCF7L1</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa04540">04540</a></td>
+                      <td>0.0331279768816198</td>
+                      <td>2.08752073373012</td>
+                      <td>5.19568965517241</td>
+                      <td>10</td>
+                      <td>84</td>
+                      <td>Gap junction</td>
+                      <td>ADCY2, ADCY7, EGF, GNAI3, GNAS, ITPR2, NRAS, PRKACB, PRKX, TUBB6</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa04210">04210</a></td>
+                      <td>0.0331279768816198</td>
+                      <td>2.08752073373012</td>
+                      <td>5.19568965517241</td>
+                      <td>10</td>
+                      <td>84</td>
+                      <td>Apoptosis</td>
+                      <td>BIRC3, BCL2, CASP6, CSF2RB, PIK3CA, PIK3R1, PRKACB, PRKX, PIK3R3, AKT3</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa04960">04960</a></td>
+                      <td>0.0344692489830707</td>
+                      <td>2.71237178145279</td>
+                      <td>2.47413793103448</td>
+                      <td>6</td>
+                      <td>40</td>
+                      <td>Aldosterone-regulated sodium reabsorption</td>
+                      <td>SFN, PIK3CA, PIK3R1, SCNN1A, PIK3R3, IRS2</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa05020">05020</a></td>
+                      <td>0.0499299859754256</td>
+                      <td>2.73872847011145</td>
+                      <td>2.04116379310345</td>
+                      <td>5</td>
+                      <td>33</td>
+                      <td>Prion diseases</td>
+                      <td>C1QA, FYN, NOTCH1, PRKACB, PRKX</td>
+                  </tr>
+              </tbody>
+    </table>
+  </body>
+</html>

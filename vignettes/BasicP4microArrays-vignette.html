@@ -13,7 +13,7 @@
 
 <meta name="author" content="Mercedes Guerrero, Alba Serrano and Alex Sanchez" />
 
-<meta name="date" content="2019-09-09" />
+<meta name="date" content="2019-09-18" />
 
 <title>Examples of microarray analysis using BasicP4microArrays functions</title>
 
@@ -304,7 +304,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">Examples of microarray analysis using <code>BasicP4microArrays</code> functions</h1>
 <h4 class="author">Mercedes Guerrero, Alba Serrano and Alex Sanchez</h4>
-<h4 class="date">2019-09-09</h4>
+<h4 class="date">2019-09-18</h4>
 
 
 
@@ -335,15 +335,18 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <p>The <code>BasicP4microArrays</code> package implement a few “main” functions which together support a typical microarray analysis workflow. That is, ignoring the parameters of these functions the previous workflow could be implemented with several calls such as:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(BasicP4microArrays)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="cf">if</span>(<span class="op">!</span>(<span class="kw">require</span>(hgu133a2))) BiocManager<span class="op">::</span><span class="kw">install</span>(<span class="st">&quot;hgu133a2.db&quot;</span>)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">rawData &lt;-<span class="st">        </span>BasicP4microArrays<span class="op">::</span><span class="kw">readOrLoad.RawData</span>(...)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">anotacions &lt;-<span class="st">     </span>BasicP4microArrays<span class="op">::</span><span class="kw">createOrLoadAnnotations</span>(...)</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">eset_norm &lt;-<span class="st">      </span>BasicP4microArrays<span class="op">::</span><span class="kw">normalization</span>(<span class="dt">my.data =</span> rawData, ...)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">rawData        &lt;-<span class="st"> </span>BasicP4microArrays<span class="op">::</span><span class="kw">readOrLoad.RawData</span>(...)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">anotacions     &lt;-<span class="st"> </span>BasicP4microArrays<span class="op">::</span><span class="kw">createOrLoadAnnotations</span>(...)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">eset_norm      &lt;-<span class="st"> </span>BasicP4microArrays<span class="op">::</span><span class="kw">normalization</span>(<span class="dt">my.data =</span> rawData, ...)</a>
 <a class="sourceLine" id="cb1-6" data-line-number="6">                  BasicP4microArrays<span class="op">::</span><span class="kw">normplots2File</span>(<span class="dt">my.data =</span> eset_norm, ...)</a>
 <a class="sourceLine" id="cb1-7" data-line-number="7">exprs.filtered &lt;-<span class="st"> </span>BasicP4microArrays<span class="op">::</span><span class="kw">filterData</span>(<span class="dt">expres =</span> <span class="kw">exprs</span>(eset_norm), ...)</a>
-<a class="sourceLine" id="cb1-8" data-line-number="8">fitMain &lt;-<span class="st">        </span>BasicP4microArrays<span class="op">::</span><span class="kw">lmAnalysis</span>(<span class="dt">exprs.filtered =</span> exprs.filtered, ...)</a>
-<a class="sourceLine" id="cb1-9" data-line-number="9">genesAnnotated &lt;-<span class="st"> </span>BasicP4microArrays<span class="op">::</span><span class="kw">GeneAnnotation</span>(<span class="dt">egIDs =</span> genes2annotate, ...)</a>
-<a class="sourceLine" id="cb1-10" data-line-number="10">clust &lt;-<span class="st">          </span>BasicP4microArrays<span class="op">::</span><span class="kw">clusterAnalysis</span>(<span class="dt">expres =</span> exprs.filtered, ...)</a>
-<a class="sourceLine" id="cb1-11" data-line-number="11">GOResult &lt;-<span class="st">       </span>BasicP4microArrays<span class="op">::</span><span class="kw">GOAnalysis</span>(<span class="dt">fitMain =</span> fitMain, ...)</a></code></pre></div>
+<a class="sourceLine" id="cb1-8" data-line-number="8">                  BasicP4microArrays<span class="op">::</span><span class="kw">saveData</span>(<span class="dt">expres =</span> <span class="kw">exprs</span>(eset_norm), ...)</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">fitMain        &lt;-<span class="st"> </span>BasicP4microArrays<span class="op">::</span><span class="kw">lmAnalysis</span>(<span class="dt">exprs.filtered =</span> exprs.filtered, ...)</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">genesAnnotated &lt;-<span class="st"> </span>BasicP4microArrays<span class="op">::</span><span class="kw">GeneAnnotation</span>(<span class="dt">egIDs =</span> genes2annotate, ...)</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">geneList       &lt;-<span class="st"> </span>BasicP4microArrays<span class="op">::</span><span class="kw">multipleComp</span>(<span class="dt">fitMain =</span> fitMain, ...)</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12">clust          &lt;-<span class="st"> </span>BasicP4microArrays<span class="op">::</span><span class="kw">clusterAnalysis</span>(<span class="dt">expres =</span> exprs.filtered, ...)</a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">GOResult       &lt;-<span class="st"> </span>BasicP4microArrays<span class="op">::</span><span class="kw">GOAnalysis</span>(<span class="dt">fitMain =</span> fitMain, ...)</a>
+<a class="sourceLine" id="cb1-14" data-line-number="14">KEGGResult     &lt;-<span class="st"> </span>BasicP4microArrays<span class="op">::</span><span class="kw">KEGGAnalysis</span>(<span class="dt">fitMain =</span> fit.main, ...)</a></code></pre></div>
 <p>The tricky thing to use these functions is, indeed, to set the value of all parameters needed and this is illustrated in the examples below.</p>
 <p>Besides this, it is possible to do more complex analyses using iterator functions that can call repeteadly some of the analysis functions so that they can be applied to different subsets of the data or with distinct design or contrast matrices.</p>
 </div>
@@ -355,110 +358,618 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="the-function-readorload.rawdata" class="section level3">
 <h3>The function <code>readOrLoad.RawData</code></h3>
 <p>This function reads data from cel files or loads previously saved data.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">readCELS &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">readCELS        &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">my.targets      &lt;-<span class="st"> </span><span class="kw">file.path</span>(dataDir, <span class="st">&quot;targets.txt&quot;</span>)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">targets         &lt;-<span class="st"> </span><span class="kw">read.table</span>(my.targets,</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">                              <span class="dt">head =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">                              <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>,</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6">                              <span class="dt">row.names =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7">my.fileNames    &lt;-<span class="st"> </span><span class="kw">paste</span>(dataDir,</a>
-<a class="sourceLine" id="cb3-8" data-line-number="8">                         <span class="kw">rownames</span>(targets),</a>
-<a class="sourceLine" id="cb3-9" data-line-number="9">                         <span class="dt">sep =</span> <span class="st">&quot;/&quot;</span>)</a>
-<a class="sourceLine" id="cb3-10" data-line-number="10">rawDataFileName &lt;-<span class="st"> &quot;rawData.Rda&quot;</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11">my.outputDir    &lt;-<span class="st"> &quot;.&quot;</span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12">isExonStudy     &lt;-<span class="st"> </span><span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13">orgPackage      &lt;-<span class="st"> &quot;org.Hs.eg&quot;</span></a></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">readCELS</a></code></pre></div>
-<pre><code>[1] TRUE</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">my.targets</a></code></pre></div>
-<pre><code>[1] &quot;/home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/targets.txt&quot;</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">targets</a></code></pre></div>
-<pre><code>               Sample             Ids ShortName Group Apocrine.grade
-GSM26878.CEL GSM26878 PF14 EnPnT2N1G2      PF14     A              3
-GSM26883.CEL GSM26883 PF19 EnPuT4N0Gu      PF19     A              2
-GSM26887.CEL GSM26887 PF23 EnPnT2N0G2      PF23     A              3
-GSM26903.CEL GSM26903 PF39 EnPuT4N0Gu      PF39     A              3
-GSM26910.CEL GSM26910 PF46 EnPnT4N1G3      PF46     A              3
-GSM26888.CEL GSM26888 PF24 EnPnTiN0G3      PF24     B              2
-GSM26889.CEL GSM26889 PF25 EnPnT3N2G2      PF25     B              1
-GSM26892.CEL GSM26892 PF28 EnPnT2N1G3      PF28     B              2
-GSM26898.CEL GSM26898 PF34 EnPnT3N1G3      PF34     B              1
-GSM26906.CEL GSM26906 PF42 EnPnT2N2G3      PF42     B             na
-GSM26879.CEL GSM26879 PF15 EpPnTiN1G3      PF15     L              2
-GSM26896.CEL GSM26896 PF32 EpPnT3N1G2      PF32     L              2
-GSM26897.CEL GSM26897 PF33 EpPnTiN0G2      PF33     L              1
-GSM26907.CEL GSM26907 PF43 EpPpT2N1G2      PF43     L              1
-GSM26911.CEL GSM26911 PF47 EpPpT3N1G3      PF47     L              3
-             AR.repeat.length
-GSM26878.CEL               18
-GSM26883.CEL               18
-GSM26887.CEL               18
-GSM26903.CEL               17
-GSM26910.CEL               19
-GSM26888.CEL               NA
-GSM26889.CEL               21
-GSM26892.CEL               22
-GSM26898.CEL               17
-GSM26906.CEL               16
-GSM26879.CEL               16
-GSM26896.CEL               23
-GSM26897.CEL               18
-GSM26907.CEL               20
-GSM26911.CEL               17</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">my.fileNames</a></code></pre></div>
-<pre><code> [1] &quot;/home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26878.CEL&quot;
- [2] &quot;/home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26883.CEL&quot;
- [3] &quot;/home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26887.CEL&quot;
- [4] &quot;/home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26903.CEL&quot;
- [5] &quot;/home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26910.CEL&quot;
- [6] &quot;/home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26888.CEL&quot;
- [7] &quot;/home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26889.CEL&quot;
- [8] &quot;/home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26892.CEL&quot;
- [9] &quot;/home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26898.CEL&quot;
-[10] &quot;/home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26906.CEL&quot;
-[11] &quot;/home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26879.CEL&quot;
-[12] &quot;/home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26896.CEL&quot;
-[13] &quot;/home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26897.CEL&quot;
-[14] &quot;/home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26907.CEL&quot;
-[15] &quot;/home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26911.CEL&quot;</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">rawDataFileName</a></code></pre></div>
-<pre><code>[1] &quot;rawData.Rda&quot;</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">my.outputDir</a></code></pre></div>
-<pre><code>[1] &quot;.&quot;</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">isExonStudy</a></code></pre></div>
-<pre><code>[1] FALSE</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">orgPackage</a></code></pre></div>
-<pre><code>[1] &quot;org.Hs.eg&quot;</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">rawData &lt;-<span class="st"> </span>BasicP4microArrays<span class="op">::</span><span class="kw">readOrLoad.RawData</span>(<span class="dt">readCELS =</span> readCELS,</a>
-<a class="sourceLine" id="cb20-2" data-line-number="2">                                                  <span class="dt">phenoDat =</span> my.targets,</a>
-<a class="sourceLine" id="cb20-3" data-line-number="3">                                                  <span class="dt">fileNames =</span> my.fileNames,</a>
-<a class="sourceLine" id="cb20-4" data-line-number="4">                                                  <span class="dt">dataFName =</span> rawDataFileName,</a>
-<a class="sourceLine" id="cb20-5" data-line-number="5">                                                  <span class="dt">outputDir =</span> my.outputDir,</a>
-<a class="sourceLine" id="cb20-6" data-line-number="6">                                                  <span class="dt">exonSt =</span> isExonStudy)</a></code></pre></div>
+<a class="sourceLine" id="cb3-3" data-line-number="3">targets         &lt;-<span class="st"> </span><span class="kw">read.table</span>(my.targets, <span class="dt">head =</span> <span class="ot">TRUE</span>, <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">my.fileNames    &lt;-<span class="st"> </span><span class="kw">paste</span>(dataDir, <span class="kw">rownames</span>(targets), <span class="dt">sep =</span> <span class="st">&quot;/&quot;</span>)</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">rawDataFileName &lt;-<span class="st"> &quot;rawData.Rda&quot;</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">my.outputDir    &lt;-<span class="st"> &quot;.&quot;</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">isExonStudy     &lt;-<span class="st"> </span><span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">orgPackage      &lt;-<span class="st"> &quot;org.Hs.eg&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">rawData &lt;-<span class="st"> </span>BasicP4microArrays<span class="op">::</span><span class="kw">readOrLoad.RawData</span>(<span class="dt">readCELS =</span> readCELS,</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">                                                  <span class="dt">phenoDat =</span> my.targets,</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">                                                  <span class="dt">fileNames =</span> my.fileNames,</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">                                                  <span class="dt">dataFName =</span> rawDataFileName,</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">                                                  <span class="dt">outputDir =</span> my.outputDir,</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">                                                  <span class="dt">exonSt =</span> isExonStudy)</a></code></pre></div>
+<pre><code>1 reading /home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26878.CEL ...instantiating an AffyBatch (intensity a 506944x15 matrix)...done.
+Reading in : /home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26878.CEL
+Reading in : /home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26883.CEL
+Reading in : /home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26887.CEL
+Reading in : /home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26903.CEL
+Reading in : /home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26910.CEL
+Reading in : /home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26888.CEL
+Reading in : /home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26889.CEL
+Reading in : /home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26892.CEL
+Reading in : /home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26898.CEL
+Reading in : /home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26906.CEL
+Reading in : /home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26879.CEL
+Reading in : /home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26896.CEL
+Reading in : /home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26897.CEL
+Reading in : /home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26907.CEL
+Reading in : /home/aserrano/GitHub/BasicP4microArrays/vignettes/datafiles-ex1/GSM26911.CEL</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">rawData</a></code></pre></div>
+<pre><code>AffyBatch object
+size of arrays=712x712 features (29 kb)
+cdf=HG-U133A (22283 affyids)
+number of samples=15
+number of genes=22283
+annotation=hgu133a
+notes=</code></pre>
 </div>
 <div id="the-function-createorloadannotations" class="section level3">
 <h3>The function <code>createOrLoadAnnotations</code></h3>
+<p>This function creates annotation files or loads previously saved data.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">loadAnnotations             &lt;-<span class="st"> </span><span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">chipPackAvailable           &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">platformDesignPackAvailable &lt;-<span class="st"> </span><span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">chipPackage                 &lt;-<span class="st"> &quot;hgu133a2&quot;</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">platformDesignPackage       &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">outputDir                   &lt;-<span class="st"> </span><span class="kw">file.path</span>(workingDir, <span class="st">&quot;ResultsDir&quot;</span>)</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7">annotationsFileName         &lt;-<span class="st"> &quot;Annotations&quot;</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8">entrezTableFileName         &lt;-<span class="st"> &quot;Entrezs.Rda&quot;</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9">symbolsTableFileName        &lt;-<span class="st"> &quot;Symbols.Rda&quot;</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10">controlsTableFileName       &lt;-<span class="st"> &quot;controls.Rda&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">require</span>(<span class="kw">paste0</span>(chipPackage, <span class="st">&quot;.db&quot;</span>), <span class="dt">character.only =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">anotacions &lt;-<span class="st"> </span>BasicP4microArrays<span class="op">::</span><span class="kw">createOrLoadAnnotations</span>(<span class="dt">loadAnnotations =</span> loadAnnotations,</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">                                                          <span class="dt">chipPackAvailable =</span> chipPackAvailable,</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">                                                          <span class="dt">platformDesignPackAvailable =</span> platformDesignPackAvailable,</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">                                                          <span class="dt">chipPackage =</span> chipPackage,</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">                                                          <span class="dt">platformDesignPackage =</span> platformDesignPackage,</a>
+<a class="sourceLine" id="cb9-7" data-line-number="7">                                                          <span class="dt">outputDir =</span> outputDir,</a>
+<a class="sourceLine" id="cb9-8" data-line-number="8">                                                          <span class="dt">annotationsFileName =</span> annotationsFileName,</a>
+<a class="sourceLine" id="cb9-9" data-line-number="9">                                                          <span class="dt">entrezTableFileName =</span> entrezTableFileName,</a>
+<a class="sourceLine" id="cb9-10" data-line-number="10">                                                          <span class="dt">symbolsTableFileName =</span> symbolsTableFileName,</a>
+<a class="sourceLine" id="cb9-11" data-line-number="11">                                                          <span class="dt">controlsTableFileName =</span> controlsTableFileName)</a>
+<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="kw">summary</span>(anotacions)</a></code></pre></div>
+<pre><code>         Length Class  Mode     
+Entrez   19812  -none- character
+Symbols  19812  -none- character
+controls    62  -none- character</code></pre>
 </div>
 <div id="the-function-normalization" class="section level3">
 <h3>The function <code>normalization</code></h3>
+<p>Function to normalize the raw data.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">normMethod               &lt;-<span class="st"> &quot;RMA&quot;</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">annotFrame               &lt;-<span class="st"> </span><span class="kw">read.AnnotatedDataFrame</span>(<span class="kw">file.path</span>(dataDir, <span class="st">&quot;targets.txt&quot;</span>), <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">loadFile                 &lt;-<span class="st"> </span><span class="ot">FALSE</span> </a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">normalized.eset.FileName &lt;-<span class="st"> &quot;normalizedData.Rda&quot;</span>   </a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">exonStudy                &lt;-<span class="st"> </span><span class="ot">FALSE</span></a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">eset_norm &lt;-<span class="st"> </span>BasicP4microArrays<span class="op">::</span><span class="kw">normalization</span>(<span class="dt">my.data =</span> rawData,</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">                                               <span class="dt">method =</span> normMethod,</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">                                               <span class="dt">targetsinfo =</span> annotFrame,</a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">                                               <span class="dt">inputDir =</span> dataDir,</a>
+<a class="sourceLine" id="cb12-5" data-line-number="5">                                               <span class="dt">loadFile =</span> loadFile,</a>
+<a class="sourceLine" id="cb12-6" data-line-number="6">                                               <span class="dt">normalizedFName =</span> normalized.eset.FileName,</a>
+<a class="sourceLine" id="cb12-7" data-line-number="7">                                               <span class="dt">outputDir =</span> outputDir,</a>
+<a class="sourceLine" id="cb12-8" data-line-number="8">                                               <span class="dt">exonSt =</span> exonStudy)</a></code></pre></div>
+<pre><code>Background correcting
+Normalizing
+Calculating Expression</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">eset_norm</a></code></pre></div>
+<pre><code>ExpressionSet (storageMode: lockedEnvironment)
+assayData: 22283 features, 15 samples 
+  element names: exprs 
+protocolData
+  sampleNames: GSM26878.CEL GSM26883.CEL ... GSM26911.CEL (15
+    total)
+  varLabels: ScanDate
+  varMetadata: labelDescription
+phenoData
+  sampleNames: GSM26878.CEL GSM26883.CEL ... GSM26911.CEL (15
+    total)
+  varLabels: Sample Ids ... AR.repeat.length (6 total)
+  varMetadata: labelDescription
+featureData: none
+experimentData: use 'experimentData(object)'
+Annotation: hgu133a </code></pre>
 </div>
 <div id="the-function-normplots2file" class="section level3">
 <h3>The function <code>normplots2File</code></h3>
+<p>Function that makes a report of the normalization.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">load</span>(<span class="kw">file.path</span>(outputDir, <span class="st">&quot;normalizedData.Rda&quot;</span>))</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb16-3" data-line-number="3">repes          &lt;-<span class="st"> </span><span class="kw">duplicated</span>(<span class="kw">exprs</span>(my.norm), <span class="dt">MARGIN =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="kw">exprs</span>(my.norm) &lt;-<span class="st"> </span><span class="kw">exprs</span>(my.norm)[<span class="op">!</span>repes, ]</a>
+<a class="sourceLine" id="cb16-5" data-line-number="5">eset_norm      &lt;-<span class="st"> </span>my.norm</a>
+<a class="sourceLine" id="cb16-6" data-line-number="6">my.colors      &lt;-<span class="st"> </span><span class="kw">rainbow</span>(<span class="kw">length</span>(<span class="kw">sampleNames</span>(eset_norm)))</a>
+<a class="sourceLine" id="cb16-7" data-line-number="7">my.names       &lt;-<span class="st"> </span><span class="kw">pData</span>(eset_norm)<span class="op">$</span>ShortName</a>
+<a class="sourceLine" id="cb16-8" data-line-number="8">myCex          &lt;-<span class="st"> </span><span class="fl">0.8</span></a>
+<a class="sourceLine" id="cb16-9" data-line-number="9">dim3           &lt;-<span class="st"> </span><span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb16-10" data-line-number="10">fileName       &lt;-<span class="st"> &quot;NormalizedPlots.pdf&quot;</span></a>
+<a class="sourceLine" id="cb16-11" data-line-number="11">PCAPlots       &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb16-12" data-line-number="12">csv            &lt;-<span class="st"> &quot;csv2&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">BasicP4microArrays<span class="op">::</span><span class="kw">normplots2File</span>(<span class="dt">my.data =</span> eset_norm,</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">                                   <span class="dt">sampleNames =</span> my.names,</a>
+<a class="sourceLine" id="cb17-3" data-line-number="3">                                   <span class="dt">my.colors =</span> my.colors,</a>
+<a class="sourceLine" id="cb17-4" data-line-number="4">                                   <span class="dt">my.groups =</span> <span class="kw">pData</span>(eset_norm)<span class="op">$</span>Group,</a>
+<a class="sourceLine" id="cb17-5" data-line-number="5">                                   <span class="dt">my.method =</span> <span class="st">&quot;average&quot;</span>,</a>
+<a class="sourceLine" id="cb17-6" data-line-number="6">                                   <span class="dt">my.cex =</span> myCex,</a>
+<a class="sourceLine" id="cb17-7" data-line-number="7">                                   <span class="dt">posText =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb17-8" data-line-number="8">                                   <span class="dt">dim3 =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb17-9" data-line-number="9">                                   <span class="dt">fileName =</span> fileName,</a>
+<a class="sourceLine" id="cb17-10" data-line-number="10">                                   <span class="dt">outputDir =</span> outputDir,</a>
+<a class="sourceLine" id="cb17-11" data-line-number="11">                                   <span class="dt">PCAPlots =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb17-12" data-line-number="12">                                   <span class="dt">csv =</span> fileType)</a></code></pre></div>
+<pre><code>                          PC1    PC2    PC3    PC4    PC5    PC6    PC7
+Standard deviation     28.886 22.143 19.595 18.794 17.586 16.046 15.556
+Proportion of Variance  0.208  0.122  0.096  0.088  0.077  0.064  0.060
+Cumulative Proportion   0.208  0.331  0.427  0.515  0.592  0.656  0.717
+                          PC8    PC9   PC10   PC11   PC12   PC13   PC14
+Standard deviation     13.941 13.589 13.452 12.489 12.414 11.663 11.290
+Proportion of Variance  0.049  0.046  0.045  0.039  0.038  0.034  0.032
+Cumulative Proportion   0.765  0.812  0.857  0.896  0.934  0.968  1.000
+                       PC15
+Standard deviation        0
+Proportion of Variance    0
+Cumulative Proportion     1</code></pre>
 </div>
 <div id="the-function-filterdata" class="section level3">
 <h3>The function <code>filterData</code></h3>
+<p>Function to filter the data</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">load</span>(<span class="kw">file.path</span>(outputDir, <span class="st">&quot;normalizedData.Rda&quot;</span>))</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="kw">load</span>(<span class="kw">file.path</span>(outputDir, <span class="st">&quot;controls.Rda&quot;</span>))</a>
+<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="kw">load</span>(<span class="kw">file.path</span>(outputDir, <span class="st">&quot;Entrezs.Rda&quot;</span>))</a>
+<a class="sourceLine" id="cb19-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb19-5" data-line-number="5">repes                              &lt;-<span class="st"> </span><span class="kw">duplicated</span>(<span class="kw">exprs</span>(my.norm), <span class="dt">MARGIN =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb19-6" data-line-number="6"><span class="kw">exprs</span>(my.norm)                     &lt;-<span class="st"> </span><span class="kw">exprs</span>(my.norm)[<span class="op">!</span>repes, ]</a>
+<a class="sourceLine" id="cb19-7" data-line-number="7">eset_norm                          &lt;-<span class="st"> </span>my.norm</a>
+<a class="sourceLine" id="cb19-8" data-line-number="8">entrezs                            &lt;-<span class="st"> </span>entrezTable</a>
+<a class="sourceLine" id="cb19-9" data-line-number="9">signalThreshold                    &lt;-<span class="st"> </span><span class="dv">50</span></a>
+<a class="sourceLine" id="cb19-10" data-line-number="10">signalFilter.Function              &lt;-<span class="st"> &quot;filt.by.Signal&quot;</span></a>
+<a class="sourceLine" id="cb19-11" data-line-number="11">variabilityThreshold               &lt;-<span class="st"> </span><span class="dv">50</span></a>
+<a class="sourceLine" id="cb19-12" data-line-number="12">variability.Function               &lt;-<span class="st"> &quot;sdf&quot;</span></a>
+<a class="sourceLine" id="cb19-13" data-line-number="13">FilteringReportFileName            &lt;-<span class="st"> &quot;FilteringReport.txt&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">exprs.filtered &lt;-<span class="st"> </span>BasicP4microArrays<span class="op">::</span><span class="kw">filterData</span>(<span class="dt">expres =</span> <span class="kw">exprs</span>(eset_norm),</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">                                                 <span class="dt">controls =</span> <span class="kw">names</span>(controlsTable),</a>
+<a class="sourceLine" id="cb20-3" data-line-number="3">                                                 <span class="dt">removeNAs =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb20-4" data-line-number="4">                                                 <span class="dt">entrezs =</span> entrezs,</a>
+<a class="sourceLine" id="cb20-5" data-line-number="5">                                                 <span class="dt">bySignal =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb20-6" data-line-number="6">                                                 <span class="dt">signalThr =</span> signalThreshold,</a>
+<a class="sourceLine" id="cb20-7" data-line-number="7">                                                 <span class="dt">grups =</span> <span class="kw">pData</span>(eset_norm)<span class="op">$</span>grupo,</a>
+<a class="sourceLine" id="cb20-8" data-line-number="8">                                                 <span class="dt">sigFun.Name =</span> signalFilter.Function,</a>
+<a class="sourceLine" id="cb20-9" data-line-number="9">                                                 <span class="dt">sigThr.as.perc =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb20-10" data-line-number="10">                                                 <span class="dt">byVar =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb20-11" data-line-number="11">                                                 <span class="dt">variabilityThr =</span> variabilityThreshold,</a>
+<a class="sourceLine" id="cb20-12" data-line-number="12">                                                 <span class="dt">varFun.Name =</span> variability.Function,</a>
+<a class="sourceLine" id="cb20-13" data-line-number="13">                                                 <span class="dt">varThr.as.perc =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb20-14" data-line-number="14">                                                 <span class="dt">pairingFun.Name =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb20-15" data-line-number="15">                                                 <span class="dt">targets =</span> annotFrame,</a>
+<a class="sourceLine" id="cb20-16" data-line-number="16">                                                 <span class="dt">doReport =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb20-17" data-line-number="17">                                                 <span class="dt">outputDir =</span> outputDir,</a>
+<a class="sourceLine" id="cb20-18" data-line-number="18">                                                 <span class="dt">filteringReportFName =</span> FilteringReportFileName)</a>
+<a class="sourceLine" id="cb20-19" data-line-number="19"><span class="kw">head</span>(exprs.filtered)</a></code></pre></div>
+<pre><code>          GSM26878.CEL GSM26883.CEL GSM26887.CEL GSM26903.CEL GSM26910.CEL
+117_at        7.544991     7.569799     7.457434     7.487786     7.582522
+1316_at       7.284027     6.724480     6.486589     6.448252     6.448589
+1405_i_at     7.002037     7.307151     7.259159     7.387630     6.417621
+1438_at       7.494419     8.166372     7.766159     7.626499     7.823194
+1598_g_at    10.342861    10.935507     9.659437    10.257758    10.564769
+1729_at       9.182327     8.888425     9.128764     9.329320     9.133812
+          GSM26888.CEL GSM26889.CEL GSM26892.CEL GSM26898.CEL GSM26906.CEL
+117_at        7.517484     7.695757     7.447833     8.315510     8.271652
+1316_at       6.712039     6.414804     6.550871     6.489008     6.544457
+1405_i_at     8.649729     7.253820     8.647850     6.003676     9.289255
+1438_at       7.780013     7.838809     7.668048     8.748459     7.386342
+1598_g_at    11.062124    10.894103     9.791950    10.676476    10.599061
+1729_at       8.782058     8.874234     8.738034     8.336941     8.962877
+          GSM26879.CEL GSM26896.CEL GSM26897.CEL GSM26907.CEL GSM26911.CEL
+117_at        7.595921     7.482733     7.310840     7.490355     7.419903
+1316_at       6.456284     6.601096     7.048561     6.730072     7.420403
+1405_i_at     8.963413     8.619141     6.378881     6.333796     7.399604
+1438_at       7.693371     7.851085     7.411536     7.807032     7.873320
+1598_g_at    10.837114    10.861116    10.725002    10.252050    10.245186
+1729_at       9.154688     8.657023     9.152739     8.495618     8.572749</code></pre>
+</div>
+<div id="the-function-savedata" class="section level3">
+<h3>The function <code>saveData</code></h3>
+<p>Function to save R objects in files.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">load</span>(<span class="kw">file.path</span>(outputDir, <span class="st">&quot;normalizedData.Rda&quot;</span>))</a>
+<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw">load</span>(<span class="kw">file.path</span>(outputDir, <span class="st">&quot;Symbols.Rda&quot;</span>))</a>
+<a class="sourceLine" id="cb22-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb22-4" data-line-number="4">repes                   &lt;-<span class="st"> </span><span class="kw">duplicated</span>(<span class="kw">exprs</span>(my.norm), <span class="dt">MARGIN =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb22-5" data-line-number="5"><span class="kw">exprs</span>(my.norm)          &lt;-<span class="st"> </span><span class="kw">exprs</span>(my.norm)[<span class="op">!</span>repes, ]</a>
+<a class="sourceLine" id="cb22-6" data-line-number="6">eset_norm               &lt;-<span class="st"> </span>my.norm</a>
+<a class="sourceLine" id="cb22-7" data-line-number="7">normalized.all.FileName &lt;-<span class="st"> &quot;normalized.all&quot;</span></a>
+<a class="sourceLine" id="cb22-8" data-line-number="8">fileType                &lt;-<span class="st"> &quot;csv2&quot;</span></a>
+<a class="sourceLine" id="cb22-9" data-line-number="9">expres.all.FileName     &lt;-<span class="st"> &quot;expres.Rda&quot;</span></a>
+<a class="sourceLine" id="cb22-10" data-line-number="10">linksFileName           &lt;-<span class="st"> &quot;Links.txt&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">BasicP4microArrays<span class="op">::</span><span class="kw">saveData</span>(<span class="dt">expres =</span> <span class="kw">exprs</span>(eset_norm),</a>
+<a class="sourceLine" id="cb23-2" data-line-number="2">                             <span class="dt">expres.csv.FileName =</span> normalized.all.FileName,</a>
+<a class="sourceLine" id="cb23-3" data-line-number="3">                             <span class="dt">csvType =</span> fileType,</a>
+<a class="sourceLine" id="cb23-4" data-line-number="4">                             <span class="dt">description =</span> <span class="st">&quot;Normalized values for all genes&quot;</span>,</a>
+<a class="sourceLine" id="cb23-5" data-line-number="5">                             <span class="dt">anotPackage =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb23-6" data-line-number="6">                             <span class="dt">symbolsVector =</span> symbolsTable,</a>
+<a class="sourceLine" id="cb23-7" data-line-number="7">                             <span class="dt">SYMBOL =</span> <span class="st">&quot;SYMBOL&quot;</span>,</a>
+<a class="sourceLine" id="cb23-8" data-line-number="8">                             <span class="dt">expres.bin.FileName =</span> expres.all.FileName,</a>
+<a class="sourceLine" id="cb23-9" data-line-number="9">                             <span class="dt">linksFile =</span> linksFileName,</a>
+<a class="sourceLine" id="cb23-10" data-line-number="10">                             <span class="dt">outputDir =</span> outputDir)</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">BasicP4microArrays<span class="op">::</span><span class="kw">saveData</span>(<span class="dt">expres =</span> exprs.filtered,</a>
+<a class="sourceLine" id="cb24-2" data-line-number="2">                             <span class="dt">expres.csv.FileName =</span> <span class="st">&quot;normalized.filtered&quot;</span>,</a>
+<a class="sourceLine" id="cb24-3" data-line-number="3">                             <span class="dt">csvType =</span> fileType,</a>
+<a class="sourceLine" id="cb24-4" data-line-number="4">                             <span class="dt">description =</span> <span class="st">&quot;Normalized values for filtered genes&quot;</span>,</a>
+<a class="sourceLine" id="cb24-5" data-line-number="5">                             <span class="dt">anotPackage =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb24-6" data-line-number="6">                             <span class="dt">symbolsVector =</span> symbolsTable,</a>
+<a class="sourceLine" id="cb24-7" data-line-number="7">                             <span class="dt">SYMBOL =</span> <span class="st">&quot;SYMBOL&quot;</span>,</a>
+<a class="sourceLine" id="cb24-8" data-line-number="8">                             <span class="dt">expres.bin.FileName =</span> <span class="st">&quot;exprs.filtered.Rda&quot;</span>,</a>
+<a class="sourceLine" id="cb24-9" data-line-number="9">                             <span class="dt">linksFile =</span> linksFileName,</a>
+<a class="sourceLine" id="cb24-10" data-line-number="10">                             <span class="dt">outputDir =</span> outputDir)</a></code></pre></div>
 </div>
 <div id="the-function-lmanalysis" class="section level3">
 <h3>The function <code>lmAnalysis</code></h3>
+<p>Setting design and contrasts matrix to proceed with the linear model analysis.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">targets          &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">file.path</span>(dataDir, <span class="st">&quot;targets.txt&quot;</span>), <span class="dt">head =</span> <span class="ot">TRUE</span>, <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)</a>
+<a class="sourceLine" id="cb25-2" data-line-number="2">column2design    &lt;-<span class="st"> </span><span class="dv">5</span></a>
+<a class="sourceLine" id="cb25-3" data-line-number="3">lev              &lt;-<span class="st"> </span>targets[, column2design] </a>
+<a class="sourceLine" id="cb25-4" data-line-number="4">design           &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>lev)        </a>
+<a class="sourceLine" id="cb25-5" data-line-number="5"><span class="kw">colnames</span>(design) &lt;-<span class="st"> </span><span class="kw">levels</span>(lev)</a>
+<a class="sourceLine" id="cb25-6" data-line-number="6"><span class="kw">rownames</span>(design) &lt;-<span class="st"> </span>targets<span class="op">$</span>ShortName</a>
+<a class="sourceLine" id="cb25-7" data-line-number="7">numParameters    &lt;-<span class="st"> </span><span class="kw">ncol</span>(design)</a>
+<a class="sourceLine" id="cb25-8" data-line-number="8"><span class="kw">print</span>(design)</a></code></pre></div>
+<pre><code>     A B L
+PF14 1 0 0
+PF19 1 0 0
+PF23 1 0 0
+PF39 1 0 0
+PF46 1 0 0
+PF24 0 1 0
+PF25 0 1 0
+PF28 0 1 0
+PF34 0 1 0
+PF42 0 1 0
+PF15 0 0 1
+PF32 0 0 1
+PF33 0 0 1
+PF43 0 0 1
+PF47 0 0 1
+attr(,&quot;assign&quot;)
+[1] 1 1 1
+attr(,&quot;contrasts&quot;)
+attr(,&quot;contrasts&quot;)$lev
+[1] &quot;contr.treatment&quot;</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">require</span>(limma)</a>
+<a class="sourceLine" id="cb27-2" data-line-number="2">cont.matrix &lt;-<span class="st"> </span><span class="kw">makeContrasts</span>(<span class="dt">AvsB =</span> (A <span class="op">-</span><span class="st"> </span>B),</a>
+<a class="sourceLine" id="cb27-3" data-line-number="3">                             <span class="dt">AvsL =</span> (A <span class="op">-</span><span class="st"> </span>L),</a>
+<a class="sourceLine" id="cb27-4" data-line-number="4">                             <span class="dt">BvsL =</span> (B <span class="op">-</span><span class="st"> </span>L),</a>
+<a class="sourceLine" id="cb27-5" data-line-number="5">                             <span class="dt">levels =</span> design)</a>
+<a class="sourceLine" id="cb27-6" data-line-number="6"><span class="kw">print</span>(cont.matrix)</a></code></pre></div>
+<pre><code>      Contrasts
+Levels AvsB AvsL BvsL
+     A    1    1    0
+     B   -1    0    1
+     L    0   -1   -1</code></pre>
+<p>Linear model analysis:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">load</span>(<span class="kw">file.path</span>(outputDir, <span class="st">&quot;exprs.filtered.Rda&quot;</span>))</a>
+<a class="sourceLine" id="cb29-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb29-3" data-line-number="3">contrasts2test &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(cont.matrix)</a>
+<a class="sourceLine" id="cb29-4" data-line-number="4">comparison     &lt;-<span class="st"> &quot;Estudi&quot;</span></a>
+<a class="sourceLine" id="cb29-5" data-line-number="5">ENTREZIDs      &lt;-<span class="st"> &quot;entrezTable&quot;</span></a>
+<a class="sourceLine" id="cb29-6" data-line-number="6">SYMBOLIDs      &lt;-<span class="st"> &quot;symbolsTable&quot;</span></a>
+<a class="sourceLine" id="cb29-7" data-line-number="7">linksFile      &lt;-<span class="st"> &quot;Links.txt&quot;</span></a>
+<a class="sourceLine" id="cb29-8" data-line-number="8">fitFileName    &lt;-<span class="st"> &quot;fit.Rda&quot;</span></a>
+<a class="sourceLine" id="cb29-9" data-line-number="9">csvType        &lt;-<span class="st"> &quot;csv&quot;</span></a>
+<a class="sourceLine" id="cb29-10" data-line-number="10">anotFileName   &lt;-<span class="st"> &quot;Annotations&quot;</span></a>
+<a class="sourceLine" id="cb29-11" data-line-number="11">runMulticore   &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb29-12" data-line-number="12">toTIFF         &lt;-<span class="st"> </span><span class="ot">FALSE</span></a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">fitMain &lt;-<span class="st"> </span>BasicP4microArrays<span class="op">::</span><span class="kw">lmAnalysis</span>(<span class="dt">exprs.filtered =</span> exprs.filtered,</a>
+<a class="sourceLine" id="cb30-2" data-line-number="2">                                          <span class="dt">design =</span> design,</a>
+<a class="sourceLine" id="cb30-3" data-line-number="3">                                          <span class="dt">cont.matrix =</span> cont.matrix,</a>
+<a class="sourceLine" id="cb30-4" data-line-number="4">                                          <span class="dt">contrasts2test =</span> contrasts2test,</a>
+<a class="sourceLine" id="cb30-5" data-line-number="5">                                          <span class="dt">anotPackage =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb30-6" data-line-number="6">                                          <span class="dt">outputDir =</span> outputDir,</a>
+<a class="sourceLine" id="cb30-7" data-line-number="7">                                          <span class="dt">comparison =</span> comparison,</a>
+<a class="sourceLine" id="cb30-8" data-line-number="8">                                          <span class="dt">Expressions_And_Top =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb30-9" data-line-number="9">                                          <span class="dt">showParams =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb30-10" data-line-number="10">                                          <span class="dt">use.dupCorr =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb30-11" data-line-number="11">                                          <span class="dt">block =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb30-12" data-line-number="12">                                          <span class="dt">nDups =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb30-13" data-line-number="13">                                          <span class="dt">ENTREZIDs =</span> ENTREZIDs,</a>
+<a class="sourceLine" id="cb30-14" data-line-number="14">                                          <span class="dt">SYMBOLIDs =</span> SYMBOLIDs,</a>
+<a class="sourceLine" id="cb30-15" data-line-number="15">                                          <span class="dt">linksFile =</span> linksFile,</a>
+<a class="sourceLine" id="cb30-16" data-line-number="16">                                          <span class="dt">fitFileName =</span> fitFileName,</a>
+<a class="sourceLine" id="cb30-17" data-line-number="17">                                          <span class="dt">csvType =</span> csvType,</a>
+<a class="sourceLine" id="cb30-18" data-line-number="18">                                          <span class="dt">rows2HTML =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb30-19" data-line-number="19">                                          <span class="dt">anotFileName =</span> anotFileName)</a>
+<a class="sourceLine" id="cb30-20" data-line-number="20">fitMain</a></code></pre></div>
+<pre><code>An object of class &quot;MArrayLM&quot;
+$coefficients
+           Contrasts
+                  AvsB        AvsL        BvsL
+  117_at    -0.3211405  0.06855619  0.38969665
+  1316_at    0.1361518 -0.17289573 -0.30904749
+  1405_i_at -0.8941462 -0.46424731  0.42989892
+  1438_at   -0.1090058  0.04805945  0.15706529
+  1598_g_at -0.2526763 -0.23202720  0.02064909
+9896 more rows ...
+
+$rank
+[1] 3
+
+$assign
+[1] 1 1 1
+
+$qr
+$qr
+              A         B         L
+PF14 -2.2360680  0.000000  0.000000
+PF19  0.4472136 -2.236068  0.000000
+PF23  0.4472136  0.000000 -2.236068
+PF39  0.4472136  0.000000  0.000000
+PF46  0.4472136  0.000000  0.000000
+10 more rows ...
+
+$qraux
+[1] 1.447214 1.000000 1.000000
+
+$pivot
+[1] 1 2 3
+
+$tol
+[1] 1e-07
+
+$rank
+[1] 3
+
+
+$df.residual
+[1] 12 12 12 12 12
+9896 more elements ...
+
+$sigma
+   117_at   1316_at 1405_i_at   1438_at 1598_g_at 
+0.2493254 0.3103211 1.0676212 0.3481682 0.4300024 
+9896 more elements ...
+
+$cov.coefficients
+         Contrasts
+Contrasts AvsB AvsL BvsL
+     AvsB  0.4  0.2 -0.2
+     AvsL  0.2  0.4  0.2
+     BvsL -0.2  0.2  0.4
+
+$stdev.unscaled
+           Contrasts
+                 AvsB      AvsL      BvsL
+  117_at    0.6324555 0.6324555 0.6324555
+  1316_at   0.6324555 0.6324555 0.6324555
+  1405_i_at 0.6324555 0.6324555 0.6324555
+  1438_at   0.6324555 0.6324555 0.6324555
+  1598_g_at 0.6324555 0.6324555 0.6324555
+9896 more rows ...
+
+$Amean
+   117_at   1316_at 1405_i_at   1438_at 1598_g_at 
+ 7.612701  6.690635  7.527518  7.795644 10.513634 
+9896 more elements ...
+
+$method
+[1] &quot;ls&quot;
+
+$design
+     A B L
+PF14 1 0 0
+PF19 1 0 0
+PF23 1 0 0
+PF39 1 0 0
+PF46 1 0 0
+10 more rows ...
+
+$contrasts
+      Contrasts
+Levels AvsB AvsL BvsL
+     A    1    1    0
+     B   -1    0    1
+     L    0   -1   -1
+
+$df.prior
+[1] 5.366975
+
+$s2.prior
+[1] 0.1669989
+
+$var.prior
+[1] 17.30644 10.67002 12.92229
+
+$proportion
+[1] 0.01
+
+$s2.post
+    117_at    1316_at  1405_i_at    1438_at  1598_g_at 
+0.09456088 0.11814773 0.83918242 0.13536794 0.17936936 
+9896 more elements ...
+
+$t
+           Contrasts
+                  AvsB       AvsL        BvsL
+  117_at    -1.6512365  0.3525015  2.00373798
+  1316_at    0.6262974 -0.7953194 -1.42161676
+  1405_i_at -1.5433000 -0.8012928  0.74200729
+  1438_at   -0.4684485  0.2065337  0.67498219
+  1598_g_at -0.9433229 -0.8662331  0.07708979
+9896 more rows ...
+
+$df.total
+[1] 17.36697 17.36697 17.36697 17.36697 17.36697
+9896 more elements ...
+
+$p.value
+           Contrasts
+                 AvsB      AvsL       BvsL
+  117_at    0.1166559 0.7287039 0.06095285
+  1316_at   0.5392654 0.4371633 0.17284728
+  1405_i_at 0.1407832 0.4337890 0.46800011
+  1438_at   0.6452898 0.8387761 0.50857445
+  1598_g_at 0.3584548 0.3981720 0.93943330
+9896 more rows ...
+
+$lods
+           Contrasts
+                 AvsB      AvsL      BvsL
+  117_at    -5.183526 -6.192287 -4.501562
+  1316_at   -6.289804 -5.938933 -5.369076
+  1405_i_at -5.338377 -5.934250 -6.070103
+  1438_at   -6.377537 -6.233672 -6.117404
+  1598_g_at -6.041963 -5.881261 -6.344937
+9896 more rows ...
+
+$F
+[1] 2.2886017 1.0152585 1.1914733 0.2392337 0.5487202
+9896 more elements ...
+
+$F.p.value
+[1] 0.1311595 0.3828307 0.3274188 0.7897826 0.5873817
+9896 more elements ...</code></pre>
 </div>
 <div id="the-function-geneannotation" class="section level3">
 <h3>The function <code>GeneAnnotation</code></h3>
+<p>Function that annotates genes.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">genes2annotate &lt;-<span class="st"> </span>entrezs[<span class="kw">unique</span>(<span class="kw">rownames</span>(fitMain<span class="op">$</span>p.value))]</a>
+<a class="sourceLine" id="cb32-2" data-line-number="2">genesAnnotated &lt;-<span class="st"> </span>BasicP4microArrays<span class="op">::</span><span class="kw">GeneAnnotation</span>(<span class="dt">egIDs =</span> genes2annotate,</a>
+<a class="sourceLine" id="cb32-3" data-line-number="3">                                                     <span class="dt">anotPackage =</span> orgPackage,</a>
+<a class="sourceLine" id="cb32-4" data-line-number="4">                                                     <span class="dt">toHTML =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb32-5" data-line-number="5">                                                     <span class="dt">outputDir =</span> outputDir,</a>
+<a class="sourceLine" id="cb32-6" data-line-number="6">                                                     <span class="dt">filename =</span> <span class="st">&quot;Annotations&quot;</span>,</a>
+<a class="sourceLine" id="cb32-7" data-line-number="7">                                                     <span class="dt">myTitle =</span> <span class="st">&quot;Annotations for all genes analyzed&quot;</span>,</a>
+<a class="sourceLine" id="cb32-8" data-line-number="8">                                                     <span class="dt">specie =</span> <span class="st">&quot;homo sapiens&quot;</span>,</a>
+<a class="sourceLine" id="cb32-9" data-line-number="9">                                                     <span class="dt">info2show =</span> <span class="kw">c</span>(<span class="st">&quot;Affymetrix&quot;</span>, <span class="st">&quot;EntrezGene&quot;</span>, <span class="st">&quot;GeneSymbol&quot;</span>, <span class="st">&quot;GeneName&quot;</span>, <span class="st">&quot;KEGG&quot;</span>, <span class="st">&quot;GO&quot;</span>),</a>
+<a class="sourceLine" id="cb32-10" data-line-number="10">                                                     <span class="dt">linksFile =</span> linksFile,</a>
+<a class="sourceLine" id="cb32-11" data-line-number="11">                                                     <span class="dt">maxGenes =</span> <span class="ot">NULL</span>)</a></code></pre></div>
+</div>
+<div id="the-function-multiplecomp" class="section level3">
+<h3>The function <code>multipleComp</code></h3>
+<p>Function to make multiple comparations.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw">load</span>(<span class="kw">file.path</span>(outputDir, <span class="st">&quot;Symbols.Rda&quot;</span>))</a>
+<a class="sourceLine" id="cb33-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb33-3" data-line-number="3">compName         &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Group1&quot;</span>)</a>
+<a class="sourceLine" id="cb33-4" data-line-number="4">wCont            &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">3</span></a>
+<a class="sourceLine" id="cb33-5" data-line-number="5">pValCutOff       &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.01</span>)</a>
+<a class="sourceLine" id="cb33-6" data-line-number="6">adjMethod        &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;none&quot;</span>)</a>
+<a class="sourceLine" id="cb33-7" data-line-number="7">minLogFoldChange &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb33-8" data-line-number="8">pvalType1        &lt;-<span class="st"> </span><span class="kw">ifelse</span>(adjMethod <span class="op">==</span><span class="st"> &quot;none&quot;</span>, <span class="st">&quot;p-values&quot;</span>, <span class="st">&quot;adj. p-values&quot;</span>)</a>
+<a class="sourceLine" id="cb33-9" data-line-number="9">pvalType2        &lt;-<span class="st"> </span><span class="kw">ifelse</span>(adjMethod <span class="op">==</span><span class="st"> &quot;none&quot;</span>, <span class="st">&quot;pvalues&quot;</span>, <span class="st">&quot;adj-pvalues&quot;</span>)</a>
+<a class="sourceLine" id="cb33-10" data-line-number="10">titleText        &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;for&quot;</span>, pvalType1, <span class="st">&quot;&lt;&quot;</span>, pValCutOff, <span class="st">&quot;and |logFC| &gt;&quot;</span>, minLogFoldChange)</a>
+<a class="sourceLine" id="cb33-11" data-line-number="11">geneListFName    &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;geneList&quot;</span>, compName, pvalType2, <span class="st">&quot;LT&quot;</span>, pValCutOff, <span class="st">&quot;Rda&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;.&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">geneList &lt;-<span class="st"> </span>BasicP4microArrays<span class="op">::</span><span class="kw">multipleComp</span>(<span class="dt">fitMain =</span> fitMain,</a>
+<a class="sourceLine" id="cb34-2" data-line-number="2">                                             <span class="dt">whichContrasts =</span> wCont,</a>
+<a class="sourceLine" id="cb34-3" data-line-number="3">                                             <span class="dt">comparisonName =</span> compName,</a>
+<a class="sourceLine" id="cb34-4" data-line-number="4">                                             <span class="dt">titleText =</span> titleText,</a>
+<a class="sourceLine" id="cb34-5" data-line-number="5">                                             <span class="dt">outputDir =</span> outputDir,</a>
+<a class="sourceLine" id="cb34-6" data-line-number="6">                                             <span class="dt">anotPackage =</span> orgPackage,</a>
+<a class="sourceLine" id="cb34-7" data-line-number="7">                                             <span class="dt">my.symbols =</span> symbolsTable,</a>
+<a class="sourceLine" id="cb34-8" data-line-number="8">                                             <span class="dt">linksFile =</span> linksFile,</a>
+<a class="sourceLine" id="cb34-9" data-line-number="9">                                             <span class="dt">multCompMethod =</span> <span class="st">&quot;separate&quot;</span>,</a>
+<a class="sourceLine" id="cb34-10" data-line-number="10">                                             <span class="dt">adjustMethod =</span> adjMethod,</a>
+<a class="sourceLine" id="cb34-11" data-line-number="11">                                             <span class="dt">selectionType =</span> <span class="st">&quot;any&quot;</span>,</a>
+<a class="sourceLine" id="cb34-12" data-line-number="12">                                             <span class="dt">P.Value.cutoff =</span> pValCutOff,</a>
+<a class="sourceLine" id="cb34-13" data-line-number="13">                                             <span class="dt">plotVenn =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb34-14" data-line-number="14">                                             <span class="dt">colsVenn =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb34-15" data-line-number="15">                                             <span class="dt">vennColors =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;yellow&quot;</span>, <span class="st">&quot;green&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;pink&quot;</span>),</a>
+<a class="sourceLine" id="cb34-16" data-line-number="16">                                             <span class="dt">cexVenn =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb34-17" data-line-number="17">                                             <span class="dt">geneListFName =</span> geneListFName,</a>
+<a class="sourceLine" id="cb34-18" data-line-number="18">                                             <span class="dt">csvType =</span> csvType,</a>
+<a class="sourceLine" id="cb34-19" data-line-number="19">                                             <span class="dt">minLFC =</span> minLogFoldChange)</a>
+<a class="sourceLine" id="cb34-20" data-line-number="20"><span class="kw">head</span>(geneList, <span class="dt">n =</span> <span class="dv">20</span>)</a></code></pre></div>
+<pre><code> [1] &quot;200071_at&quot;   &quot;200600_at&quot;   &quot;200615_s_at&quot; &quot;200618_at&quot;   &quot;200632_s_at&quot;
+ [6] &quot;200670_at&quot;   &quot;200762_at&quot;   &quot;200824_at&quot;   &quot;200831_s_at&quot; &quot;200832_s_at&quot;
+[11] &quot;200862_at&quot;   &quot;200868_s_at&quot; &quot;200961_at&quot;   &quot;200972_at&quot;   &quot;200973_s_at&quot;
+[16] &quot;201030_x_at&quot; &quot;201037_at&quot;   &quot;201095_at&quot;   &quot;201131_s_at&quot; &quot;201161_s_at&quot;</code></pre>
 </div>
 <div id="the-function-clusteranalysis" class="section level3">
 <h3>The function <code>clusterAnalysis</code></h3>
+<p>Function to draw the clusters.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">s2clust       &lt;-<span class="st"> </span><span class="kw">which</span>(<span class="kw">as.logical</span>(<span class="kw">apply</span>(design[, <span class="kw">as.logical</span>(<span class="kw">apply</span>(<span class="kw">abs</span>(<span class="kw">as.matrix</span>(cont.matrix[, wCont])), <span class="dv">1</span>, sum))], <span class="dv">1</span>, sum)))</a>
+<a class="sourceLine" id="cb36-2" data-line-number="2">geneListFName &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;geneList&quot;</span>, compName, pvalType2, <span class="st">&quot;LT&quot;</span>, pValCutOff, <span class="st">&quot;Rda&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;.&quot;</span>)</a>
+<a class="sourceLine" id="cb36-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb36-4" data-line-number="4"><span class="kw">load</span>(<span class="kw">file.path</span>(outputDir, geneListFName))</a>
+<a class="sourceLine" id="cb36-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb36-6" data-line-number="6"><span class="kw">require</span>(gplots)</a>
+<a class="sourceLine" id="cb36-7" data-line-number="7">pal           &lt;-<span class="st"> </span><span class="kw">colorpanel</span>(<span class="dt">n =</span> <span class="dv">32</span>, <span class="dt">low =</span> <span class="st">&quot;green&quot;</span>, <span class="dt">mid =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;magenta&quot;</span>)</a>
+<a class="sourceLine" id="cb36-8" data-line-number="8">pvalText      &lt;-<span class="st"> </span><span class="kw">ifelse</span>(minLogFoldChange <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, <span class="st">&quot;&quot;</span>, <span class="kw">paste0</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st"> and |logFC|&gt;=&quot;</span>, minLogFoldChange))</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">clust &lt;-<span class="st"> </span>BasicP4microArrays<span class="op">::</span><span class="kw">clusterAnalysis</span>(<span class="dt">expres =</span> exprs.filtered,</a>
+<a class="sourceLine" id="cb37-2" data-line-number="2">                                             <span class="dt">genes =</span> geneList,</a>
+<a class="sourceLine" id="cb37-3" data-line-number="3">                                             <span class="dt">samples =</span> s2clust,</a>
+<a class="sourceLine" id="cb37-4" data-line-number="4">                                             <span class="dt">sampleNames =</span> <span class="kw">as.character</span>(targets<span class="op">$</span>ShortName)[s2clust],</a>
+<a class="sourceLine" id="cb37-5" data-line-number="5">                                             <span class="dt">comparisonName =</span> <span class="st">&quot;Compar 1&quot;</span>,</a>
+<a class="sourceLine" id="cb37-6" data-line-number="6">                                             <span class="dt">anotPackage =</span> orgPackage,</a>
+<a class="sourceLine" id="cb37-7" data-line-number="7">                                             <span class="dt">my.symbols =</span> symbolsTable,</a>
+<a class="sourceLine" id="cb37-8" data-line-number="8">                                             <span class="dt">outputDir =</span> outputDir,</a>
+<a class="sourceLine" id="cb37-9" data-line-number="9">                                             <span class="dt">fileOfLinks =</span> linksFile,</a>
+<a class="sourceLine" id="cb37-10" data-line-number="10">                                             <span class="dt">numClusters =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb37-11" data-line-number="11">                                             <span class="dt">rowDistance =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb37-12" data-line-number="12">                                             <span class="dt">colDistance =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb37-13" data-line-number="13">                                             <span class="dt">RowVals =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb37-14" data-line-number="14">                                             <span class="dt">ColVals =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb37-15" data-line-number="15">                                             <span class="dt">escala =</span> <span class="st">&quot;row&quot;</span>,</a>
+<a class="sourceLine" id="cb37-16" data-line-number="16">                                             <span class="dt">colorsSet =</span> pal,</a>
+<a class="sourceLine" id="cb37-17" data-line-number="17">                                             <span class="dt">densityInfo =</span> <span class="st">&quot;density&quot;</span>,</a>
+<a class="sourceLine" id="cb37-18" data-line-number="18">                                             <span class="dt">colsForGroups =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="st">&quot;red&quot;</span>, <span class="dv">5</span>), <span class="kw">rep</span>(<span class="st">&quot;blue&quot;</span>, <span class="dv">5</span>), <span class="kw">rep</span>(<span class="st">&quot;green&quot;</span>, <span class="dv">5</span>)),</a>
+<a class="sourceLine" id="cb37-19" data-line-number="19">                                             <span class="dt">cexForColumns =</span> <span class="fl">0.8</span>,</a>
+<a class="sourceLine" id="cb37-20" data-line-number="20">                                             <span class="dt">cexForRows =</span> <span class="fl">0.8</span>,</a>
+<a class="sourceLine" id="cb37-21" data-line-number="21">                                             <span class="dt">Title =</span> <span class="kw">paste</span>(<span class="st">&quot;Compar 1 with&quot;</span>, pvalType2, <span class="st">&quot;&lt;&quot;</span>, pValCutOff, pvalText),</a>
+<a class="sourceLine" id="cb37-22" data-line-number="22">                                             <span class="dt">csvType =</span> <span class="st">&quot;csv2&quot;</span>)</a></code></pre></div>
+<pre><code>  - Comparison Compar 1 with pvalues &lt; 0.01 
+ and |logFC|&gt;=1 </code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw">summary</span>(clust)</a></code></pre></div>
+<pre><code>              Length Class      Mode     
+rowInd          910  -none-     numeric  
+colInd           15  -none-     numeric  
+call             15  -none-     call     
+rowMeans        910  -none-     numeric  
+rowSDs          910  -none-     numeric  
+carpet        13650  -none-     numeric  
+rowDendrogram     2  dendrogram list     
+colDendrogram     2  dendrogram list     
+breaks           33  -none-     numeric  
+col              32  -none-     character
+colorTable        3  data.frame list     
+layout            3  -none-     list     </code></pre>
 </div>
 <div id="the-function-goanalysis" class="section level3">
 <h3>The function <code>GOAnalysis</code></h3>
+<p>Function to carry out the GO analysis.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="kw">library</span>(GOstats)</a>
+<a class="sourceLine" id="cb41-2" data-line-number="2">GOResult &lt;-<span class="st"> </span>BasicP4microArrays<span class="op">::</span><span class="kw">GOAnalysis</span>(<span class="dt">fitMain =</span> fitMain,</a>
+<a class="sourceLine" id="cb41-3" data-line-number="3">                                           <span class="dt">whichContrasts =</span> wCont,</a>
+<a class="sourceLine" id="cb41-4" data-line-number="4">                                           <span class="dt">comparison.Name =</span> <span class="st">&quot;Estudi&quot;</span>,</a>
+<a class="sourceLine" id="cb41-5" data-line-number="5">                                           <span class="dt">outputDir =</span> outputDir,</a>
+<a class="sourceLine" id="cb41-6" data-line-number="6">                                           <span class="dt">anotPackage =</span> orgPackage,</a>
+<a class="sourceLine" id="cb41-7" data-line-number="7">                                           <span class="dt">my.IDs =</span> entrezTable,</a>
+<a class="sourceLine" id="cb41-8" data-line-number="8">                                           <span class="dt">addGeneNames =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb41-9" data-line-number="9">                                           <span class="dt">fileOfLinks =</span> linksFile,</a>
+<a class="sourceLine" id="cb41-10" data-line-number="10">                                           <span class="dt">thrLogFC =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb41-11" data-line-number="11">                                           <span class="dt">cutoffMethod =</span> <span class="st">&quot;adjusted&quot;</span>,</a>
+<a class="sourceLine" id="cb41-12" data-line-number="12">                                           <span class="dt">P.Value.cutoff =</span> <span class="kw">rep</span>(<span class="fl">0.05</span>, <span class="kw">length</span>(wCont)),</a>
+<a class="sourceLine" id="cb41-13" data-line-number="13">                                           <span class="dt">pval =</span> <span class="fl">0.05</span>,</a>
+<a class="sourceLine" id="cb41-14" data-line-number="14">                                           <span class="dt">min.count =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb41-15" data-line-number="15">                                           <span class="dt">ontologias =</span> <span class="kw">c</span>(<span class="st">&quot;MF&quot;</span>, <span class="st">&quot;BP&quot;</span>, <span class="st">&quot;CC&quot;</span>),</a>
+<a class="sourceLine" id="cb41-16" data-line-number="16">                                           <span class="dt">testDirections =</span> <span class="kw">c</span>(<span class="st">&quot;over&quot;</span>, <span class="st">&quot;under&quot;</span>),</a>
+<a class="sourceLine" id="cb41-17" data-line-number="17">                                           <span class="dt">minNumGens =</span> <span class="dv">0</span>)</a></code></pre></div>
+</div>
+<div id="the-function-kegganalysis" class="section level3">
+<h3>The function <code>KEGGAnalysis</code></h3>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="kw">load</span>(<span class="kw">file.path</span>(outputDir, <span class="st">&quot;fit.Rda&quot;</span>))</a>
+<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="kw">load</span>(<span class="kw">file.path</span>(outputDir, <span class="st">&quot;Entrezs.Rda&quot;</span>))</a>
+<a class="sourceLine" id="cb42-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb42-4" data-line-number="4">organisme     &lt;-<span class="st"> &quot;hsa&quot;</span></a>
+<a class="sourceLine" id="cb42-5" data-line-number="5">linksFileName &lt;-<span class="st"> &quot;Links.txt&quot;</span></a>
+<a class="sourceLine" id="cb42-6" data-line-number="6">cutoffMethod  &lt;-<span class="st"> &quot;unadjusted&quot;</span></a>
+<a class="sourceLine" id="cb42-7" data-line-number="7">pval          &lt;-<span class="st"> </span><span class="fl">0.05</span></a>
+<a class="sourceLine" id="cb42-8" data-line-number="8">minNumGens    &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb42-9" data-line-number="9">runMulticore  &lt;-<span class="st"> </span><span class="dv">0</span></a></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">KEGGResult &lt;-<span class="st"> </span>BasicP4microArrays<span class="op">::</span><span class="kw">KEGGAnalysis</span>(<span class="dt">fitMain =</span> fit.main,</a>
+<a class="sourceLine" id="cb43-2" data-line-number="2">                                               <span class="dt">whichContrasts =</span> wCont,</a>
+<a class="sourceLine" id="cb43-3" data-line-number="3">                                               <span class="dt">comparison.Name =</span> <span class="st">&quot;Estudi&quot;</span>,</a>
+<a class="sourceLine" id="cb43-4" data-line-number="4">                                               <span class="dt">outputDir =</span> outputDir,</a>
+<a class="sourceLine" id="cb43-5" data-line-number="5">                                               <span class="dt">anotPackage =</span> orgPackage,</a>
+<a class="sourceLine" id="cb43-6" data-line-number="6">                                               <span class="dt">organisme =</span> organisme,</a>
+<a class="sourceLine" id="cb43-7" data-line-number="7">                                               <span class="dt">my.IDs =</span> entrezTable,</a>
+<a class="sourceLine" id="cb43-8" data-line-number="8">                                               <span class="dt">addGeneNames =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb43-9" data-line-number="9">                                               <span class="dt">fileOfLinks =</span> linksFileName,</a>
+<a class="sourceLine" id="cb43-10" data-line-number="10">                                               <span class="dt">cutoffMethod =</span> cutoffMethod,</a>
+<a class="sourceLine" id="cb43-11" data-line-number="11">                                               <span class="dt">P.Value.cutoff =</span> <span class="kw">rep</span>(<span class="fl">0.05</span>, <span class="kw">length</span>(wCont)),</a>
+<a class="sourceLine" id="cb43-12" data-line-number="12">                                               <span class="dt">pval =</span> pval,</a>
+<a class="sourceLine" id="cb43-13" data-line-number="13">                                               <span class="dt">thrLogFC =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb43-14" data-line-number="14">                                               <span class="dt">minNumGens =</span> minNumGens)</a></code></pre></div>
 </div>
 </div>
 <div id="use-case-2-basic-microarray-analysis-using-exon-clariom-s-microarrays" class="section level1">

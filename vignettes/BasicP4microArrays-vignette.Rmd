@@ -42,15 +42,18 @@ The `BasicP4microArrays` package implement  a few "main" functions which togethe
 ```{r eval=FALSE}
 library(BasicP4microArrays)
 if(!(require(hgu133a2))) BiocManager::install("hgu133a2.db")
-rawData <-        BasicP4microArrays::readOrLoad.RawData(...)
-anotacions <-     BasicP4microArrays::createOrLoadAnnotations(...)
-eset_norm <-      BasicP4microArrays::normalization(my.data = rawData, ...)
+rawData        <- BasicP4microArrays::readOrLoad.RawData(...)
+anotacions     <- BasicP4microArrays::createOrLoadAnnotations(...)
+eset_norm      <- BasicP4microArrays::normalization(my.data = rawData, ...)
                   BasicP4microArrays::normplots2File(my.data = eset_norm, ...)
 exprs.filtered <- BasicP4microArrays::filterData(expres = exprs(eset_norm), ...)
-fitMain <-        BasicP4microArrays::lmAnalysis(exprs.filtered = exprs.filtered, ...)
+                  BasicP4microArrays::saveData(expres = exprs(eset_norm), ...)
+fitMain        <- BasicP4microArrays::lmAnalysis(exprs.filtered = exprs.filtered, ...)
 genesAnnotated <- BasicP4microArrays::GeneAnnotation(egIDs = genes2annotate, ...)
-clust <-          BasicP4microArrays::clusterAnalysis(expres = exprs.filtered, ...)
-GOResult <-       BasicP4microArrays::GOAnalysis(fitMain = fitMain, ...)
+geneList       <- BasicP4microArrays::multipleComp(fitMain = fitMain, ...)
+clust          <- BasicP4microArrays::clusterAnalysis(expres = exprs.filtered, ...)
+GOResult       <- BasicP4microArrays::GOAnalysis(fitMain = fitMain, ...)
+KEGGResult     <- BasicP4microArrays::KEGGAnalysis(fitMain = fit.main, ...)
 ```
 
 The tricky thing to use these functions is, indeed, to set the value of all parameters needed and this is illustrated in the examples below.
@@ -73,13 +76,8 @@ This function reads data from cel files or loads previously saved data.
 ```{r}
 readCELS        <- TRUE
 my.targets      <- file.path(dataDir, "targets.txt")
-targets         <- read.table(my.targets,
-                              head = TRUE,
-                              sep = "\t",
-                              row.names = 1)
-my.fileNames    <- paste(dataDir,
-                         rownames(targets),
-                         sep = "/")
+targets         <- read.table(my.targets, head = TRUE, sep = "\t", row.names = 1)
+my.fileNames    <- paste(dataDir, rownames(targets), sep = "/")
 rawDataFileName <- "rawData.Rda"
 my.outputDir    <- "."
 isExonStudy     <- FALSE
@@ -93,9 +91,6 @@ rawData <- BasicP4microArrays::readOrLoad.RawData(readCELS = readCELS,
                                                   dataFName = rawDataFileName,
                                                   outputDir = my.outputDir,
                                                   exonSt = isExonStudy)
-```
-
-```{r}
 rawData
 ```
 
@@ -117,6 +112,7 @@ controlsTableFileName       <- "controls.Rda"
 ```
 
 ```{r}
+require(paste0(chipPackage, ".db"), character.only = TRUE)
 anotacions <- BasicP4microArrays::createOrLoadAnnotations(loadAnnotations = loadAnnotations,
                                                           chipPackAvailable = chipPackAvailable,
                                                           platformDesignPackAvailable = platformDesignPackAvailable,
@@ -127,45 +123,370 @@ anotacions <- BasicP4microArrays::createOrLoadAnnotations(loadAnnotations = load
                                                           entrezTableFileName = entrezTableFileName,
                                                           symbolsTableFileName = symbolsTableFileName,
                                                           controlsTableFileName = controlsTableFileName)
-```
-
-```{r}
 summary(anotacions)
 ```
 
 ### The function `normalization`
 
+Function to normalize the raw data.
+
 ```{r}
+normMethod               <- "RMA"
+annotFrame               <- read.AnnotatedDataFrame(file.path(dataDir, "targets.txt"), header = TRUE, row.names = 1)
+loadFile                 <- FALSE 
+normalized.eset.FileName <- "normalizedData.Rda"   
+exonStudy                <- FALSE
+```
+
+```{r}
+eset_norm <- BasicP4microArrays::normalization(my.data = rawData,
+                                               method = normMethod,
+                                               targetsinfo = annotFrame,
+                                               inputDir = dataDir,
+                                               loadFile = loadFile,
+                                               normalizedFName = normalized.eset.FileName,
+                                               outputDir = outputDir,
+                                               exonSt = exonStudy)
+eset_norm
 ```
 
 ### The function `normplots2File`
 
+Function that makes a report of the normalization.
+
 ```{r}
+load(file.path(outputDir, "normalizedData.Rda"))
+
+repes          <- duplicated(exprs(my.norm), MARGIN = 1)
+exprs(my.norm) <- exprs(my.norm)[!repes, ]
+eset_norm      <- my.norm
+my.colors      <- rainbow(length(sampleNames(eset_norm)))
+my.names       <- pData(eset_norm)$ShortName
+myCex          <- 0.8
+dim3           <- FALSE
+fileName       <- "NormalizedPlots.pdf"
+PCAPlots       <- TRUE
+csv            <- "csv2"
+```
+
+```{r}
+BasicP4microArrays::normplots2File(my.data = eset_norm,
+                                   sampleNames = my.names,
+                                   my.colors = my.colors,
+                                   my.groups = pData(eset_norm)$Group,
+                                   my.method = "average",
+                                   my.cex = myCex,
+                                   posText = 2,
+                                   dim3 = FALSE,
+                                   fileName = fileName,
+                                   outputDir = outputDir,
+                                   PCAPlots = TRUE,
+                                   csv = fileType)
 ```
 
 ### The function `filterData`
 
+Function to filter the data
+
 ```{r}
+load(file.path(outputDir, "normalizedData.Rda"))
+load(file.path(outputDir, "controls.Rda"))
+load(file.path(outputDir, "Entrezs.Rda"))
+
+repes                              <- duplicated(exprs(my.norm), MARGIN = 1)
+exprs(my.norm)                     <- exprs(my.norm)[!repes, ]
+eset_norm                          <- my.norm
+entrezs                            <- entrezTable
+signalThreshold                    <- 50
+signalFilter.Function              <- "filt.by.Signal"
+variabilityThreshold               <- 50
+variability.Function               <- "sdf"
+FilteringReportFileName            <- "FilteringReport.txt"
+```
+
+```{r}
+exprs.filtered <- BasicP4microArrays::filterData(expres = exprs(eset_norm),
+                                                 controls = names(controlsTable),
+                                                 removeNAs = TRUE,
+                                                 entrezs = entrezs,
+                                                 bySignal = TRUE,
+                                                 signalThr = signalThreshold,
+                                                 grups = pData(eset_norm)$grupo,
+                                                 sigFun.Name = signalFilter.Function,
+                                                 sigThr.as.perc = TRUE,
+                                                 byVar = TRUE,
+                                                 variabilityThr = variabilityThreshold,
+                                                 varFun.Name = variability.Function,
+                                                 varThr.as.perc = TRUE,
+                                                 pairingFun.Name = NULL,
+                                                 targets = annotFrame,
+                                                 doReport = TRUE,
+                                                 outputDir = outputDir,
+                                                 filteringReportFName = FilteringReportFileName)
+head(exprs.filtered)
+```
+
+### The function `saveData`
+
+Function to save R objects in files.
+
+
+```{r}
+load(file.path(outputDir, "normalizedData.Rda"))
+load(file.path(outputDir, "Symbols.Rda"))
+
+repes                   <- duplicated(exprs(my.norm), MARGIN = 1)
+exprs(my.norm)          <- exprs(my.norm)[!repes, ]
+eset_norm               <- my.norm
+normalized.all.FileName <- "normalized.all"
+fileType                <- "csv2"
+expres.all.FileName     <- "expres.Rda"
+linksFileName           <- "Links.txt"
+```
+
+```{r}
+BasicP4microArrays::saveData(expres = exprs(eset_norm),
+                             expres.csv.FileName = normalized.all.FileName,
+                             csvType = fileType,
+                             description = "Normalized values for all genes",
+                             anotPackage = NULL,
+                             symbolsVector = symbolsTable,
+                             SYMBOL = "SYMBOL",
+                             expres.bin.FileName = expres.all.FileName,
+                             linksFile = linksFileName,
+                             outputDir = outputDir)
+```
+
+```{r}
+BasicP4microArrays::saveData(expres = exprs.filtered,
+                             expres.csv.FileName = "normalized.filtered",
+                             csvType = fileType,
+                             description = "Normalized values for filtered genes",
+                             anotPackage = NULL,
+                             symbolsVector = symbolsTable,
+                             SYMBOL = "SYMBOL",
+                             expres.bin.FileName = "exprs.filtered.Rda",
+                             linksFile = linksFileName,
+                             outputDir = outputDir)
 ```
 
 ### The function `lmAnalysis`
 
+Setting design and contrasts matrix to proceed with the linear model analysis.
+
 ```{r}
+targets          <- read.table(file.path(dataDir, "targets.txt"), head = TRUE, sep = "\t")
+column2design    <- 5
+lev              <- targets[, column2design] 
+design           <- model.matrix(~ 0 + lev)        
+colnames(design) <- levels(lev)
+rownames(design) <- targets$ShortName
+numParameters    <- ncol(design)
+print(design)
+```
+
+```{r}
+require(limma)
+cont.matrix <- makeContrasts(AvsB = (A - B),
+                             AvsL = (A - L),
+                             BvsL = (B - L),
+                             levels = design)
+print(cont.matrix)
+```
+
+Linear model analysis:
+
+```{r}
+load(file.path(outputDir, "exprs.filtered.Rda"))
+
+contrasts2test <- 1:ncol(cont.matrix)
+comparison     <- "Estudi"
+ENTREZIDs      <- "entrezTable"
+SYMBOLIDs      <- "symbolsTable"
+linksFile      <- "Links.txt"
+fitFileName    <- "fit.Rda"
+csvType        <- "csv"
+anotFileName   <- "Annotations"
+runMulticore   <- 0
+toTIFF         <- FALSE
+```
+
+```{r}
+fitMain <- BasicP4microArrays::lmAnalysis(exprs.filtered = exprs.filtered,
+                                          design = design,
+                                          cont.matrix = cont.matrix,
+                                          contrasts2test = contrasts2test,
+                                          anotPackage = NULL,
+                                          outputDir = outputDir,
+                                          comparison = comparison,
+                                          Expressions_And_Top = TRUE,
+                                          showParams = FALSE,
+                                          use.dupCorr = FALSE,
+                                          block = NULL,
+                                          nDups = 1,
+                                          ENTREZIDs = ENTREZIDs,
+                                          SYMBOLIDs = SYMBOLIDs,
+                                          linksFile = linksFile,
+                                          fitFileName = fitFileName,
+                                          csvType = csvType,
+                                          rows2HTML = NULL,
+                                          anotFileName = anotFileName)
+fitMain
 ```
 
 ### The function `GeneAnnotation`
 
+Function that annotates genes.
+
 ```{r}
+genes2annotate <- entrezs[unique(rownames(fitMain$p.value))]
+genesAnnotated <- BasicP4microArrays::GeneAnnotation(egIDs = genes2annotate,
+                                                     anotPackage = orgPackage,
+                                                     toHTML = TRUE,
+                                                     outputDir = outputDir,
+                                                     filename = "Annotations",
+                                                     myTitle = "Annotations for all genes analyzed",
+                                                     specie = "homo sapiens",
+                                                     info2show = c("Affymetrix", "EntrezGene", "GeneSymbol", "GeneName", "KEGG", "GO"),
+                                                     linksFile = linksFile,
+                                                     maxGenes = NULL)
+```
+
+### The function `multipleComp`
+
+Function to make multiple comparations.
+
+```{r}
+load(file.path(outputDir, "Symbols.Rda"))
+
+compName         <- c("Group1")
+wCont            <- 1:3
+pValCutOff       <- c(0.01)
+adjMethod        <- c("none")
+minLogFoldChange <- c(1)
+pvalType1        <- ifelse(adjMethod == "none", "p-values", "adj. p-values")
+pvalType2        <- ifelse(adjMethod == "none", "pvalues", "adj-pvalues")
+titleText        <- paste("for", pvalType1, "<", pValCutOff, "and |logFC| >", minLogFoldChange)
+geneListFName    <- paste("geneList", compName, pvalType2, "LT", pValCutOff, "Rda", sep = ".")
+```
+
+```{r}
+geneList <- BasicP4microArrays::multipleComp(fitMain = fitMain,
+                                             whichContrasts = wCont,
+                                             comparisonName = compName,
+                                             titleText = titleText,
+                                             outputDir = outputDir,
+                                             anotPackage = orgPackage,
+                                             my.symbols = symbolsTable,
+                                             linksFile = linksFile,
+                                             multCompMethod = "separate",
+                                             adjustMethod = adjMethod,
+                                             selectionType = "any",
+                                             P.Value.cutoff = pValCutOff,
+                                             plotVenn = TRUE,
+                                             colsVenn = NULL,
+                                             vennColors = c("red", "yellow", "green", "blue", "pink"),
+                                             cexVenn = 1,
+                                             geneListFName = geneListFName,
+                                             csvType = csvType,
+                                             minLFC = minLogFoldChange)
+head(geneList, n = 20)
 ```
 
 ### The function `clusterAnalysis`
 
+Function to draw the clusters.
+
 ```{r}
+s2clust       <- which(as.logical(apply(design[, as.logical(apply(abs(as.matrix(cont.matrix[, wCont])), 1, sum))], 1, sum)))
+geneListFName <- paste("geneList", compName, pvalType2, "LT", pValCutOff, "Rda", sep = ".")
+
+load(file.path(outputDir, geneListFName))
+
+require(gplots)
+pal           <- colorpanel(n = 32, low = "green", mid = "white", high = "magenta")
+pvalText      <- ifelse(minLogFoldChange == 0, "", paste0("\n and |logFC|>=", minLogFoldChange))
+```
+
+```{r}
+clust <- BasicP4microArrays::clusterAnalysis(expres = exprs.filtered,
+                                             genes = geneList,
+                                             samples = s2clust,
+                                             sampleNames = as.character(targets$ShortName)[s2clust],
+                                             comparisonName = "Compar 1",
+                                             anotPackage = orgPackage,
+                                             my.symbols = symbolsTable,
+                                             outputDir = outputDir,
+                                             fileOfLinks = linksFile,
+                                             numClusters = 2,
+                                             rowDistance = NULL,
+                                             colDistance = NULL,
+                                             RowVals = TRUE,
+                                             ColVals = FALSE,
+                                             escala = "row",
+                                             colorsSet = pal,
+                                             densityInfo = "density",
+                                             colsForGroups = c(rep("red", 5), rep("blue", 5), rep("green", 5)),
+                                             cexForColumns = 0.8,
+                                             cexForRows = 0.8,
+                                             Title = paste("Compar 1 with", pvalType2, "<", pValCutOff, pvalText),
+                                             csvType = "csv2")
+summary(clust)
 ```
 
 ### The function `GOAnalysis`
 
+Function to carry out the GO analysis.
+
 ```{r}
+library(GOstats)
+GOResult <- BasicP4microArrays::GOAnalysis(fitMain = fitMain,
+                                           whichContrasts = wCont,
+                                           comparison.Name = "Estudi",
+                                           outputDir = outputDir,
+                                           anotPackage = orgPackage,
+                                           my.IDs = entrezTable,
+                                           addGeneNames = TRUE,
+                                           fileOfLinks = linksFile,
+                                           thrLogFC = 1,
+                                           cutoffMethod = "adjusted",
+                                           P.Value.cutoff = rep(0.05, length(wCont)),
+                                           pval = 0.05,
+                                           min.count = 3,
+                                           ontologias = c("MF", "BP", "CC"),
+                                           testDirections = c("over", "under"),
+                                           minNumGens = 0)
+```
+
+### The function `KEGGAnalysis`
+
+```{r}
+load(file.path(outputDir, "fit.Rda"))
+load(file.path(outputDir, "Entrezs.Rda"))
+
+organisme     <- "hsa"
+linksFileName <- "Links.txt"
+cutoffMethod  <- "unadjusted"
+pval          <- 0.05
+minNumGens    <- 0
+runMulticore  <- 0
+```
+
+```{r}
+KEGGResult <- BasicP4microArrays::KEGGAnalysis(fitMain = fit.main,
+                                               whichContrasts = wCont,
+                                               comparison.Name = "Estudi",
+                                               outputDir = outputDir,
+                                               anotPackage = orgPackage,
+                                               organisme = organisme,
+                                               my.IDs = entrezTable,
+                                               addGeneNames = TRUE,
+                                               fileOfLinks = linksFileName,
+                                               cutoffMethod = cutoffMethod,
+                                               P.Value.cutoff = rep(0.05, length(wCont)),
+                                               pval = pval,
+                                               thrLogFC = 1,
+                                               minNumGens = minNumGens)
 ```
 
 # Use case 2: Basic microarray analysis using exon (`clariom-s`) microarrays

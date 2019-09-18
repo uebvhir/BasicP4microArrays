@@ -1,6 +1,7 @@
 utils::globalVariables(c("runMulticore",
                          "top.Diff.selected.up",
                          "toTIFF",
+                         "chipPackage",
                          "orgPackage",
                          "organisme",
                          "symbolsTable",

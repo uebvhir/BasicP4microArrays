@@ -11,7 +11,7 @@ loadFromFile <- function(fileName, pos = 1) {
 }
 
 #####################################################################
-old2db <- function(anot){paste(anot, "db", sep = ".")}
+old2db <- function(anot){paste0(anot, ".db")}
 #####################################################################
 creaAnotFromChipPackage <- function (chipPackage, field = "ENTREZ", cleanNAs = T,
                                      isControl = FALSE, ctlCode = NA, removeControls = FALSE)
@@ -21,10 +21,8 @@ creaAnotFromChipPackage <- function (chipPackage, field = "ENTREZ", cleanNAs = T
   # } else {                                                                  ### ModAlba
   #   require(old2db(chipPackage), character.only = T) # No deu caldre        ### ModAlba
   # }                                                                         ### ModAlba
-  if(!requireNamespace(old2db(chipPackage), character.only = T)) {            ### ModAlba
-    stop(paste("Required annotation package", chipPackage, " is missing"))    ### ModAlba
-  } else {                                                                    ### ModAlba
-    requireNamespace(old2db(chipPackage), character.only = T) # No deu caldre ### ModAlba
+  if(old2db(chipPackage) %in% rownames(installed.packages())) {               ### ModAlba
+    BiocManager::install(old2db(chipPackage)) # No deu caldre                 ### ModAlba
   }                                                                           ### ModAlba
 
   if(isControl) {
@@ -32,7 +30,7 @@ creaAnotFromChipPackage <- function (chipPackage, field = "ENTREZ", cleanNAs = T
     field <- "ACCNUM"
   }
 
-  name2extract <- paste0(chipPackage, field)
+  name2extract <- paste0(old2db(chipPackage), "::", chipPackage, field)
   x <- eval(parse(text = name2extract))
   myAnot <- toTable(x) # Aqui hauria de venir un control d'error
   # per si se li ha donat el nom malament
@@ -72,10 +70,8 @@ creaAnotFromPDPackage <- function(dbPackage, field, fieldName = NULL, cleanNAs =
   # }else{                                                                          ### ModAlba
   #   require(dbPackage, character.only=T) # No deu caldre                          ### ModAlba
   # }                                                                               ### ModAlba
-  if(!requireNamespace(dbPackage, character.only = T)) {                            ### ModAlba
-    stop(paste("Required Platfform design package", dbPackage," is missing"))       ### ModAlba
-  }else{                                                                            ### ModAlba
-    requireNamespace(dbPackage, character.only = T) # No deu caldre                 ### ModAlba
+  if(!(old2db(chipPackage) %in% rownames(installed.packages()))) {                  ### ModAlba
+    BiocManager::install(old2db(chipPackage)) # No deu caldre                       ### ModAlba
   }                                                                                 ### ModAlba
 
   conn <- db(eval(parse(text = dbPackage)))

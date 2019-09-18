@@ -202,7 +202,7 @@ multipleComp <- function(fitMain,
       } else {
         if(!is.null(anotPackage)) {
           # stopifnot(require(old2db(anotPackage), character.only = T))                                       ### ModAlba
-          stopifnot(requireNamespace(old2db(anotPackage), character.only = T))                                ### ModAlba
+          stopifnot(requireNamespace(old2db(anotPackage)))                                                    ### ModAlba
 
           myenvirSYMBOL <- eval(parse(text = paste0(anotPackage, "SYMBOL")))
 

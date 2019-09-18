@@ -1,0 +1,213 @@
+<html lang="en">
+  <head>
+    <title>KEGG Enrichment Analysis</title>
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <script type="text/javascript" src="jquery-1.4.2.js"></script>
+    <script type="text/javascript" src="jquery.tablesorter.js"></script>
+    <script type="text/javascript">
+$(document).ready(function()
+  {
+    $("#myTable").tablesorter();
+  }
+);
+    </script>
+  </head>
+  <body>
+    <table id="myTable" class="tablesorter" border="0" cellspacing="1" cellpadding="0">
+      <thead>
+        <tr>
+                      <th>KEGGID</th>
+                      <th>Pvalue</th>
+                      <th>OddsRatio</th>
+                      <th>ExpCount</th>
+                      <th>Count</th>
+                      <th>Size</th>
+                      <th>Term</th>
+                      <th>GeneNames</th>
+                  </tr>
+      </thead>
+      <tbody>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa05219">05219</a></td>
+                      <td>0.000345478618247707</td>
+                      <td>6.23297275641026</td>
+                      <td>1.37004310344828</td>
+                      <td>7</td>
+                      <td>39</td>
+                      <td>Bladder cancer</td>
+                      <td>CCND1, CDH1, CDKN2A, ERBB2, FGFR3, CXCL8, MYC</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa04062">04062</a></td>
+                      <td>0.00177953105607982</td>
+                      <td>2.69185297124317</td>
+                      <td>5.79633620689655</td>
+                      <td>14</td>
+                      <td>165</td>
+                      <td>Chemokine signaling pathway</td>
+                      <td>ADCY1, CXCL1, CXCL8, LYN, PLCB4, PRKX, CCL2, CCL8, CCL13, CCL18, CCL20, CXCL6, CXCL5, VAV3</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa05216">05216</a></td>
+                      <td>0.00256577985810638</td>
+                      <td>6.12823335167859</td>
+                      <td>0.983620689655172</td>
+                      <td>5</td>
+                      <td>28</td>
+                      <td>Thyroid cancer</td>
+                      <td>CCND1, CDH1, MYC, RET, TCF7L1</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa04114">04114</a></td>
+                      <td>0.00465602391120872</td>
+                      <td>3.09388202159287</td>
+                      <td>3.23189655172414</td>
+                      <td>9</td>
+                      <td>92</td>
+                      <td>Oocyte meiosis</td>
+                      <td>ADCY1, AR, BUB1, CAMK2B, CCNE1, CDC20, ITPR2, PRKX, PTTG1</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa05323">05323</a></td>
+                      <td>0.00610526591661694</td>
+                      <td>3.20290776919582</td>
+                      <td>2.77521551724138</td>
+                      <td>8</td>
+                      <td>79</td>
+                      <td>Rheumatoid arthritis</td>
+                      <td>CXCL1, HLA-DQA1, HLA-DQB1, CXCL8, CCL2, CCL20, CXCL6, CXCL5</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa04974">04974</a></td>
+                      <td>0.0100354751089004</td>
+                      <td>3.19530603804797</td>
+                      <td>2.4239224137931</td>
+                      <td>7</td>
+                      <td>69</td>
+                      <td>Protein digestion and absorption</td>
+                      <td>ATP1B1, COL4A5, COL4A6, CPA3, KCNN4, MME, SLC1A1</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa05146">05146</a></td>
+                      <td>0.0109295925513596</td>
+                      <td>2.66700487012987</td>
+                      <td>3.6885775862069</td>
+                      <td>9</td>
+                      <td>105</td>
+                      <td>Amoebiasis</td>
+                      <td>ADCY1, CD14, COL4A5, COL4A6, CXCL1, HSPB1, CXCL8, PLCB4, PRKX</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa04110">04110</a></td>
+                      <td>0.0180435249114459</td>
+                      <td>2.43339517625232</td>
+                      <td>4.00474137931035</td>
+                      <td>9</td>
+                      <td>114</td>
+                      <td>Cell cycle</td>
+                      <td>CCND1, BUB1, CCNE1, CDC20, CDKN2A, MYC, SKP2, TTK, PTTG1</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa04115">04115</a></td>
+                      <td>0.019294335620566</td>
+                      <td>3.07261146496815</td>
+                      <td>2.14288793103448</td>
+                      <td>6</td>
+                      <td>61</td>
+                      <td>p53 signaling pathway</td>
+                      <td>CCND1, CCNE1, CCNG2, CDKN2A, IGFBP3, SERPINB5</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa00512">00512</a></td>
+                      <td>0.0235581119320972</td>
+                      <td>5.5775</td>
+                      <td>0.632327586206897</td>
+                      <td>3</td>
+                      <td>18</td>
+                      <td>Mucin type O-Glycan biosynthesis</td>
+                      <td>GALNT6, GALNT7, GALNT10</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa04971">04971</a></td>
+                      <td>0.0239150737838878</td>
+                      <td>2.91170656709862</td>
+                      <td>2.24827586206897</td>
+                      <td>6</td>
+                      <td>64</td>
+                      <td>Gastric acid secretion</td>
+                      <td>ADCY1, ATP1B1, CAMK2B, ITPR2, PLCB4, PRKX</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa05213">05213</a></td>
+                      <td>0.0298212221195926</td>
+                      <td>3.11673699015471</td>
+                      <td>1.75646551724138</td>
+                      <td>5</td>
+                      <td>50</td>
+                      <td>Endometrial cancer</td>
+                      <td>CCND1, CDH1, ERBB2, MYC, TCF7L1</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa00562">00562</a></td>
+                      <td>0.0298212221195926</td>
+                      <td>3.11673699015471</td>
+                      <td>1.75646551724138</td>
+                      <td>5</td>
+                      <td>50</td>
+                      <td>Inositol phosphate metabolism</td>
+                      <td>IMPA2, ALDH6A1, PLCB4, INPP4B, ISYNA1</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa04972">04972</a></td>
+                      <td>0.0305071635433499</td>
+                      <td>2.49805258033106</td>
+                      <td>3.02112068965517</td>
+                      <td>7</td>
+                      <td>86</td>
+                      <td>Pancreatic secretion</td>
+                      <td>ADCY1, ATP1B1, CPA3, ITPR2, PLA2G4A, PLCB4, CLCA2</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa00982">00982</a></td>
+                      <td>0.0371630134660872</td>
+                      <td>2.91996308016878</td>
+                      <td>1.86185344827586</td>
+                      <td>5</td>
+                      <td>53</td>
+                      <td>Drug metabolism - cytochrome P450</td>
+                      <td>ALDH3B2, FMO5, GSTM3, GSTP1, MAOB</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa05200">05200</a></td>
+                      <td>0.0387077172037579</td>
+                      <td>1.68734891216761</td>
+                      <td>10.7495689655172</td>
+                      <td>17</td>
+                      <td>306</td>
+                      <td>Pathways in cancer</td>
+                      <td>AR, CCND1, CCNE1, CDH1, CDKN2A, COL4A5, COL4A6, ERBB2, FGF9, FGFR3, GSTP1, CXCL8, MYC, RARA, RET, SKP2, TCF7L1</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa00910">00910</a></td>
+                      <td>0.0401523677056892</td>
+                      <td>4.39934210526316</td>
+                      <td>0.772844827586207</td>
+                      <td>3</td>
+                      <td>22</td>
+                      <td>Nitrogen metabolism</td>
+                      <td>ASNS, CA12, GLS</td>
+                  </tr>
+                <tr>
+                      <td><a href="http://www.genome.jp/dbget-bin/www_bget?path:hsa04310">04310</a></td>
+                      <td>0.0414868222004587</td>
+                      <td>2.06873614190687</td>
+                      <td>4.63706896551724</td>
+                      <td>9</td>
+                      <td>132</td>
+                      <td>Wnt signaling pathway</td>
+                      <td>CCND1, CAMK2B, MMP7, MYC, PLCB4, PRKX, SFRP1, DAAM1, TCF7L1</td>
+                  </tr>
+              </tbody>
+    </table>
+  </body>
+</html>

@@ -213,7 +213,7 @@ KEGGAnalysis <- function(fitMain,
                          thrLogFC = NULL,
                          minNumGens = 0) {
   # stopifnot(require(old2db(anotPackage), character.only = TRUE))            ### ModAlba
-  stopifnot(requireNamespace(old2db(anotPackage), character.only = TRUE))     ### ModAlba
+  stopifnot(requireNamespace(old2db(anotPackage)))                            ### ModAlba
 
   categLabel <- "KEGG"
 
